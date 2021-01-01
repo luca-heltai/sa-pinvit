@@ -89,7 +89,7 @@ LaplaceProblemSettings<dim>::try_parse(const std::string &prm_filename)
 
   try
     {
-      this->parse_input(prm_filename);
+      this->prm.parse_input(prm_filename);
     }
   catch (std::exception &e)
     {
@@ -253,9 +253,8 @@ LaplaceProblem<dim, degree>::assemble_rhs()
           phi.submit_gradient(-1.0 *
                                 (coefficient(cell, 0) * phi.get_gradient(q)),
                               q);
-          phi.submit_value(evaluate_function(settings.rhs,
-                                             phi.quadrature_point(q)),
-                           q);
+          phi.submit_value(
+            evaluate_function(settings.rhs, phi.quadrature_point(q), 0), q);
         }
 
       phi.integrate_scatter(EvaluationFlags::values |
@@ -270,11 +269,6 @@ LaplaceProblem<dim, degree>::assemble_rhs()
 
 
 
-// @sect4{LaplaceProblem::solve()}
-
-// Here we set up the multigrid preconditioner, test the timing of a single
-// V-cycle, and solve the linear system. Unsurprisingly, this is one of the
-// places where the three methods differ the most.
 template <int dim, int degree>
 void
 LaplaceProblem<dim, degree>::solve()
@@ -437,8 +431,6 @@ LaplaceProblem<dim, degree>::estimate()
                        mpi_communicator);
   temp_solution = solution;
 
-  const Coefficient<dim> coefficient;
-
   estimated_error_square_per_cell.reinit(triangulation.n_active_cells());
 
   using Iterator = typename DoFHandler<dim>::active_cell_iterator;
@@ -450,10 +442,9 @@ LaplaceProblem<dim, degree>::estimate()
     FEValues<dim> &fe_values = scratch_data.fe_values;
     fe_values.reinit(cell);
 
-    RightHandSide<dim> rhs;
-    const double       rhs_value = rhs.value(cell->center());
+    const double rhs_value = settings.rhs.value(cell->center());
 
-    const double nu = coefficient.value(cell->center());
+    const double nu = settings.coefficient.value(cell->center());
 
     std::vector<Tensor<2, dim>> hessians(fe_values.n_quadrature_points);
     fe_values.get_function_hessians(temp_solution, hessians);
@@ -491,8 +482,8 @@ LaplaceProblem<dim, degree>::estimate()
     copy_data_face.cell_indices[0] = cell->active_cell_index();
     copy_data_face.cell_indices[1] = ncell->active_cell_index();
 
-    const double coeff1 = coefficient.value(cell->center());
-    const double coeff2 = coefficient.value(ncell->center());
+    const double coeff1 = settings.coefficient.value(cell->center());
+    const double coeff2 = settings.coefficient.value(ncell->center());
 
     std::vector<Tensor<1, dim>> grad_u[2];
 
@@ -644,46 +635,30 @@ LaplaceProblem<dim, degree>::run()
       // data below). Note that the partition efficiency is irrelevant for AMG
       // since the level hierarchy is not distributed or used during the
       // computation.
-      if (settings.solver == Settings::gmg_mf ||
-          settings.solver == Settings::gmg_mb)
-        pcout << " (" << triangulation.n_global_levels() << " global levels)"
-              << std::endl
-              << "   Partition efficiency:         "
-              << 1.0 / MGTools::workload_imbalance(triangulation);
+      pcout << " (" << triangulation.n_global_levels() << " global levels)"
+            << std::endl
+            << "   Partition efficiency:         "
+            << 1.0 / MGTools::workload_imbalance(triangulation);
       pcout << std::endl;
 
       setup_system();
 
-      // Only set up the multilevel hierarchy for GMG.
-      if (settings.solver == Settings::gmg_mf ||
-          settings.solver == Settings::gmg_mb)
-        setup_multigrid();
+      setup_multigrid();
 
       pcout << "   Number of degrees of freedom: " << dof_handler.n_dofs();
-      if (settings.solver == Settings::gmg_mf ||
-          settings.solver == Settings::gmg_mb)
-        {
-          pcout << " (by level: ";
-          for (unsigned int level = 0; level < triangulation.n_global_levels();
-               ++level)
-            pcout << dof_handler.n_dofs(level)
-                  << (level == triangulation.n_global_levels() - 1 ? ")" :
-                                                                     ", ");
-        }
+      pcout << " (by level: ";
+      for (unsigned int level = 0; level < triangulation.n_global_levels();
+           ++level)
+        pcout << dof_handler.n_dofs(level)
+              << (level == triangulation.n_global_levels() - 1 ? ")" : ", ");
+
       pcout << std::endl;
 
       // For the matrix-free method, we only assemble the right-hand side.
       // For both matrix-based methods, we assemble both active matrix and
       // right-hand side, and only assemble the multigrid matrices for
       // matrix-based GMG.
-      if (settings.solver == Settings::gmg_mf)
-        assemble_rhs();
-      else /*gmg_mb or amg*/
-        {
-          assemble_system();
-          if (settings.solver == Settings::gmg_mb)
-            assemble_multigrid();
-        }
+      assemble_rhs();
 
       solve();
       estimate();
@@ -695,3 +670,10 @@ LaplaceProblem<dim, degree>::run()
       computing_timer.reset();
     }
 }
+
+template class LaplaceProblemSettings<2>;
+template class LaplaceProblemSettings<3>;
+
+// degree 2
+template class LaplaceProblem<2, 2>;
+template class LaplaceProblem<3, 2>;

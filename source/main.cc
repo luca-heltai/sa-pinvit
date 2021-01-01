@@ -19,12 +19,6 @@
 
 #include "laplace_problem.h"
 
-// @sect3{The main() function}
-
-// This is a similar main function to step-40, with the exception that
-// we require the user to pass a .prm file as a sole command line
-// argument (see step-29 and the documentation of the ParameterHandler
-// class for a complete discussion of parameter files).
 int
 main(int argc, char *argv[])
 {
@@ -32,8 +26,8 @@ main(int argc, char *argv[])
   Utilities::MPI::MPI_InitFinalize mpi_initialization(argc, argv, 1);
 
   LaplaceProblemSettings<DEAL_DIMENSION> settings;
-  if (!settings.try_parse((argc > 1) ? (argv[1]) : ""))
-    return 0;
+  std::string filename = (argc > 1) ? (argv[1]) : "parameters.prm";
+  ParameterAcceptor::initialize(filename, "used_" + filename);
 
   try
     {

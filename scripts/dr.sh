@@ -1,4 +1,4 @@
-IMG=`grep -m 1 image .gitlab-ci.yml | awk '{print $2}'` 
+IMG=dealii/dealii:master-focal
 echo $IMG
 docker run  --user $(id -u):$(id -g) \
     --rm -t \

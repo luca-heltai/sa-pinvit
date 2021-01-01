@@ -36,7 +36,7 @@ evaluate_function(const Function<dim> &                      function,
                   const unsigned int                         component)
 {
   VectorizedArray<Number> result;
-  for (unsigned int v = 0; v < VectorizedArray<Number>::n_array_elements; ++v)
+  for (unsigned int v = 0; v < p_vectorized[0].size(); ++v)
     {
       Point<dim> p;
       for (unsigned int d = 0; d < dim; ++d)
@@ -53,7 +53,7 @@ evaluate_function(const Function<dim> &                      function,
 {
   AssertDimension(function.n_components, n_components);
   Tensor<1, n_components, VectorizedArray<Number>> result;
-  for (unsigned int v = 0; v < VectorizedArray<Number>::n_array_elements; ++v)
+  for (unsigned int v = 0; v < p_vectorized[0].size(); ++v)
     {
       Point<dim> p;
       for (unsigned int d = 0; d < dim; ++d)
@@ -130,7 +130,7 @@ make_coefficient_table(
       VectorizedArray<number> average_value = 0.;
       for (unsigned int q = 0; q < n_q_points; ++q)
         average_value +=
-          evaluate_function(function, fe_eval.quadrature_point(q));
+          evaluate_function(function, fe_eval.quadrature_point(q), 0);
       average_value /= n_q_points;
       (*coefficient_table)(cell, 0) = average_value;
     }
