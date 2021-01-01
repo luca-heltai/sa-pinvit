@@ -1,0 +1,5 @@
+if(EXISTS "/workspaces/bare-dealii-app/gtests/gtests.g[1]_tests.cmake")
+  include("/workspaces/bare-dealii-app/gtests/gtests.g[1]_tests.cmake")
+else()
+  add_test(gtests.g_NOT_BUILT gtests.g_NOT_BUILT)
+endif()
