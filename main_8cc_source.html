@@ -123,74 +123,68 @@ $(document).ready(function(){initNavTree('main_8cc_source.html',''); initResizab
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="laplace__problem_8h.html">laplace_problem.h</a>&quot;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// @sect3{The main() function}</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// This is a similar main function to step-40, with the exception that</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// we require the user to pass a .prm file as a sole command line</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// argument (see step-29 and the documentation of the ParameterHandler</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// class for a complete discussion of parameter files).</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">int</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="main_8cc.html#a0ddf1224851353fc92bfbff6f499fa97">   29</a></span>&#160;<a class="code" href="main_8cc.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keyword">using namespace </span><a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacedealii.html">dealii</a>;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classUtilities_1_1MPI_1_1MPI__InitFinalize.html">Utilities::MPI::MPI_InitFinalize</a> mpi_initialization(argc, argv, 1);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <a class="code" href="class_laplace_problem_settings.html">LaplaceProblemSettings&lt;DEAL_DIMENSION&gt;</a> settings;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="keywordflow">if</span> (!settings.<a class="code" href="class_laplace_problem_settings.html#aca291882b5042a93bdb6b3ca0e5e097e">try_parse</a>((argc &gt; 1) ? (argv[1]) : <span class="stringliteral">&quot;&quot;</span>))</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      constexpr <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> fe_degree = 2;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;DEAL_DIMENSION, fe_degree&gt;</a> test(settings);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      test.<a class="code" href="class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922">run</a>();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keywordflow">catch</span> (std::exception &amp;exc)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      std::cerr &lt;&lt; std::endl</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                &lt;&lt; std::endl</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;----------------------------------------------------&quot;</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      std::cerr &lt;&lt; <span class="stringliteral">&quot;Exception on processing: &quot;</span> &lt;&lt; std::endl</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                &lt;&lt; exc.what() &lt;&lt; std::endl</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;Aborting!&quot;</span> &lt;&lt; std::endl</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;----------------------------------------------------&quot;</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      MPI_Abort(MPI_COMM_WORLD, 1);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      std::cerr &lt;&lt; std::endl</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                &lt;&lt; std::endl</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;----------------------------------------------------&quot;</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      std::cerr &lt;&lt; <span class="stringliteral">&quot;Unknown exception!&quot;</span> &lt;&lt; std::endl</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;Aborting!&quot;</span> &lt;&lt; std::endl</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;----------------------------------------------------&quot;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      MPI_Abort(MPI_COMM_WORLD, 2);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">int</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="main_8cc.html#a0ddf1224851353fc92bfbff6f499fa97">   23</a></span>&#160;<a class="code" href="main_8cc.html#a0ddf1224851353fc92bfbff6f499fa97">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keyword">using namespace </span><a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacedealii.html">dealii</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classUtilities_1_1MPI_1_1MPI__InitFinalize.html">Utilities::MPI::MPI_InitFinalize</a> mpi_initialization(argc, argv, 1);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <a class="code" href="class_laplace_problem_settings.html">LaplaceProblemSettings&lt;DEAL_DIMENSION&gt;</a> settings;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  std::string filename = (argc &gt; 1) ? (argv[1]) : <span class="stringliteral">&quot;parameters.prm&quot;</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#a8c735525d2865112e5d67f9ba697224e">ParameterAcceptor::initialize</a>(filename, <span class="stringliteral">&quot;used_&quot;</span> + filename);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      constexpr <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> fe_degree = 2;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;DEAL_DIMENSION, fe_degree&gt;</a> test(settings);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      test.<a class="code" href="class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922">run</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">catch</span> (std::exception &amp;exc)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      std::cerr &lt;&lt; std::endl</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                &lt;&lt; std::endl</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;----------------------------------------------------&quot;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      std::cerr &lt;&lt; <span class="stringliteral">&quot;Exception on processing: &quot;</span> &lt;&lt; std::endl</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                &lt;&lt; exc.what() &lt;&lt; std::endl</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;Aborting!&quot;</span> &lt;&lt; std::endl</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;----------------------------------------------------&quot;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      MPI_Abort(MPI_COMM_WORLD, 1);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      std::cerr &lt;&lt; std::endl</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                &lt;&lt; std::endl</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;----------------------------------------------------&quot;</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      std::cerr &lt;&lt; <span class="stringliteral">&quot;Unknown exception!&quot;</span> &lt;&lt; std::endl</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;Aborting!&quot;</span> &lt;&lt; std::endl</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;----------------------------------------------------&quot;</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      MPI_Abort(MPI_COMM_WORLD, 2);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <div class="ttc" id="anamespacedealii_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/namespacedealii.html">dealii</a></div></div>
 <div class="ttc" id="alaplace__problem_8h_html"><div class="ttname"><a href="laplace__problem_8h.html">laplace_problem.h</a></div></div>
 <div class="ttc" id="aclass_laplace_problem_html"><div class="ttname"><a href="class_laplace_problem.html">LaplaceProblem</a></div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8h_source.html#l00090">laplace_problem.h:91</a></div></div>
-<div class="ttc" id="aclass_laplace_problem_settings_html_aca291882b5042a93bdb6b3ca0e5e097e"><div class="ttname"><a href="class_laplace_problem_settings.html#aca291882b5042a93bdb6b3ca0e5e097e">LaplaceProblemSettings::try_parse</a></div><div class="ttdeci">bool try_parse(const std::string &amp;prm_filename)</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l00075">laplace_problem.cc:75</a></div></div>
-<div class="ttc" id="aclass_laplace_problem_html_a9933014a8275e32ea3ffcc018d804922"><div class="ttname"><a href="class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922">LaplaceProblem::run</a></div><div class="ttdeci">void run()</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l00632">laplace_problem.cc:632</a></div></div>
-<div class="ttc" id="amain_8cc_html_a0ddf1224851353fc92bfbff6f499fa97"><div class="ttname"><a href="main_8cc.html#a0ddf1224851353fc92bfbff6f499fa97">main</a></div><div class="ttdeci">int main(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00029">main.cc:29</a></div></div>
+<div class="ttc" id="aclass_laplace_problem_html_a9933014a8275e32ea3ffcc018d804922"><div class="ttname"><a href="class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922">LaplaceProblem::run</a></div><div class="ttdeci">void run()</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l00623">laplace_problem.cc:623</a></div></div>
+<div class="ttc" id="aclassParameterAcceptor_html_a8c735525d2865112e5d67f9ba697224e"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#a8c735525d2865112e5d67f9ba697224e">ParameterAcceptor::initialize</a></div><div class="ttdeci">static void initialize(const std::string &amp;filename=&quot;&quot;, const std::string &amp;output_filename=&quot;&quot;, const ParameterHandler::OutputStyle output_style_for_output_filename=ParameterHandler::Short, ParameterHandler &amp;prm=ParameterAcceptor::prm, const ParameterHandler::OutputStyle output_style_for_filename=ParameterHandler::DefaultStyle)</div></div>
+<div class="ttc" id="amain_8cc_html_a0ddf1224851353fc92bfbff6f499fa97"><div class="ttname"><a href="main_8cc.html#a0ddf1224851353fc92bfbff6f499fa97">main</a></div><div class="ttdeci">int main(int argc, char *argv[])</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00023">main.cc:23</a></div></div>
 <div class="ttc" id="aclass_laplace_problem_settings_html"><div class="ttname"><a href="class_laplace_problem_settings.html">LaplaceProblemSettings</a></div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8h_source.html#l00072">laplace_problem.h:73</a></div></div>
 <div class="ttc" id="aclassUtilities_1_1MPI_1_1MPI__InitFinalize_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/classUtilities_1_1MPI_1_1MPI__InitFinalize.html">Utilities::MPI::MPI_InitFinalize</a></div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_aa394cd1d9abb8ffe941d9aaafca8d03.html">github</a></li><li class="navelem"><a class="el" href="dir_c52569aa89a7adbb6029022c2fa60a11.html">workspace</a></li><li class="navelem"><a class="el" href="dir_37bdb9d2191b5493db509660c6a8c15a.html">source</a></li><li class="navelem"><a class="el" href="main_8cc.html">main.cc</a></li>
-    <li class="footer">Generated on Fri Jan 1 2021 19:12:36 for Template Deal.II Application by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Fri Jan 1 2021 20:25:25 for Template Deal.II Application by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

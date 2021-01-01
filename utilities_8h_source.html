@@ -140,7 +140,7 @@ $(document).ready(function(){initNavTree('utilities_8h_source.html',''); initRes
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                  <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>                         component)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classVectorizedArray.html">VectorizedArray&lt;Number&gt;</a> result;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> v = 0; v &lt; VectorizedArray&lt;Number&gt;::n_array_elements; ++v)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> v = 0; v &lt; p_vectorized[0].size(); ++v)</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    {</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classPoint.html">Point&lt;dim&gt;</a> p;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a15728437b942dab0b0042eb06a407d2c">d</a> = 0; <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a15728437b942dab0b0042eb06a407d2c">d</a> &lt; dim; ++<a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a15728437b942dab0b0042eb06a407d2c">d</a>)</div>
@@ -157,7 +157,7 @@ $(document).ready(function(){initNavTree('utilities_8h_source.html',''); initRes
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#ga9442b63275c9ef3fab29bc222831c49c">AssertDimension</a>(<span class="keyword">function</span>.n_components, n_components);</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classTensor.html">Tensor&lt;1, n_components, VectorizedArray&lt;Number&gt;</a>&gt; result;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> v = 0; v &lt; VectorizedArray&lt;Number&gt;::n_array_elements; ++v)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> v = 0; v &lt; p_vectorized[0].size(); ++v)</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classPoint.html">Point&lt;dim&gt;</a> p;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a15728437b942dab0b0042eb06a407d2c">d</a> = 0; <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a15728437b942dab0b0042eb06a407d2c">d</a> &lt; dim; ++<a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a15728437b942dab0b0042eb06a407d2c">d</a>)</div>
@@ -234,7 +234,7 @@ $(document).ready(function(){initNavTree('utilities_8h_source.html',''); initRes
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classVectorizedArray.html">VectorizedArray&lt;number&gt;</a> average_value = 0.;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> q = 0; q &lt; n_q_points; ++q)</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        average_value +=</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;          <a class="code" href="utilities_8h.html#a09584e1f4183c5b0a4b43ac0219ca727">evaluate_function</a>(<span class="keyword">function</span>, fe_eval.quadrature_point(q));</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;          <a class="code" href="utilities_8h.html#a09584e1f4183c5b0a4b43ac0219ca727">evaluate_function</a>(<span class="keyword">function</span>, fe_eval.quadrature_point(q), 0);</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      average_value /= n_q_points;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      (*coefficient_table)(cell, 0) = average_value;</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    }</div>
@@ -272,7 +272,7 @@ $(document).ready(function(){initNavTree('utilities_8h_source.html',''); initRes
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_aa394cd1d9abb8ffe941d9aaafca8d03.html">github</a></li><li class="navelem"><a class="el" href="dir_c52569aa89a7adbb6029022c2fa60a11.html">workspace</a></li><li class="navelem"><a class="el" href="dir_7a95a9cc00fcc7af5a429eec361b64d1.html">include</a></li><li class="navelem"><a class="el" href="utilities_8h.html">utilities.h</a></li>
-    <li class="footer">Generated on Fri Jan 1 2021 19:12:36 for Template Deal.II Application by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Fri Jan 1 2021 20:25:25 for Template Deal.II Application by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>
