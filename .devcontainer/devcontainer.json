@@ -16,7 +16,9 @@
 		"johnpapa.vscode-peacock",
 		"alefragnani.project-manager",
 		"ms-vscode.cpptools",
-		"shan.code-settings-sync"
+		"shan.code-settings-sync",
+		"ms-vscode.cmake-tools",
+		"xaver.clang-format"
 	]
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
