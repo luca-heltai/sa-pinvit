@@ -24,7 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "Template Deal.II Application", "index.html", [
+  [ "SA-PVINT for Elliptic Boundary Value Problems", "index.html", [
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
