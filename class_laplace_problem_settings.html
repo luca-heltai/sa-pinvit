@@ -212,6 +212,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a576fa94438e51f6504d6111393367467"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7126d681fa71af0cf395f34925088e11"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#a7126d681fa71af0cf395f34925088e11">output</a> = true</td></tr>
 <tr class="separator:a7126d681fa71af0cf395f34925088e11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bf8fc3dba074753afaedb9e683f92bc"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#a3bf8fc3dba074753afaedb9e683f92bc">degree</a> = 2</td></tr>
+<tr class="separator:a3bf8fc3dba074753afaedb9e683f92bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a384e93ef2960b8bbdb63a61fc0e9859c"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptorProxy.html">ParameterAcceptorProxy</a>&lt; <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFunctions_1_1ParsedFunction.html">Functions::ParsedFunction</a>&lt; dim &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#a384e93ef2960b8bbdb63a61fc0e9859c">exact</a></td></tr>
 <tr class="separator:a384e93ef2960b8bbdb63a61fc0e9859c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7fac4d6430147d81ef0cd5d1a5056b9"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptorProxy.html">ParameterAcceptorProxy</a>&lt; <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFunctions_1_1ParsedFunction.html">Functions::ParsedFunction</a>&lt; dim &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#aa7fac4d6430147d81ef0cd5d1a5056b9">coefficient</a></td></tr>
@@ -276,7 +278,7 @@ template&lt;int dim&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00055">55</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
-<p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#af2a534c7f1ea5bfa165fa8a469744a5d">ParameterAcceptor::add_parameter()</a>, <a class="el" href="laplace__problem_8h_source.html#l00081">LaplaceProblemSettings&lt; dim &gt;::n_steps</a>, <a class="el" href="laplace__problem_8h_source.html#l00082">LaplaceProblemSettings&lt; dim &gt;::output</a>, <a class="el" href="laplace__problem_8h_source.html#l00079">LaplaceProblemSettings&lt; dim &gt;::smoother_dampen</a>, and <a class="el" href="laplace__problem_8h_source.html#l00080">LaplaceProblemSettings&lt; dim &gt;::smoother_steps</a>.</p>
+<p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#af2a534c7f1ea5bfa165fa8a469744a5d">ParameterAcceptor::add_parameter()</a>, <a class="el" href="laplace__problem_8h_source.html#l00083">LaplaceProblemSettings&lt; dim &gt;::degree</a>, <a class="el" href="laplace__problem_8h_source.html#l00081">LaplaceProblemSettings&lt; dim &gt;::n_steps</a>, <a class="el" href="laplace__problem_8h_source.html#l00082">LaplaceProblemSettings&lt; dim &gt;::output</a>, <a class="el" href="laplace__problem_8h_source.html#l00079">LaplaceProblemSettings&lt; dim &gt;::smoother_dampen</a>, and <a class="el" href="laplace__problem_8h_source.html#l00080">LaplaceProblemSettings&lt; dim &gt;::smoother_steps</a>.</p>
 
 </div>
 </div>
@@ -299,7 +301,7 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00075">75</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00076">76</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a9587d5229555daa5b1fa1ba2f8a40adb">e()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterHandler.html#a8364dda711b93753c6809eefe2a8e827ae4d13a4598073bfcb69cd0cf4c1f8365">ParameterHandler::Text</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceUtilities_1_1MPI.html#a895dcd8223a0ee6f0e6a80b80e2d5982">Utilities::MPI::this_mpi_process()</a>.</p>
 
@@ -320,7 +322,27 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00085">85</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00086">86</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+
+</div>
+</div>
+<a id="a3bf8fc3dba074753afaedb9e683f92bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bf8fc3dba074753afaedb9e683f92bc">&#9670;&nbsp;</a></span>degree</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">unsigned int <a class="el" href="class_laplace_problem_settings.html">LaplaceProblemSettings</a>&lt; dim &gt;::degree = 2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00083">83</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>, and <a class="el" href="main_8cc_source.html#l00023">main()</a>.</p>
 
 </div>
 </div>
@@ -338,7 +360,7 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00084">84</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00085">85</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -396,7 +418,7 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00086">86</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00087">87</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -450,7 +472,7 @@ template&lt;int dim&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_laplace_problem_settings.html">LaplaceProblemSettings</a></li>
-    <li class="footer">Generated on Sat Jan 2 2021 10:45:29 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Sat Jan 2 2021 11:21:54 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

@@ -225,7 +225,7 @@ $(document).ready(function(){initNavTree('utilities_8h_source.html',''); initRes
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="keyword">auto</span> coefficient_table =</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    std::make_shared&lt;Table&lt;2, VectorizedArray&lt;number&gt;&gt;&gt;();</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEEvaluation.html">FEEvaluation</a>&lt;dim, -1, 0, 1, number&gt; fe_eval(mf_storage);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>                  <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceinternal_1_1TriangulationImplementation.html#a9f815604be9b560fea00beef8d720480">n_cells</a>    = mf_storage.n_macro_cells();</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>                  <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceinternal_1_1TriangulationImplementation.html#a9f815604be9b560fea00beef8d720480">n_cells</a>    = mf_storage.n_cell_batches();</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>                  n_q_points = fe_eval.n_q_points;</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  coefficient_table-&gt;reinit(<a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceinternal_1_1TriangulationImplementation.html#a9f815604be9b560fea00beef8d720480">n_cells</a>, 1);</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> cell = 0; cell &lt; <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceinternal_1_1TriangulationImplementation.html#a9f815604be9b560fea00beef8d720480">n_cells</a>; ++cell)</div>
@@ -272,7 +272,7 @@ $(document).ready(function(){initNavTree('utilities_8h_source.html',''); initRes
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_aa394cd1d9abb8ffe941d9aaafca8d03.html">github</a></li><li class="navelem"><a class="el" href="dir_c52569aa89a7adbb6029022c2fa60a11.html">workspace</a></li><li class="navelem"><a class="el" href="dir_7a95a9cc00fcc7af5a429eec361b64d1.html">include</a></li><li class="navelem"><a class="el" href="utilities_8h.html">utilities.h</a></li>
-    <li class="footer">Generated on Sat Jan 2 2021 10:45:29 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Sat Jan 2 2021 11:21:54 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

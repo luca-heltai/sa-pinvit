@@ -3,6 +3,7 @@ var class_laplace_problem_settings =
     [ "LaplaceProblemSettings", "class_laplace_problem_settings.html#ac9716aafb3b8f72426bf1aa3fadf4b31", null ],
     [ "try_parse", "class_laplace_problem_settings.html#aca291882b5042a93bdb6b3ca0e5e097e", null ],
     [ "coefficient", "class_laplace_problem_settings.html#aa7fac4d6430147d81ef0cd5d1a5056b9", null ],
+    [ "degree", "class_laplace_problem_settings.html#a3bf8fc3dba074753afaedb9e683f92bc", null ],
     [ "exact", "class_laplace_problem_settings.html#a384e93ef2960b8bbdb63a61fc0e9859c", null ],
     [ "n_steps", "class_laplace_problem_settings.html#a576fa94438e51f6504d6111393367467", null ],
     [ "output", "class_laplace_problem_settings.html#a7126d681fa71af0cf395f34925088e11", null ],
