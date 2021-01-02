@@ -241,7 +241,7 @@ LaplaceProblem<dim, degree>::assemble_rhs()
     *mf_system_matrix.get_matrix_free());
 
   for (unsigned int cell = 0;
-       cell < mf_system_matrix.get_matrix_free()->n_macro_cells();
+       cell < mf_system_matrix.get_matrix_free()->n_cell_batches();
        ++cell)
     {
       phi.reinit(cell);

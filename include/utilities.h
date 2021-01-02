@@ -121,7 +121,7 @@ make_coefficient_table(
   auto coefficient_table =
     std::make_shared<Table<2, VectorizedArray<number>>>();
   FEEvaluation<dim, -1, 0, 1, number> fe_eval(mf_storage);
-  const unsigned int                  n_cells    = mf_storage.n_macro_cells();
+  const unsigned int                  n_cells    = mf_storage.n_cell_batches();
   const unsigned int                  n_q_points = fe_eval.n_q_points;
   coefficient_table->reinit(n_cells, 1);
   for (unsigned int cell = 0; cell < n_cells; ++cell)
