@@ -18,7 +18,8 @@
 		"ms-vscode.cpptools",
 		"shan.code-settings-sync",
 		"ms-vscode.cmake-tools",
-		"xaver.clang-format"
+		"xaver.clang-format",
+		"ms-azuretools.vscode-docker"
 	]
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
