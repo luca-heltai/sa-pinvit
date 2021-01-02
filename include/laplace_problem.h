@@ -80,6 +80,7 @@ public:
   unsigned int smoother_steps  = 1;
   unsigned int n_steps         = 10;
   bool         output          = true;
+  unsigned int degree          = 2;
 
   ParameterAcceptorProxy<Functions::ParsedFunction<dim>> exact;
   ParameterAcceptorProxy<Functions::ParsedFunction<dim>> coefficient;

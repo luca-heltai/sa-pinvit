@@ -68,6 +68,7 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
                       smoother_steps,
                       "Number of smoother steps.");
   this->add_parameter("output", output, "Output graphical results.");
+  this->add_parameter("degree", degree, "Degree of the finite element space.");
 }
 
 template <int dim>

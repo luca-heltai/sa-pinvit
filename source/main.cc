@@ -31,10 +31,35 @@ main(int argc, char *argv[])
 
   try
     {
-      constexpr unsigned int fe_degree = 2;
-
-      LaplaceProblem<DEAL_DIMENSION, fe_degree> test(settings);
-      test.run();
+      switch (settings.degree)
+        {
+          case 1:
+            {
+              constexpr unsigned int                    fe_degree = 1;
+              LaplaceProblem<DEAL_DIMENSION, fe_degree> test(settings);
+              test.run();
+            }
+            break;
+          case 2:
+            {
+              constexpr unsigned int                    fe_degree = 2;
+              LaplaceProblem<DEAL_DIMENSION, fe_degree> test(settings);
+              test.run();
+            }
+            break;
+          case 3:
+            {
+              constexpr unsigned int                    fe_degree = 3;
+              LaplaceProblem<DEAL_DIMENSION, fe_degree> test(settings);
+              test.run();
+            }
+            break;
+          default:
+            AssertThrow(
+              false,
+              ExcMessage(
+                "The selected degree was not compiled. Please choose a lower one."));
+        }
     }
   catch (std::exception &exc)
     {
