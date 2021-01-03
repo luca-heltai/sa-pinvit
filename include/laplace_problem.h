@@ -125,8 +125,6 @@ private:
   void
   setup_multigrid();
   void
-  assemble_system();
-  void
   assemble_multigrid();
   void
   assemble_rhs();

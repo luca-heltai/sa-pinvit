@@ -654,10 +654,6 @@ LaplaceProblem<dim, degree>::run()
 
       pcout << std::endl;
 
-      // For the matrix-free method, we only assemble the right-hand side.
-      // For both matrix-based methods, we assemble both active matrix and
-      // right-hand side, and only assemble the multigrid matrices for
-      // matrix-based GMG.
       assemble_rhs();
 
       solve();
