@@ -37,7 +37,7 @@ jobs:
       run: |
           ./scripts/dr.sh "rm -rf build_linux_release"
           ./scripts/dr.sh "mkdir build_linux_release; cd build_linux_release; cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release; ninja"
-          ./scripts/dr.sh "cd build_linux_release;
+          ./scripts/dr.sh "cd build_linux_release; cd build_linux_release; cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release; ninja"
     - name: CTest release
       run: |
          ./scripts/dr.sh "cd build_linux_release; ctest -N; ctest --output-on-failure"
