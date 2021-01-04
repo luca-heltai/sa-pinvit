@@ -73,8 +73,6 @@ class LaplaceProblemSettings : public ParameterAcceptor
 {
 public:
   LaplaceProblemSettings();
-  bool
-  try_parse(const std::string &prm_filename);
 
   double       smoother_dampen = 1.0;
   unsigned int smoother_steps  = 1;
@@ -89,11 +87,10 @@ public:
   // boundary ids to use when setting the boundary conditions:
   std::list<types::boundary_id> homogeneous_dirichlet_ids{0};
 
-  std::string name_of_grid                = "hyper_L";
-  std::string arguments_for_grid          = "-1.: 1.: false";
-  std::string coarse_grid_output_filename = "";
+  std::string name_of_grid       = "hyper_L";
+  std::string arguments_for_grid = "-1.: 1.: false";
 
-  std::string refinement_strategy = "fixed_fraction";
+  std::string refinement_strategy = "fixed_number";
 
   ParameterAcceptorProxy<Functions::ParsedFunction<dim>> exact;
   ParameterAcceptorProxy<Functions::ParsedFunction<dim>> coefficient;
@@ -113,21 +110,21 @@ private:
   using PreconditionAMG    = LA::MPI::PreconditionAMG;
   using PreconditionJacobi = LA::MPI::PreconditionJacobi;
 
-  using MatrixFreeLevelMatrix = MatrixFreeOperators::LaplaceOperator<
-    dim,
-    degree,
-    degree + 1,
-    1,
-    LinearAlgebra::distributed::Vector<float>>;
-  using MatrixFreeActiveMatrix = MatrixFreeOperators::LaplaceOperator<
-    dim,
-    degree,
-    degree + 1,
-    1,
-    LinearAlgebra::distributed::Vector<double>>;
-
   using MatrixFreeLevelVector  = LinearAlgebra::distributed::Vector<float>;
   using MatrixFreeActiveVector = LinearAlgebra::distributed::Vector<double>;
+
+  using MatrixFreeLevelMatrix = MatrixFreeOperators::
+    LaplaceOperator<dim, degree, degree + 1, 1, MatrixFreeLevelVector>;
+
+  using MatrixFreeActiveMatrix = MatrixFreeOperators::
+    LaplaceOperator<dim, degree, degree + 1, 1, MatrixFreeActiveVector>;
+
+  using MatrixFreeLevelMassMatrix = MatrixFreeOperators::
+    MassOperator<dim, degree, degree + 1, 1, MatrixFreeLevelVector>;
+
+  using MatrixFreeActiveMassMatrix = MatrixFreeOperators::
+    MassOperator<dim, degree, degree + 1, 1, MatrixFreeActiveVector>;
+
 
   void
   make_grid();
@@ -163,13 +160,15 @@ private:
   IndexSet                  locally_relevant_dofs;
   AffineConstraints<double> constraints;
 
-  MatrixFreeActiveMatrix mf_system_matrix;
-  VectorType             solution;
-  VectorType             right_hand_side;
-  Vector<double>         estimated_error_square_per_cell;
+  MatrixFreeActiveMatrix     mf_system_matrix;
+  MatrixFreeActiveMassMatrix mf_mass_matrix;
+  VectorType                 solution;
+  VectorType                 right_hand_side;
+  Vector<double>             estimated_error_square_per_cell;
 
-  MGLevelObject<MatrixFreeLevelMatrix> mf_mg_matrix;
-  MGConstrainedDoFs                    mg_constrained_dofs;
+  MGLevelObject<MatrixFreeLevelMatrix>     mf_mg_matrix;
+  MGLevelObject<MatrixFreeLevelMassMatrix> mf_mg_mass_matrix;
+  MGConstrainedDoFs                        mg_constrained_dofs;
 
   TimerOutput computing_timer;
 

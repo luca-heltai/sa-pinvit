@@ -19,6 +19,7 @@
 #include <deal.II/fe/fe_values.h>
 
 #include <deal.II/grid/grid_generator.h>
+#include <deal.II/grid/grid_out.h>
 #include <deal.II/grid/grid_refinement.h>
 #include <deal.II/grid/tria.h>
 #include <deal.II/grid/tria_accessor.h>
@@ -82,10 +83,7 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
                             "",
                             Patterns::Selection(
                               "fixed_fraction|fixed_number|global"));
-    this->prm.add_parameter(
-      "Grid output filename",
-      coarse_grid_output_filename,
-      "Leave empty if you don't want to save coarse grid.");
+
 
     add_parameter(
       "Homogeneous Dirichlet boundary ids",
@@ -168,6 +166,12 @@ LaplaceProblem<dim, degree>::make_grid()
       read_grid_and_cad_files(settings.name_of_grid,
                               settings.arguments_for_grid,
                               triangulation);
+    }
+  if (settings.output_directory != "")
+    {
+      GridOut       go;
+      std::ofstream outfile(settings.output_directory + "coarse_grid.vtk");
+      go.write_vtk(triangulation, outfile);
     }
   triangulation.refine_global(settings.initial_refinement);
 }
@@ -675,12 +679,25 @@ LaplaceProblem<dim, degree>::output_results(const unsigned int cycle)
 
   pcout << "   Wrote " << pvtu_filename << std::endl;
 
+  GridOut go;
+  auto    grid_name = "level_grid_" + Utilities::int_to_string(cycle, 2);
+  go.write_mesh_per_processor_as_vtu(triangulation,
+                                     settings.output_directory + grid_name,
+                                     true);
+
   if (Utilities::MPI::this_mpi_process(mpi_communicator) == 0)
     {
       static std::vector<std::pair<double, std::string>> times_and_names;
       times_and_names.push_back(std::make_pair((double)cycle, pvtu_filename));
       std::ofstream pvd_output(settings.output_directory + "solution.pvd");
       DataOutBase::write_pvd_record(pvd_output, times_and_names);
+
+      static std::vector<std::pair<double, std::string>> times_and_grid_names;
+      times_and_grid_names.push_back(
+        std::make_pair((double)cycle, grid_name + ".pvtu"));
+      std::ofstream pvd_output_grids(settings.output_directory +
+                                     "level_grid.pvd");
+      DataOutBase::write_pvd_record(pvd_output_grids, times_and_grid_names);
     }
 }
 
