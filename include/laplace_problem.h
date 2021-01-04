@@ -96,10 +96,6 @@ public:
   run();
 
 private:
-  // We will use the following types throughout the program. First the
-  // matrix-based types, after that the matrix-free classes. For the
-  // matrix-free implementation, we use @p float for the level operators.
-  using MatrixType         = LA::MPI::SparseMatrix;
   using VectorType         = LA::MPI::Vector;
   using PreconditionAMG    = LA::MPI::PreconditionAMG;
   using PreconditionJacobi = LA::MPI::PreconditionJacobi;
@@ -152,17 +148,13 @@ private:
   IndexSet                  locally_relevant_dofs;
   AffineConstraints<double> constraints;
 
-  MatrixType             system_matrix;
   MatrixFreeActiveMatrix mf_system_matrix;
   VectorType             solution;
   VectorType             right_hand_side;
   Vector<double>         estimated_error_square_per_cell;
 
-  MGLevelObject<MatrixType> mg_matrix;
-  MGLevelObject<MatrixType> mg_interface_in;
-  MGConstrainedDoFs         mg_constrained_dofs;
-
   MGLevelObject<MatrixFreeLevelMatrix> mf_mg_matrix;
+  MGConstrainedDoFs                    mg_constrained_dofs;
 
   TimerOutput computing_timer;
 };
