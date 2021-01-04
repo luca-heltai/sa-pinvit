@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['readwritevector_21072',['ReadWriteVector',['http://www.dealii.org/developer/doxygen/deal.II/classLinearAlgebra_1_1ReadWriteVector.html#a1c84d108d27ea3c0df7f0d8417b08f11',1,'LinearAlgebra::ReadWriteVector']]],
-  ['reference_21073',['Reference',['http://www.dealii.org/developer/doxygen/deal.II/classTrilinosWrappers_1_1SparseMatrixIterators_1_1Accessor_3_01false_01_4.html#a75dfa92607f3d314070ecf242e028014',1,'TrilinosWrappers::SparseMatrixIterators::Accessor&lt; false &gt;']]]
+  ['readwritevector_21083',['ReadWriteVector',['http://www.dealii.org/developer/doxygen/deal.II/classLinearAlgebra_1_1ReadWriteVector.html#a1c84d108d27ea3c0df7f0d8417b08f11',1,'LinearAlgebra::ReadWriteVector']]],
+  ['reference_21084',['Reference',['http://www.dealii.org/developer/doxygen/deal.II/classTrilinosWrappers_1_1SparseMatrixIterators_1_1Accessor_3_01false_01_4.html#a75dfa92607f3d314070ecf242e028014',1,'TrilinosWrappers::SparseMatrixIterators::Accessor&lt; false &gt;']]]
 ];

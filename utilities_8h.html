@@ -109,6 +109,10 @@ $(document).ready(function(){initNavTree('utilities_8h.html',''); initResizable(
 <code>#include &lt;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/base_2point_8h.html">deal.II/base/point.h</a>&gt;</code><br />
 <code>#include &lt;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/tensor_8h.html">deal.II/base/tensor.h</a>&gt;</code><br />
 <code>#include &lt;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/vectorization_8h.html">deal.II/base/vectorization.h</a>&gt;</code><br />
+<code>#include &lt;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/opencascade_2manifold__lib_8h.html">deal.II/opencascade/manifold_lib.h</a>&gt;</code><br />
+<code>#include &lt;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/include_2deal_8II_2opencascade_2utilities_8h.html">deal.II/opencascade/utilities.h</a>&gt;</code><br />
+<code>#include &lt;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/grid_2grid__generator_8h.html">deal.II/grid/grid_generator.h</a>&gt;</code><br />
+<code>#include &lt;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/grid__in_8h.html">deal.II/grid/grid_in.h</a>&gt;</code><br />
 </div>
 <p><a href="utilities_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -134,6 +138,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a10cce59afcab63e8cffdd0b1016308cd"><td class="memTemplParams" colspan="2">template&lt;int dim, typename number &gt; </td></tr>
 <tr class="memitem:a10cce59afcab63e8cffdd0b1016308cd"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classTable.html">Table</a>&lt; 2, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classVectorizedArray.html">VectorizedArray</a>&lt; number &gt; &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="utilities_8h.html#a10cce59afcab63e8cffdd0b1016308cd">make_coefficient_table</a> (const <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFunction.html">Function</a>&lt; dim &gt; &amp;function, const <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classMatrixFree.html">MatrixFree</a>&lt; dim, number, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classVectorizedArray.html">VectorizedArray</a>&lt; number &gt;&gt; &amp;mf_storage)</td></tr>
 <tr class="separator:a10cce59afcab63e8cffdd0b1016308cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a553034346c0de67e14a78f80f57d84e7"><td class="memTemplParams" colspan="2">template&lt;int dim, int spacedim&gt; </td></tr>
+<tr class="memitem:a553034346c0de67e14a78f80f57d84e7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="utilities_8h.html#a553034346c0de67e14a78f80f57d84e7">read_grid_and_cad_files</a> (const std::string &amp;grid_file_name, const std::string &amp;ids_and_cad_file_names, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classTriangulation.html">Triangulation</a>&lt; dim, spacedim &gt; &amp;tria)</td></tr>
+<tr class="separator:a553034346c0de67e14a78f80f57d84e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ab1c2c0129e3d8177d2c5871507855e18"></a>
@@ -164,7 +171,7 @@ template&lt;int dim, typename Number , int n_components = dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="utilities_8h_source.html#l00051">51</a> of file <a class="el" href="utilities_8h_source.html">utilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="utilities_8h_source.html#l00059">59</a> of file <a class="el" href="utilities_8h_source.html">utilities.h</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#ga9442b63275c9ef3fab29bc222831c49c">AssertDimension</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a15728437b942dab0b0042eb06a407d2c">d()</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Vectors.html#gaf1aa9207795db77aaa6d5d0f23e8dbe7">value</a>.</p>
 
@@ -204,11 +211,11 @@ template&lt;int dim, typename Number &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="utilities_8h_source.html#l00034">34</a> of file <a class="el" href="utilities_8h_source.html">utilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="utilities_8h_source.html#l00042">42</a> of file <a class="el" href="utilities_8h_source.html">utilities.h</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a15728437b942dab0b0042eb06a407d2c">d()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00224">LaplaceProblem&lt; dim, degree &gt;::assemble_rhs()</a>, and <a class="el" href="utilities_8h_source.html#l00117">make_coefficient_table()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00273">LaplaceProblem&lt; dim, degree &gt;::assemble_rhs()</a>, and <a class="el" href="utilities_8h_source.html#l00125">make_coefficient_table()</a>.</p>
 
 </div>
 </div>
@@ -240,11 +247,53 @@ template&lt;int dim, typename number &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="utilities_8h_source.html#l00117">117</a> of file <a class="el" href="utilities_8h_source.html">utilities.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="utilities_8h_source.html#l00125">125</a> of file <a class="el" href="utilities_8h_source.html">utilities.h</a>.</p>
 
-<p class="reference">References <a class="el" href="utilities_8h_source.html#l00034">evaluate_function()</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceinternal_1_1TriangulationImplementation.html#a9f815604be9b560fea00beef8d720480">n_cells()</a>.</p>
+<p class="reference">References <a class="el" href="utilities_8h_source.html#l00042">evaluate_function()</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceinternal_1_1TriangulationImplementation.html#a9f815604be9b560fea00beef8d720480">n_cells()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00166">LaplaceProblem&lt; dim, degree &gt;::setup_multigrid()</a>, and <a class="el" href="laplace__problem_8cc_source.html#l00128">LaplaceProblem&lt; dim, degree &gt;::setup_system()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00215">LaplaceProblem&lt; dim, degree &gt;::setup_multigrid()</a>, and <a class="el" href="laplace__problem_8cc_source.html#l00177">LaplaceProblem&lt; dim, degree &gt;::setup_system()</a>.</p>
+
+</div>
+</div>
+<a id="a553034346c0de67e14a78f80f57d84e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a553034346c0de67e14a78f80f57d84e7">&#9670;&nbsp;</a></span>read_grid_and_cad_files()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int spacedim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void read_grid_and_cad_files </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>grid_file_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>ids_and_cad_file_names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classTriangulation.html">Triangulation</a>&lt; dim, spacedim &gt; &amp;&#160;</td>
+          <td class="paramname"><em>tria</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="utilities_8h_source.html#l00151">151</a> of file <a class="el" href="utilities_8h_source.html">utilities.h</a>.</p>
+
+<p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#gafc0ca7ad85b3ebd64e8e51689ac85caf">AssertThrow</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classGridIn.html#a82ac1c03b0efe87204ad45d2f1d87f7e">GridIn&lt; dim, spacedim &gt;::attach_triangulation()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceOpenCASCADE.html#a3e3e0df474c0e4f9abb627753c8754e9">OpenCASCADE::count_elements()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#ga7b52b286796c23ef9ff178faf7a4b68f">ExcNotImplemented()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classGridIn.html#ad30d9d6f2ff9920c4285e795c4495826">GridIn&lt; dim, spacedim &gt;::read()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceOpenCASCADE.html#affe07b496f4edf844d5f4e8d7a540295">OpenCASCADE::read_IGES()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceOpenCASCADE.html#a614ec9f581086ad423513dd407e9e520">OpenCASCADE::read_STEP()</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__manifold.html#ga9f9d720f5fbdcdf3dcbb445feefbdb9f">Triangulation&lt; dim, spacedim &gt;::set_manifold()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00156">LaplaceProblem&lt; dim, degree &gt;::make_grid()</a>.</p>
 
 </div>
 </div>
@@ -254,7 +303,7 @@ template&lt;int dim, typename number &gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_aa394cd1d9abb8ffe941d9aaafca8d03.html">github</a></li><li class="navelem"><a class="el" href="dir_c52569aa89a7adbb6029022c2fa60a11.html">workspace</a></li><li class="navelem"><a class="el" href="dir_7a95a9cc00fcc7af5a429eec361b64d1.html">include</a></li><li class="navelem"><a class="el" href="utilities_8h.html">utilities.h</a></li>
-    <li class="footer">Generated on Sat Jan 2 2021 11:21:54 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Mon Jan 4 2021 12:29:29 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>
