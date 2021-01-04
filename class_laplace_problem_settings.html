@@ -123,8 +123,6 @@ Inheritance diagram for LaplaceProblemSettings&lt; dim &gt;:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac9716aafb3b8f72426bf1aa3fadf4b31"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#ac9716aafb3b8f72426bf1aa3fadf4b31">LaplaceProblemSettings</a> ()</td></tr>
 <tr class="separator:ac9716aafb3b8f72426bf1aa3fadf4b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca291882b5042a93bdb6b3ca0e5e097e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#aca291882b5042a93bdb6b3ca0e5e097e">try_parse</a> (const std::string &amp;prm_filename)</td></tr>
-<tr class="separator:aca291882b5042a93bdb6b3ca0e5e097e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classParameterAcceptor"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classParameterAcceptor')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el"  href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html">ParameterAcceptor</a></td></tr>
 <tr class="memitem:a7bf9ccbc4d618a248324748a41f625cf inherit pub_methods_classParameterAcceptor"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#a7bf9ccbc4d618a248324748a41f625cf">ParameterAcceptor</a> (const std::string &amp;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#a52134c59ec98830230c23e080c841705">section_name</a>=&quot;&quot;)</td></tr>
 <tr class="separator:a7bf9ccbc4d618a248324748a41f625cf inherit pub_methods_classParameterAcceptor"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,9 +221,7 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a2cef191ad654e119ca42819e162367f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a684ef608e9c6dc80347deea633b75857"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#a684ef608e9c6dc80347deea633b75857">arguments_for_grid</a> = &quot;-1.: 1.: false&quot;</td></tr>
 <tr class="separator:a684ef608e9c6dc80347deea633b75857"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a496f6c8cbe9f4441e438f35e2c2e8c34"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#a496f6c8cbe9f4441e438f35e2c2e8c34">coarse_grid_output_filename</a> = &quot;&quot;</td></tr>
-<tr class="separator:a496f6c8cbe9f4441e438f35e2c2e8c34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a202549583a7084c05db050b8af763f90"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#a202549583a7084c05db050b8af763f90">refinement_strategy</a> = &quot;fixed_fraction&quot;</td></tr>
+<tr class="memitem:a202549583a7084c05db050b8af763f90"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#a202549583a7084c05db050b8af763f90">refinement_strategy</a> = &quot;fixed_number&quot;</td></tr>
 <tr class="separator:a202549583a7084c05db050b8af763f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a384e93ef2960b8bbdb63a61fc0e9859c"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptorProxy.html">ParameterAcceptorProxy</a>&lt; <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFunctions_1_1ParsedFunction.html">Functions::ParsedFunction</a>&lt; dim &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem_settings.html#a384e93ef2960b8bbdb63a61fc0e9859c">exact</a></td></tr>
 <tr class="separator:a384e93ef2960b8bbdb63a61fc0e9859c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -289,34 +285,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00055">55</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00056">56</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
-<p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterHandler.html#a04b75c02037d19fd7fd781785fcefc79">ParameterHandler::add_parameter()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#af2a534c7f1ea5bfa165fa8a469744a5d">ParameterAcceptor::add_parameter()</a>, <a class="el" href="laplace__problem_8h_source.html#l00093">LaplaceProblemSettings&lt; dim &gt;::arguments_for_grid</a>, <a class="el" href="laplace__problem_8h_source.html#l00094">LaplaceProblemSettings&lt; dim &gt;::coarse_grid_output_filename</a>, <a class="el" href="laplace__problem_8h_source.html#l00099">LaplaceProblemSettings&lt; dim &gt;::coefficient</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#a1704a7098e692599c254a14c15ab05d2">ParameterAcceptorProxy&lt; SourceClass &gt;::declare_parameters_call_back</a>, <a class="el" href="laplace__problem_8h_source.html#l00082">LaplaceProblemSettings&lt; dim &gt;::degree</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#aceb1a78960d51e44d8187995307756b4">ParameterAcceptor::enter_my_subsection()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterHandler.html#af29c20cde6d44186806d559beb468696">ParameterHandler::enter_subsection()</a>, <a class="el" href="laplace__problem_8h_source.html#l00090">LaplaceProblemSettings&lt; dim &gt;::homogeneous_dirichlet_ids</a>, <a class="el" href="laplace__problem_8h_source.html#l00084">LaplaceProblemSettings&lt; dim &gt;::initial_refinement</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#a9d1dd13bdde04afcd1ec4b9a78776827">ParameterAcceptor::leave_my_subsection()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterHandler.html#a599462cacd492e2f712bf7369507dcff">ParameterHandler::leave_subsection()</a>, <a class="el" href="laplace__problem_8h_source.html#l00081">LaplaceProblemSettings&lt; dim &gt;::n_steps</a>, <a class="el" href="laplace__problem_8h_source.html#l00092">LaplaceProblemSettings&lt; dim &gt;::name_of_grid</a>, <a class="el" href="laplace__problem_8h_source.html#l00085">LaplaceProblemSettings&lt; dim &gt;::output_directory</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#a96081d4cc985b722c9841fcf0c0e54ec">ParameterAcceptor::prm</a>, <a class="el" href="laplace__problem_8h_source.html#l00096">LaplaceProblemSettings&lt; dim &gt;::refinement_strategy</a>, <a class="el" href="laplace__problem_8h_source.html#l00100">LaplaceProblemSettings&lt; dim &gt;::rhs</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterHandler.html#aa6418ea655b1b550b9dcf63513030196">ParameterHandler::set()</a>, <a class="el" href="laplace__problem_8h_source.html#l00079">LaplaceProblemSettings&lt; dim &gt;::smoother_dampen</a>, and <a class="el" href="laplace__problem_8h_source.html#l00080">LaplaceProblemSettings&lt; dim &gt;::smoother_steps</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="aca291882b5042a93bdb6b3ca0e5e097e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca291882b5042a93bdb6b3ca0e5e097e">&#9670;&nbsp;</a></span>try_parse()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int dim&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="class_laplace_problem_settings.html">LaplaceProblemSettings</a>&lt; dim &gt;::try_parse </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>prm_filename</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00106">106</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
-
-<p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a9587d5229555daa5b1fa1ba2f8a40adb">e()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterHandler.html#a8364dda711b93753c6809eefe2a8e827ae4d13a4598073bfcb69cd0cf4c1f8365">ParameterHandler::Text</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceUtilities_1_1MPI.html#a895dcd8223a0ee6f0e6a80b80e2d5982">Utilities::MPI::this_mpi_process()</a>.</p>
+<p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterHandler.html#a04b75c02037d19fd7fd781785fcefc79">ParameterHandler::add_parameter()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#af2a534c7f1ea5bfa165fa8a469744a5d">ParameterAcceptor::add_parameter()</a>, <a class="el" href="laplace__problem_8h_source.html#l00091">LaplaceProblemSettings&lt; dim &gt;::arguments_for_grid</a>, <a class="el" href="laplace__problem_8h_source.html#l00096">LaplaceProblemSettings&lt; dim &gt;::coefficient</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#a1704a7098e692599c254a14c15ab05d2">ParameterAcceptorProxy&lt; SourceClass &gt;::declare_parameters_call_back</a>, <a class="el" href="laplace__problem_8h_source.html#l00080">LaplaceProblemSettings&lt; dim &gt;::degree</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#aceb1a78960d51e44d8187995307756b4">ParameterAcceptor::enter_my_subsection()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterHandler.html#af29c20cde6d44186806d559beb468696">ParameterHandler::enter_subsection()</a>, <a class="el" href="laplace__problem_8h_source.html#l00088">LaplaceProblemSettings&lt; dim &gt;::homogeneous_dirichlet_ids</a>, <a class="el" href="laplace__problem_8h_source.html#l00082">LaplaceProblemSettings&lt; dim &gt;::initial_refinement</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#a9d1dd13bdde04afcd1ec4b9a78776827">ParameterAcceptor::leave_my_subsection()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterHandler.html#a599462cacd492e2f712bf7369507dcff">ParameterHandler::leave_subsection()</a>, <a class="el" href="laplace__problem_8h_source.html#l00079">LaplaceProblemSettings&lt; dim &gt;::n_steps</a>, <a class="el" href="laplace__problem_8h_source.html#l00090">LaplaceProblemSettings&lt; dim &gt;::name_of_grid</a>, <a class="el" href="laplace__problem_8h_source.html#l00083">LaplaceProblemSettings&lt; dim &gt;::output_directory</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html#a96081d4cc985b722c9841fcf0c0e54ec">ParameterAcceptor::prm</a>, <a class="el" href="laplace__problem_8h_source.html#l00093">LaplaceProblemSettings&lt; dim &gt;::refinement_strategy</a>, <a class="el" href="laplace__problem_8h_source.html#l00097">LaplaceProblemSettings&lt; dim &gt;::rhs</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classParameterHandler.html#aa6418ea655b1b550b9dcf63513030196">ParameterHandler::set()</a>, <a class="el" href="laplace__problem_8h_source.html#l00077">LaplaceProblemSettings&lt; dim &gt;::smoother_dampen</a>, and <a class="el" href="laplace__problem_8h_source.html#l00078">LaplaceProblemSettings&lt; dim &gt;::smoother_steps</a>.</p>
 
 </div>
 </div>
@@ -335,29 +306,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00093">93</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00091">91</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
-
-</div>
-</div>
-<a id="a496f6c8cbe9f4441e438f35e2c2e8c34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a496f6c8cbe9f4441e438f35e2c2e8c34">&#9670;&nbsp;</a></span>coarse_grid_output_filename</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;int dim&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string <a class="el" href="class_laplace_problem_settings.html">LaplaceProblemSettings</a>&lt; dim &gt;::coarse_grid_output_filename = &quot;&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00094">94</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
 
 </div>
 </div>
@@ -375,9 +326,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00099">99</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00096">96</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
 
 </div>
 </div>
@@ -395,9 +346,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00082">82</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00080">80</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>, and <a class="el" href="main_8cc_source.html#l00023">main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>, and <a class="el" href="main_8cc_source.html#l00023">main()</a>.</p>
 
 </div>
 </div>
@@ -415,7 +366,7 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00098">98</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00095">95</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -435,9 +386,9 @@ template&lt;int dim&gt; </div>
 
 <p>By default, we create a hyper_L without colorization, and we use. </p>
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00090">90</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00088">88</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
 
 </div>
 </div>
@@ -455,9 +406,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00084">84</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00082">82</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
 
 </div>
 </div>
@@ -475,9 +426,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00081">81</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00079">79</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
 
 </div>
 </div>
@@ -495,9 +446,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00092">92</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00090">90</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
 
 </div>
 </div>
@@ -515,9 +466,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00085">85</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00083">83</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>, and <a class="el" href="main_8cc_source.html#l00023">main()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>, and <a class="el" href="main_8cc_source.html#l00023">main()</a>.</p>
 
 </div>
 </div>
@@ -530,14 +481,14 @@ template&lt;int dim&gt; </div>
 template&lt;int dim&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::string <a class="el" href="class_laplace_problem_settings.html">LaplaceProblemSettings</a>&lt; dim &gt;::refinement_strategy = &quot;fixed_fraction&quot;</td>
+          <td class="memname">std::string <a class="el" href="class_laplace_problem_settings.html">LaplaceProblemSettings</a>&lt; dim &gt;::refinement_strategy = &quot;fixed_number&quot;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00096">96</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00093">93</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
 
 </div>
 </div>
@@ -555,9 +506,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00100">100</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00097">97</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
 
 </div>
 </div>
@@ -575,9 +526,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00079">79</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00077">77</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
 
 </div>
 </div>
@@ -595,9 +546,9 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00080">80</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00078">78</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00055">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00056">LaplaceProblemSettings&lt; dim &gt;::LaplaceProblemSettings()</a>.</p>
 
 </div>
 </div>
@@ -611,7 +562,7 @@ template&lt;int dim&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_laplace_problem_settings.html">LaplaceProblemSettings</a></li>
-    <li class="footer">Generated on Mon Jan 4 2021 12:29:29 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Mon Jan 4 2021 17:35:16 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

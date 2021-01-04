@@ -1,8 +1,10 @@
 var class_laplace_problem =
 [
-    [ "MatrixFreeActiveMatrix", "class_laplace_problem.html#aad62412e398e39151bdf677b3c29d25c", null ],
+    [ "MatrixFreeActiveMassMatrix", "class_laplace_problem.html#adb0b3021581113e9c4535b71f4782659", null ],
+    [ "MatrixFreeActiveMatrix", "class_laplace_problem.html#ad47d4e608d1744ad75d6dc1750e71cc6", null ],
     [ "MatrixFreeActiveVector", "class_laplace_problem.html#a3aa8e9bf407786babb237fcdc3ae1ffe", null ],
-    [ "MatrixFreeLevelMatrix", "class_laplace_problem.html#ae627255d4faa2203089120f9de837762", null ],
+    [ "MatrixFreeLevelMassMatrix", "class_laplace_problem.html#a60f6d7b688cd3896485c5a56440ffa51", null ],
+    [ "MatrixFreeLevelMatrix", "class_laplace_problem.html#a7dde543d713c42de1de5fc6d1d42e386", null ],
     [ "MatrixFreeLevelVector", "class_laplace_problem.html#ace7692093c4b8a197295e93be0fd6c37", null ],
     [ "PreconditionAMG", "class_laplace_problem.html#aedc6ce80605b4273923c99e1fff05236", null ],
     [ "PreconditionJacobi", "class_laplace_problem.html#a9cecb07deab04fef7af03e2a1325723a", null ],
@@ -27,6 +29,8 @@ var class_laplace_problem =
     [ "locally_owned_dofs", "class_laplace_problem.html#a902a0df0a57bdf642093f91c08b12eef", null ],
     [ "locally_relevant_dofs", "class_laplace_problem.html#a10f6e6ae6c14304d34c0bc0dfce70706", null ],
     [ "mapping", "class_laplace_problem.html#a0506c6ac18096b033313e5d965ac43eb", null ],
+    [ "mf_mass_matrix", "class_laplace_problem.html#a28940e7b37012b7618664e4799b33eb5", null ],
+    [ "mf_mg_mass_matrix", "class_laplace_problem.html#afa7c673f7aa3a137f8de7693b067a296", null ],
     [ "mf_mg_matrix", "class_laplace_problem.html#ae54447a3ef1fc1fc2aa63106e8707de1", null ],
     [ "mf_system_matrix", "class_laplace_problem.html#a7d5a35f76b4aa9ee32625fec92c95479", null ],
     [ "mg_constrained_dofs", "class_laplace_problem.html#acc7c24fba1c366e1143125fdd249ece4", null ],

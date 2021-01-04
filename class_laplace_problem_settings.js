@@ -1,9 +1,7 @@
 var class_laplace_problem_settings =
 [
     [ "LaplaceProblemSettings", "class_laplace_problem_settings.html#ac9716aafb3b8f72426bf1aa3fadf4b31", null ],
-    [ "try_parse", "class_laplace_problem_settings.html#aca291882b5042a93bdb6b3ca0e5e097e", null ],
     [ "arguments_for_grid", "class_laplace_problem_settings.html#a684ef608e9c6dc80347deea633b75857", null ],
-    [ "coarse_grid_output_filename", "class_laplace_problem_settings.html#a496f6c8cbe9f4441e438f35e2c2e8c34", null ],
     [ "coefficient", "class_laplace_problem_settings.html#aa7fac4d6430147d81ef0cd5d1a5056b9", null ],
     [ "degree", "class_laplace_problem_settings.html#a3bf8fc3dba074753afaedb9e683f92bc", null ],
     [ "exact", "class_laplace_problem_settings.html#a384e93ef2960b8bbdb63a61fc0e9859c", null ],
