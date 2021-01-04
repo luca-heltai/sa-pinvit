@@ -13,11 +13,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Test debug
+    - name: Build debug
       run: |
          ./scripts/dr.sh "rm -rf build_linux_debug"
          ./scripts/dr.sh "mkdir build_linux_debug; cd build_linux_debug; cmake .. -GNinja -DCMAKE_BUILD_TYPE=Debug; ninja"
+    - name: CTest debug
+      run: |
          ./scripts/dr.sh "cd build_linux_debug; ctest -N; ctest --output-on-failure"
+    - name: GTest debug serial
+      run: |
+         ./scripts/dr.sh "cd build_linux_debug/gtests; ./gtests.g"
+    - name: GTest debug parallel
+      run: |
+         ./scripts/dr.sh "cd build_linux_debug/gtests; mpirun -np 2 ./gtests.g"
 
   release:
 
@@ -25,8 +33,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Test release
+    - name: Build release
       run: |
           ./scripts/dr.sh "rm -rf build_linux_release"
           ./scripts/dr.sh "mkdir build_linux_release; cd build_linux_release; cmake .. -GNinja -DCMAKE_BUILD_TYPE=Release; ninja"
-          ./scripts/dr.sh "cd build_linux_release; ctest -N; ctest --output-on-failure"
+          ./scripts/dr.sh "cd build_linux_release;
+    - name: CTest release
+      run: |
+         ./scripts/dr.sh "cd build_linux_release; ctest -N; ctest --output-on-failure"
+    - name: GTest release serial
+      run: |
+         ./scripts/dr.sh "cd build_linux_release/gtests; ./gtests" ctest -N; ctest --output-on-failure"
+    - name: GTest release parallel
+      run: |
+         ./scripts/dr.sh "cd build_linux_release/gtests; mpirun -np 2 ./gtests"

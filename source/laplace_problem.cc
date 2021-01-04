@@ -99,37 +99,6 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
     [&]() { this->prm.set("Function expression", "1"); });
 }
 
-template <int dim>
-bool
-LaplaceProblemSettings<dim>::try_parse(const std::string &prm_filename)
-{
-  if (prm_filename.size() == 0)
-    {
-      std::cout << "****  Error: No input file provided!\n"
-                << "****  Error: Call this program as './step-50 input.prm\n"
-                << "\n"
-                << "****  You may want to use one of the input files in this\n"
-                << "****  directory, or use the following default values\n"
-                << "****  to create an input file:\n";
-      if (Utilities::MPI::this_mpi_process(MPI_COMM_WORLD) == 0)
-        this->prm.print_parameters(std::cout, ParameterHandler::Text);
-      return false;
-    }
-
-  try
-    {
-      this->prm.parse_input(prm_filename);
-    }
-  catch (std::exception &e)
-    {
-      if (Utilities::MPI::this_mpi_process(MPI_COMM_WORLD) == 0)
-        std::cerr << e.what() << std::endl;
-      return false;
-    }
-
-  return true;
-}
-
 
 template <int dim, int degree>
 LaplaceProblem<dim, degree>::LaplaceProblem(

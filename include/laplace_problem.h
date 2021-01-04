@@ -126,6 +126,9 @@ private:
     MassOperator<dim, degree, degree + 1, 1, MatrixFreeActiveVector>;
 
 
+  /**
+   * Create the grid from the specification in the settings.
+   */
   void
   make_grid();
   void
