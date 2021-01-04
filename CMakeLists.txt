@@ -131,4 +131,5 @@ IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
 endif()
 
 add_custom_target(indent ./scripts/indent WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 ENABLE_TESTING()

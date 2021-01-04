@@ -28,6 +28,14 @@ using namespace dealii;
 #include <deal.II/base/tensor.h>
 #include <deal.II/base/vectorization.h>
 
+#include <deal.II/opencascade/manifold_lib.h>
+#include <deal.II/opencascade/utilities.h>
+#ifdef DEAL_II_WITH_OPENCASCADE
+#  include <TopoDS.hxx>
+#endif
+
+#include <deal.II/grid/grid_generator.h>
+#include <deal.II/grid/grid_in.h>
 
 template <int dim, typename Number>
 VectorizedArray<Number>
@@ -135,6 +143,88 @@ make_coefficient_table(
       (*coefficient_table)(cell, 0) = average_value;
     }
   return coefficient_table;
+}
+
+
+template <int dim, int spacedim>
+void
+read_grid_and_cad_files(const std::string &           grid_file_name,
+                        const std::string &           ids_and_cad_file_names,
+                        Triangulation<dim, spacedim> &tria)
+{
+  GridIn<dim, spacedim> grid_in;
+  grid_in.attach_triangulation(tria);
+  grid_in.read(grid_file_name);
+
+  // If we got to this point, then the Triangulation has been read, and we are
+  // ready to attach to it the correct manifold descriptions. We perform the
+  // next lines of code only if deal.II has been built with OpenCASCADE
+  // support. For each entry in the map, we try to open the corresponding CAD
+  // file, we analyze it, and according to its content, opt for either a
+  // OpenCASCADE::ArcLengthProjectionLineManifold (if the CAD file contains a
+  // single `TopoDS_Edge` or a single `TopoDS_Wire`) or a
+  // OpenCASCADE::NURBSPatchManifold, if the file contains a single face.
+  // Notice that if the CAD files do not contain single wires, edges, or
+  // faces, an assertion will be throw in the generation of the Manifold.
+  //
+  // We use the Patterns::Tools::Convert class to do the conversion from the
+  // string to a map between manifold ids and file names for us:
+#ifdef DEAL_II_WITH_OPENCASCADE
+  using map_type  = std::map<types::manifold_id, std::string>;
+  using Converter = Patterns::Tools::Convert<map_type>;
+
+  for (const auto &pair : Converter::to_value(ids_and_cad_file_names))
+    {
+      const auto &manifold_id   = pair.first;
+      const auto &cad_file_name = pair.second;
+
+      const auto extension = boost::algorithm::to_lower_copy(
+        cad_file_name.substr(cad_file_name.find_last_of('.') + 1));
+
+      TopoDS_Shape shape;
+      if (extension == "iges" || extension == "igs")
+        shape = OpenCASCADE::read_IGES(cad_file_name);
+      else if (extension == "step" || extension == "stp")
+        shape = OpenCASCADE::read_STEP(cad_file_name);
+      else
+        AssertThrow(false,
+                    ExcNotImplemented("We found an extension that we "
+                                      "do not recognize as a CAD file "
+                                      "extension. Bailing out."));
+
+      // Now we check how many faces are contained in the `Shape`. OpenCASCADE
+      // is intrinsically 3D, so if this number is zero, we interpret this as
+      // a line manifold, otherwise as a
+      // OpenCASCADE::NormalToMeshProjectionManifold in `spacedim` = 3, or
+      // OpenCASCADE::NURBSPatchManifold in `spacedim` = 2.
+      const auto n_elements = OpenCASCADE::count_elements(shape);
+      if ((std::get<0>(n_elements) == 0))
+        tria.set_manifold(
+          manifold_id,
+          OpenCASCADE::ArclengthProjectionLineManifold<dim, spacedim>(shape));
+      else if (spacedim == 3)
+        {
+          // We use this trick, because
+          // OpenCASCADE::NormalToMeshProjectionManifold is only implemented
+          // for spacedim = 3. The check above makes sure that things actually
+          // work correctly.
+          const auto t = reinterpret_cast<Triangulation<dim, 3> *>(&tria);
+          t->set_manifold(manifold_id,
+                          OpenCASCADE::NormalToMeshProjectionManifold<dim, 3>(
+                            shape));
+        }
+      else
+        // We also allow surface descriptions in two dimensional spaces based
+        // on single NURBS patches. For this to work, the CAD file must
+        // contain a single `TopoDS_Face`.
+        tria.set_manifold(manifold_id,
+                          OpenCASCADE::NURBSPatchManifold<dim, spacedim>(
+                            TopoDS::Face(shape)));
+    }
+#else
+  (void)ids_and_cad_file_names;
+  AssertThrow(false, ExcNotImplemented("Generation of the grid failed."));
+#endif
 }
 
 

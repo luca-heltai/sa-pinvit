@@ -58,17 +58,47 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
   , coefficient("Coefficient")
   , rhs("Forcing term")
 {
-  this->add_parameter("n_steps",
-                      n_steps,
-                      "Number of adaptive refinement steps.");
-  this->add_parameter("smoother dampen",
-                      smoother_dampen,
-                      "Dampen factor for the smoother.");
-  this->add_parameter("smoother steps",
-                      smoother_steps,
-                      "Number of smoother steps.");
-  this->add_parameter("output", output, "Output graphical results.");
-  this->add_parameter("degree", degree, "Degree of the finite element space.");
+  add_parameter("n_steps", n_steps, "Number of adaptive refinement steps.");
+  add_parameter("smoother dampen",
+                smoother_dampen,
+                "Dampen factor for the smoother.");
+  add_parameter("smoother steps", smoother_steps, "Number of smoother steps.");
+  add_parameter("degree", degree, "Degree of the finite element space.");
+  add_parameter(
+    "Output directory",
+    output_directory,
+    "Directory where we want to save output files. Leave empty for no output.");
+
+  enter_my_subsection(this->prm);
+  this->prm.enter_subsection("Grid parameters");
+  {
+    this->prm.add_parameter("Grid generator", name_of_grid);
+    this->prm.add_parameter("Grid generator arguments", arguments_for_grid);
+    this->prm.add_parameter("Initial refinement",
+                            initial_refinement,
+                            "Initial refinement of the triangulation.");
+    this->prm.add_parameter("Refinement strategy",
+                            refinement_strategy,
+                            "",
+                            Patterns::Selection(
+                              "fixed_fraction|fixed_number|global"));
+    this->prm.add_parameter(
+      "Grid output filename",
+      coarse_grid_output_filename,
+      "Leave empty if you don't want to save coarse grid.");
+
+    add_parameter(
+      "Homogeneous Dirichlet boundary ids",
+      homogeneous_dirichlet_ids,
+      "Boundary Ids over which homogeneous Dirichlet boundary conditions are applied");
+  }
+  this->prm.leave_subsection();
+  leave_my_subsection(this->prm);
+
+  coefficient.declare_parameters_call_back.connect(
+    [&]() { this->prm.set("Function expression", "1"); });
+  rhs.declare_parameters_call_back.connect(
+    [&]() { this->prm.set("Function expression", "1"); });
 }
 
 template <int dim>
@@ -117,11 +147,30 @@ LaplaceProblem<dim, degree>::LaplaceProblem(
   , fe(degree)
   , dof_handler(triangulation)
   , computing_timer(pcout, TimerOutput::never, TimerOutput::wall_times)
-{
-  GridGenerator::hyper_L(triangulation, -1., 1., /*colorize*/ false);
-  triangulation.refine_global(1);
-}
+{}
 
+
+
+template <int dim, int degree>
+void
+LaplaceProblem<dim, degree>::make_grid()
+{
+  TimerOutput::Scope timing(computing_timer, "Make grid");
+  try
+    {
+      GridGenerator::generate_from_name_and_arguments(
+        triangulation, settings.name_of_grid, settings.arguments_for_grid);
+    }
+  catch (...)
+    {
+      pcout << "Generating from name and argument failed." << std::endl
+            << "Trying to read from file name." << std::endl;
+      read_grid_and_cad_files(settings.name_of_grid,
+                              settings.arguments_for_grid,
+                              triangulation);
+    }
+  triangulation.refine_global(settings.initial_refinement);
+}
 
 template <int dim, int degree>
 void
@@ -564,8 +613,17 @@ LaplaceProblem<dim, degree>::refine_grid()
   TimerOutput::Scope timing(computing_timer, "Refine grid");
 
   const double refinement_fraction = 1. / (std::pow(2.0, dim) - 1.);
-  parallel::distributed::GridRefinement::refine_and_coarsen_fixed_number(
-    triangulation, estimated_error_square_per_cell, refinement_fraction, 0.0);
+  if (settings.refinement_strategy == "fixed_number")
+    parallel::distributed::GridRefinement::refine_and_coarsen_fixed_number(
+      triangulation, estimated_error_square_per_cell, refinement_fraction, 0.0);
+  else if (settings.refinement_strategy == "fixed_fraction")
+    parallel::distributed::GridRefinement::refine_and_coarsen_fixed_fraction(
+      triangulation, estimated_error_square_per_cell, refinement_fraction, 0.0);
+  else if (settings.refinement_strategy == "global")
+    for (const auto &cell : triangulation.active_cell_iterators())
+      cell->set_refine_flag();
+  else
+    Assert(false, ExcInternalError("Unknown refinement strategy."));
 
   triangulation.execute_coarsening_and_refinement();
 }
@@ -607,10 +665,23 @@ LaplaceProblem<dim, degree>::output_results(const unsigned int cycle)
 
   data_out.build_patches();
 
-  const std::string pvtu_filename = data_out.write_vtu_with_pvtu_record(
-    "", "solution", cycle, mpi_communicator, 2 /*n_digits*/, 1 /*n_groups*/);
+  const std::string pvtu_filename =
+    data_out.write_vtu_with_pvtu_record(settings.output_directory,
+                                        "solution",
+                                        cycle,
+                                        mpi_communicator,
+                                        2 /*n_digits*/,
+                                        1 /*n_groups*/);
 
   pcout << "   Wrote " << pvtu_filename << std::endl;
+
+  if (Utilities::MPI::this_mpi_process(mpi_communicator) == 0)
+    {
+      static std::vector<std::pair<double, std::string>> times_and_names;
+      times_and_names.push_back(std::make_pair((double)cycle, pvtu_filename));
+      std::ofstream pvd_output(settings.output_directory + "solution.pvd");
+      DataOutBase::write_pvd_record(pvd_output, times_and_names);
+    }
 }
 
 
@@ -625,7 +696,9 @@ LaplaceProblem<dim, degree>::run()
   for (unsigned int cycle = 0; cycle < settings.n_steps; ++cycle)
     {
       pcout << "Cycle " << cycle << ':' << std::endl;
-      if (cycle > 0)
+      if (cycle == 0)
+        make_grid();
+      else
         refine_grid();
 
       pcout << "   Number of active cells:       "
@@ -659,7 +732,7 @@ LaplaceProblem<dim, degree>::run()
       solve();
       estimate();
 
-      if (settings.output)
+      if (settings.output_directory != "")
         output_results(cycle);
 
       computing_timer.print_summary();

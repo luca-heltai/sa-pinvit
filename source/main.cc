@@ -29,6 +29,12 @@ main(int argc, char *argv[])
   std::string filename = (argc > 1) ? (argv[1]) : "parameters.prm";
   ParameterAcceptor::initialize(filename, "used_" + filename);
 
+  if (settings.output_directory != "")
+    ParameterAcceptor::prm.print_parameters(settings.output_directory +
+                                              "parameters.prm",
+                                            ParameterHandler::Short);
+
+
   try
     {
       switch (settings.degree)

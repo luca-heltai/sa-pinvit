@@ -11,14 +11,14 @@ using namespace dealii;
 
 /* Default parameter file:
 
-set degree          = 2
-set n_steps         = 10
-set output          = true
-set smoother dampen = 1
-set smoother steps  = 1
+set Output directory =
+set degree           = 2
+set n_steps          = 10
+set smoother dampen  = 1
+set smoother steps   = 1
 subsection Coefficient
   set Function constants  =
-  set Function expression = 0
+  set Function expression = 1
   set Variable names      = x,y,t
 end
 subsection Exact solution
@@ -28,8 +28,16 @@ subsection Exact solution
 end
 subsection Forcing term
   set Function constants  =
-  set Function expression = 0
+  set Function expression = 1
   set Variable names      = x,y,t
+end
+subsection Grid parameters
+  set Grid generator                     = hyper_L
+  set Grid generator arguments           = -1.: 1.: false
+  set Grid output filename               =
+  set Homogeneous Dirichlet boundary ids = 0
+  set Initial refinement                 = 1
+  set Refinement strategy                = fixed_number
 end
 
 */
@@ -51,11 +59,6 @@ TEST_F(TestBench2D, CheckStandardSettings)
 TEST_F(TestBench2D, CheckFunctionSettings)
 {
   setup(R"(
-    set degree          = 2
-    set n_steps         = 10
-    set output          = true
-    set smoother dampen = 1
-    set smoother steps  = 1
     subsection Coefficient
       set Function constants  = 
       set Function expression = x+y
