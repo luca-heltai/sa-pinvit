@@ -85,7 +85,7 @@ public:
   //! By default, we create a hyper_L without colorization, and we use
   // homogeneous Dirichlet boundary conditions. In this set we store the
   // boundary ids to use when setting the boundary conditions:
-  std::list<types::boundary_id> homogeneous_dirichlet_ids{0};
+  std::set<types::boundary_id> homogeneous_dirichlet_ids{0};
 
   std::string name_of_grid       = "hyper_L";
   std::string arguments_for_grid = "-1.: 1.: false";
