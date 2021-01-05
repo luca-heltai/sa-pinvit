@@ -5,7 +5,7 @@ var class_laplace_problem_settings =
     [ "coefficient", "class_laplace_problem_settings.html#aa7fac4d6430147d81ef0cd5d1a5056b9", null ],
     [ "degree", "class_laplace_problem_settings.html#a3bf8fc3dba074753afaedb9e683f92bc", null ],
     [ "exact", "class_laplace_problem_settings.html#a384e93ef2960b8bbdb63a61fc0e9859c", null ],
-    [ "homogeneous_dirichlet_ids", "class_laplace_problem_settings.html#acd4104e867c68c8e79922b79e58a2d9d", null ],
+    [ "homogeneous_dirichlet_ids", "class_laplace_problem_settings.html#a24a985b6ff7ea7c4e04cb9e67a75bea9", null ],
     [ "initial_refinement", "class_laplace_problem_settings.html#abc42cc30490d69f0efba4be716e47407", null ],
     [ "n_steps", "class_laplace_problem_settings.html#a576fa94438e51f6504d6111393367467", null ],
     [ "name_of_grid", "class_laplace_problem_settings.html#a2cef191ad654e119ca42819e162367f7", null ],
