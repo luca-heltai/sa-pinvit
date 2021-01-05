@@ -52,54 +52,6 @@
 
 using namespace dealii;
 
-template <int dim>
-LaplaceProblemSettings<dim>::LaplaceProblemSettings()
-  : ParameterAcceptor("/")
-  , exact("Exact solution")
-  , coefficient("Coefficient")
-  , rhs("Forcing term")
-{
-  add_parameter("n_steps", n_steps, "Number of adaptive refinement steps.");
-  add_parameter("smoother dampen",
-                smoother_dampen,
-                "Dampen factor for the smoother.");
-  add_parameter("smoother steps", smoother_steps, "Number of smoother steps.");
-  add_parameter("degree", degree, "Degree of the finite element space.");
-  add_parameter(
-    "Output directory",
-    output_directory,
-    "Directory where we want to save output files. Leave empty for no output.");
-
-  enter_my_subsection(this->prm);
-  this->prm.enter_subsection("Grid parameters");
-  {
-    this->prm.add_parameter("Grid generator", name_of_grid);
-    this->prm.add_parameter("Grid generator arguments", arguments_for_grid);
-    this->prm.add_parameter("Initial refinement",
-                            initial_refinement,
-                            "Initial refinement of the triangulation.");
-    this->prm.add_parameter("Refinement strategy",
-                            refinement_strategy,
-                            "",
-                            Patterns::Selection(
-                              "fixed_fraction|fixed_number|global"));
-
-
-    add_parameter(
-      "Homogeneous Dirichlet boundary ids",
-      homogeneous_dirichlet_ids,
-      "Boundary Ids over which homogeneous Dirichlet boundary conditions are applied");
-  }
-  this->prm.leave_subsection();
-  leave_my_subsection(this->prm);
-
-  coefficient.declare_parameters_call_back.connect(
-    [&]() { this->prm.set("Function expression", "1"); });
-  rhs.declare_parameters_call_back.connect(
-    [&]() { this->prm.set("Function expression", "1"); });
-}
-
-
 template <int dim, int degree>
 LaplaceProblem<dim, degree>::LaplaceProblem(
   const LaplaceProblemSettings<dim> &settings)
@@ -143,6 +95,7 @@ LaplaceProblem<dim, degree>::make_grid()
       go.write_vtk(triangulation, outfile);
     }
   triangulation.refine_global(settings.initial_refinement);
+  print_grid_info();
 }
 
 template <int dim, int degree>
@@ -161,24 +114,52 @@ LaplaceProblem<dim, degree>::setup_system()
   constraints.reinit(locally_relevant_dofs);
   DoFTools::make_hanging_node_constraints(dof_handler, constraints);
 
-  VectorTools::interpolate_boundary_values(
-    mapping, dof_handler, 0, Functions::ZeroFunction<dim>(), constraints);
+  for (const auto id : settings.homogeneous_dirichlet_ids)
+    VectorTools::interpolate_boundary_values(
+      mapping, dof_handler, id, Functions::ZeroFunction<dim>(), constraints);
   constraints.close();
 
-  typename MatrixFree<dim, double>::AdditionalData additional_data;
-  additional_data.tasks_parallel_scheme =
-    MatrixFree<dim, double>::AdditionalData::none;
-  additional_data.mapping_update_flags =
-    (update_gradients | update_JxW_values | update_quadrature_points);
-  std::shared_ptr<MatrixFree<dim, double>> mf_storage =
-    std::make_shared<MatrixFree<dim, double>>();
-  mf_storage->reinit(
-    mapping, dof_handler, constraints, QGauss<1>(degree + 1), additional_data);
+  // Initialize matrix free stiffness
+  {
+    typename MatrixFree<dim, double>::AdditionalData additional_data;
+    additional_data.tasks_parallel_scheme =
+      MatrixFree<dim, double>::AdditionalData::none;
+    additional_data.mapping_update_flags =
+      (update_gradients | update_JxW_values | update_quadrature_points);
+    std::shared_ptr<MatrixFree<dim, double>> mf_storage =
+      std::make_shared<MatrixFree<dim, double>>();
+    mf_storage->reinit(mapping,
+                       dof_handler,
+                       constraints,
+                       QGauss<1>(degree + 1),
+                       additional_data);
 
-  mf_system_matrix.initialize(mf_storage);
+    mf_system_matrix.initialize(mf_storage);
 
-  mf_system_matrix.set_coefficient(
-    make_coefficient_table(settings.coefficient, *mf_storage));
+    mf_system_matrix.set_coefficient(
+      make_coefficient_table(settings.coefficient, *mf_storage));
+  }
+
+  // Initialize matrix free mass, only for eivengalue calculations
+  if (settings.problem_type == "eigenvalues")
+    {
+      AffineConstraints<double> empty_constraints;
+      empty_constraints.close();
+      typename MatrixFree<dim, double>::AdditionalData additional_data;
+      additional_data.tasks_parallel_scheme =
+        MatrixFree<dim, double>::AdditionalData::none;
+      additional_data.mapping_update_flags =
+        (update_values | update_JxW_values);
+      std::shared_ptr<MatrixFree<dim, double>> mf_storage =
+        std::make_shared<MatrixFree<dim, double>>();
+      mf_storage->reinit(mapping,
+                         dof_handler,
+                         empty_constraints,
+                         QGauss<1>(degree + 1),
+                         additional_data);
+
+      mf_mass_matrix.initialize(mf_storage);
+    }
 }
 
 
@@ -199,8 +180,10 @@ LaplaceProblem<dim, degree>::setup_multigrid()
 
   const unsigned int n_levels = triangulation.n_global_levels();
 
-
   mf_mg_matrix.resize(0, n_levels - 1);
+
+  if (settings.problem_type == "eigenvalues")
+    mf_mg_mass_matrix.resize(0, n_levels - 1);
 
   for (unsigned int level = 0; level < n_levels; ++level)
     {
@@ -208,35 +191,76 @@ LaplaceProblem<dim, degree>::setup_multigrid()
       DoFTools::extract_locally_relevant_level_dofs(dof_handler,
                                                     level,
                                                     relevant_dofs);
-      AffineConstraints<double> level_constraints;
-      level_constraints.reinit(relevant_dofs);
-      level_constraints.add_lines(
-        mg_constrained_dofs.get_boundary_indices(level));
-      level_constraints.close();
+      // Stiffness level matrices
+      {
+        AffineConstraints<double> level_constraints;
+        level_constraints.reinit(relevant_dofs);
+        level_constraints.add_lines(
+          mg_constrained_dofs.get_boundary_indices(level));
+        level_constraints.close();
+        typename MatrixFree<dim, float>::AdditionalData additional_data;
+        additional_data.tasks_parallel_scheme =
+          MatrixFree<dim, float>::AdditionalData::none;
+        additional_data.mapping_update_flags =
+          (update_gradients | update_JxW_values | update_quadrature_points);
+        additional_data.mg_level = level;
+        std::shared_ptr<MatrixFree<dim, float>> mf_storage_level(
+          new MatrixFree<dim, float>());
+        mf_storage_level->reinit(mapping,
+                                 dof_handler,
+                                 level_constraints,
+                                 QGauss<1>(degree + 1),
+                                 additional_data);
 
-      typename MatrixFree<dim, float>::AdditionalData additional_data;
-      additional_data.tasks_parallel_scheme =
-        MatrixFree<dim, float>::AdditionalData::none;
-      additional_data.mapping_update_flags =
-        (update_gradients | update_JxW_values | update_quadrature_points);
-      additional_data.mg_level = level;
-      std::shared_ptr<MatrixFree<dim, float>> mf_storage_level(
-        new MatrixFree<dim, float>());
-      mf_storage_level->reinit(mapping,
-                               dof_handler,
-                               level_constraints,
-                               QGauss<1>(degree + 1),
-                               additional_data);
+        mf_mg_matrix[level].initialize(mf_storage_level,
+                                       mg_constrained_dofs,
+                                       level);
 
-      mf_mg_matrix[level].initialize(mf_storage_level,
-                                     mg_constrained_dofs,
-                                     level);
+        mf_mg_matrix[level].set_coefficient(
+          make_coefficient_table(settings.coefficient, *mf_storage_level));
 
-      mf_mg_matrix[level].set_coefficient(
-        make_coefficient_table(settings.coefficient, *mf_storage_level));
+        mf_mg_matrix[level].compute_diagonal();
+      }
 
-      mf_mg_matrix[level].compute_diagonal();
+      //  mass level matrices
+      if (settings.problem_type == "eigenvalues")
+        {
+          mg_constrained_mass_dofs.clear();
+          mg_constrained_mass_dofs.initialize(dof_handler);
+
+          AffineConstraints<double> level_constraints_empty;
+          level_constraints_empty.reinit(relevant_dofs);
+          level_constraints_empty.close();
+
+          typename MatrixFree<dim, float>::AdditionalData additional_data;
+          additional_data.tasks_parallel_scheme =
+            MatrixFree<dim, float>::AdditionalData::none;
+          additional_data.mapping_update_flags =
+            (update_values | update_JxW_values);
+          additional_data.mg_level = level;
+          std::shared_ptr<MatrixFree<dim, float>> mf_storage_level(
+            new MatrixFree<dim, float>());
+          mf_storage_level->reinit(mapping,
+                                   dof_handler,
+                                   level_constraints_empty,
+                                   QGauss<1>(degree + 1),
+                                   additional_data);
+
+          mf_mg_mass_matrix[level].initialize(mf_storage_level,
+                                              mg_constrained_mass_dofs,
+                                              level);
+
+          mf_mg_mass_matrix[level].compute_diagonal();
+        }
     }
+
+  pcout << "   Number of degrees of freedom: " << dof_handler.n_dofs();
+  pcout << " (by level: ";
+  for (unsigned int level = 0; level < triangulation.n_global_levels(); ++level)
+    pcout << dof_handler.n_dofs(level)
+          << (level == triangulation.n_global_levels() - 1 ? ")" : ", ");
+
+  pcout << std::endl;
 }
 
 
@@ -599,82 +623,102 @@ LaplaceProblem<dim, degree>::refine_grid()
     Assert(false, ExcInternalError("Unknown refinement strategy."));
 
   triangulation.execute_coarsening_and_refinement();
+  print_grid_info();
 }
 
 
-// @sect4{LaplaceProblem::output_results()}
 
-// The output_results() function is similar to the ones found in many of the
-// tutorials (see step-40 for example).
 template <int dim, int degree>
 void
 LaplaceProblem<dim, degree>::output_results(const unsigned int cycle)
 {
-  TimerOutput::Scope timing(computing_timer, "Output results");
-
-  VectorType temp_solution;
-  temp_solution.reinit(locally_owned_dofs,
-                       locally_relevant_dofs,
-                       mpi_communicator);
-  temp_solution = solution;
-
-  DataOut<dim> data_out;
-  data_out.attach_dof_handler(dof_handler);
-  data_out.add_data_vector(temp_solution, "solution");
-
-  Vector<float> subdomain(triangulation.n_active_cells());
-  for (unsigned int i = 0; i < subdomain.size(); ++i)
-    subdomain(i) = triangulation.locally_owned_subdomain();
-  data_out.add_data_vector(subdomain, "subdomain");
-
-  Vector<float> level(triangulation.n_active_cells());
-  for (const auto &cell : triangulation.active_cell_iterators())
-    level(cell->active_cell_index()) = cell->level();
-  data_out.add_data_vector(level, "level");
-
-  if (estimated_error_square_per_cell.size() > 0)
-    data_out.add_data_vector(estimated_error_square_per_cell,
-                             "estimated_error_square_per_cell");
-
-  data_out.build_patches();
-
-  const std::string pvtu_filename =
-    data_out.write_vtu_with_pvtu_record(settings.output_directory,
-                                        "solution",
-                                        cycle,
-                                        mpi_communicator,
-                                        2 /*n_digits*/,
-                                        1 /*n_groups*/);
-
-  pcout << "   Wrote " << pvtu_filename << std::endl;
-
-  GridOut go;
-  auto    grid_name = "level_grid_" + Utilities::int_to_string(cycle, 2);
-  go.write_mesh_per_processor_as_vtu(triangulation,
-                                     settings.output_directory + grid_name,
-                                     true);
-
-  if (Utilities::MPI::this_mpi_process(mpi_communicator) == 0)
+  if (settings.output_directory != "")
     {
-      static std::vector<std::pair<double, std::string>> times_and_names;
-      times_and_names.push_back(std::make_pair((double)cycle, pvtu_filename));
-      std::ofstream pvd_output(settings.output_directory + "solution.pvd");
-      DataOutBase::write_pvd_record(pvd_output, times_and_names);
+      TimerOutput::Scope timing(computing_timer, "Output results");
 
-      static std::vector<std::pair<double, std::string>> times_and_grid_names;
-      times_and_grid_names.push_back(
-        std::make_pair((double)cycle, grid_name + ".pvtu"));
-      std::ofstream pvd_output_grids(settings.output_directory +
-                                     "level_grid.pvd");
-      DataOutBase::write_pvd_record(pvd_output_grids, times_and_grid_names);
+      VectorType temp_solution;
+      temp_solution.reinit(locally_owned_dofs,
+                           locally_relevant_dofs,
+                           mpi_communicator);
+      temp_solution = solution;
+
+      DataOut<dim> data_out;
+      data_out.attach_dof_handler(dof_handler);
+      data_out.add_data_vector(temp_solution, "solution");
+
+      Vector<float> subdomain(triangulation.n_active_cells());
+      for (unsigned int i = 0; i < subdomain.size(); ++i)
+        subdomain(i) = triangulation.locally_owned_subdomain();
+      data_out.add_data_vector(subdomain, "subdomain");
+
+      Vector<float> level(triangulation.n_active_cells());
+      for (const auto &cell : triangulation.active_cell_iterators())
+        level(cell->active_cell_index()) = cell->level();
+      data_out.add_data_vector(level, "level");
+
+      if (estimated_error_square_per_cell.size() > 0)
+        data_out.add_data_vector(estimated_error_square_per_cell,
+                                 "estimated_error_square_per_cell");
+
+      data_out.build_patches();
+
+      const std::string pvtu_filename =
+        data_out.write_vtu_with_pvtu_record(settings.output_directory,
+                                            "solution",
+                                            cycle,
+                                            mpi_communicator,
+                                            2 /*n_digits*/,
+                                            1 /*n_groups*/);
+
+      pcout << "   Wrote " << pvtu_filename << std::endl;
+
+      GridOut go;
+      auto    grid_name = "level_grid_" + Utilities::int_to_string(cycle, 2);
+      go.write_mesh_per_processor_as_vtu(triangulation,
+                                         settings.output_directory + grid_name,
+                                         true);
+
+      if (Utilities::MPI::this_mpi_process(mpi_communicator) == 0)
+        {
+          static std::vector<std::pair<double, std::string>> times_and_names;
+          times_and_names.push_back(
+            std::make_pair((double)cycle, pvtu_filename));
+          std::ofstream pvd_output(settings.output_directory + "solution.pvd");
+          DataOutBase::write_pvd_record(pvd_output, times_and_names);
+
+          static std::vector<std::pair<double, std::string>>
+            times_and_grid_names;
+          times_and_grid_names.push_back(
+            std::make_pair((double)cycle, grid_name + ".pvtu"));
+          std::ofstream pvd_output_grids(settings.output_directory +
+                                         "level_grid.pvd");
+          DataOutBase::write_pvd_record(pvd_output_grids, times_and_grid_names);
+        }
     }
 }
 
 
-// @sect4{LaplaceProblem::run()}
 
-// As in most tutorials, this function calls the various functions defined
-// above to setup, assemble, solve, and output the results.
+template <int dim, int degree>
+void
+LaplaceProblem<dim, degree>::print_grid_info() const
+{
+  pcout << "   Number of active cells:       "
+        << triangulation.n_global_active_cells();
+
+  // We only output level cell data for the GMG methods (same with DoF
+  // data below). Note that the partition efficiency is irrelevant for AMG
+  // since the level hierarchy is not distributed or used during the
+  // computation.
+  pcout << " (" << triangulation.n_global_levels() << " global levels)"
+        << std::endl
+        << "   Partition efficiency:         "
+        << 1.0 / MGTools::workload_imbalance(triangulation);
+  pcout << std::endl;
+}
+
+
+
 template <int dim, int degree>
 void
 LaplaceProblem<dim, degree>::run()
@@ -687,47 +731,22 @@ LaplaceProblem<dim, degree>::run()
       else
         refine_grid();
 
-      pcout << "   Number of active cells:       "
-            << triangulation.n_global_active_cells();
-
-      // We only output level cell data for the GMG methods (same with DoF
-      // data below). Note that the partition efficiency is irrelevant for AMG
-      // since the level hierarchy is not distributed or used during the
-      // computation.
-      pcout << " (" << triangulation.n_global_levels() << " global levels)"
-            << std::endl
-            << "   Partition efficiency:         "
-            << 1.0 / MGTools::workload_imbalance(triangulation);
-      pcout << std::endl;
-
       setup_system();
 
       setup_multigrid();
 
-      pcout << "   Number of degrees of freedom: " << dof_handler.n_dofs();
-      pcout << " (by level: ";
-      for (unsigned int level = 0; level < triangulation.n_global_levels();
-           ++level)
-        pcout << dof_handler.n_dofs(level)
-              << (level == triangulation.n_global_levels() - 1 ? ")" : ", ");
-
-      pcout << std::endl;
-
       assemble_rhs();
 
       solve();
+
       estimate();
 
-      if (settings.output_directory != "")
-        output_results(cycle);
+      output_results(cycle);
 
       computing_timer.print_summary();
       computing_timer.reset();
     }
 }
-
-template class LaplaceProblemSettings<2>;
-template class LaplaceProblemSettings<3>;
 
 // degree 1
 template class LaplaceProblem<2, 1>;

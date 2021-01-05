@@ -34,7 +34,6 @@ end
 subsection Grid parameters
   set Grid generator                     = hyper_L
   set Grid generator arguments           = -1.: 1.: false
-  set Grid output filename               =
   set Homogeneous Dirichlet boundary ids = 0
   set Initial refinement                 = 1
   set Refinement strategy                = fixed_number

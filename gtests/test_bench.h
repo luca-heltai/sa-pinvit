@@ -6,6 +6,26 @@ using namespace dealii;
 template <int dim, int degree>
 class TestBench : public ::testing::Test
 {
+public:
+  using VectorType         = LA::MPI::Vector;
+  using PreconditionAMG    = LA::MPI::PreconditionAMG;
+  using PreconditionJacobi = LA::MPI::PreconditionJacobi;
+
+  using MatrixFreeLevelVector  = LinearAlgebra::distributed::Vector<float>;
+  using MatrixFreeActiveVector = LinearAlgebra::distributed::Vector<double>;
+
+  using MatrixFreeLevelMatrix = MatrixFreeOperators::
+    LaplaceOperator<dim, degree, degree + 1, 1, MatrixFreeLevelVector>;
+
+  using MatrixFreeActiveMatrix = MatrixFreeOperators::
+    LaplaceOperator<dim, degree, degree + 1, 1, MatrixFreeActiveVector>;
+
+  using MatrixFreeLevelMassMatrix = MatrixFreeOperators::
+    MassOperator<dim, degree, degree + 1, 1, MatrixFreeLevelVector>;
+
+  using MatrixFreeActiveMassMatrix = MatrixFreeOperators::
+    MassOperator<dim, degree, degree + 1, 1, MatrixFreeActiveVector>;
+
 protected:
   ParameterHandler &          prm = ParameterAcceptor::prm;
   LaplaceProblemSettings<dim> settings;
