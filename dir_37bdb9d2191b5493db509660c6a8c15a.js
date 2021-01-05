@@ -5,5 +5,6 @@ var dir_37bdb9d2191b5493db509660c6a8c15a =
       [ "CopyData", "struct_copy_data.html", "struct_copy_data" ],
       [ "FaceData", "struct_copy_data_1_1_face_data.html", "struct_copy_data_1_1_face_data" ]
     ] ],
+    [ "laplace_problem_settings.cc", "laplace__problem__settings_8cc.html", null ],
     [ "main.cc", "main_8cc.html", "main_8cc" ]
 ];

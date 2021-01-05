@@ -10,6 +10,7 @@ var class_laplace_problem_settings =
     [ "n_steps", "class_laplace_problem_settings.html#a576fa94438e51f6504d6111393367467", null ],
     [ "name_of_grid", "class_laplace_problem_settings.html#a2cef191ad654e119ca42819e162367f7", null ],
     [ "output_directory", "class_laplace_problem_settings.html#a8bde878fb9a223fd66e9649e3c65cb7d", null ],
+    [ "problem_type", "class_laplace_problem_settings.html#ad1111c74be0627544d5655e8557acf5b", null ],
     [ "refinement_strategy", "class_laplace_problem_settings.html#a202549583a7084c05db050b8af763f90", null ],
     [ "rhs", "class_laplace_problem_settings.html#abd2121df675121a7ff2dba9308849ee2", null ],
     [ "smoother_dampen", "class_laplace_problem_settings.html#a9525098d66459fe0f624c1b8d1874923", null ],
