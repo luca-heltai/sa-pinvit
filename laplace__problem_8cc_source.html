@@ -298,8 +298,8 @@ $(document).ready(function(){initNavTree('laplace__problem_8cc_source.html','');
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  mg_constrained_dofs.clear();</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  mg_constrained_dofs.initialize(dof_handler);</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="keyword">const</span> std::set&lt;types::boundary_id&gt; boundary_ids = {<a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacetypes.html#aed8813fee8c8a2edcc6005e6a48c321a">types::boundary_id</a>(0)};</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  mg_constrained_dofs.make_zero_boundary_constraints(dof_handler, boundary_ids);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  mg_constrained_dofs.make_zero_boundary_constraints(</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    dof_handler, settings.homogeneous_dirichlet_ids);</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n_levels = <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>.n_global_levels();</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
@@ -903,7 +903,6 @@ $(document).ready(function(){initNavTree('laplace__problem_8cc_source.html','');
 <div class="ttc" id="anamespacePhysics_1_1Elasticity_1_1Kinematics_html_a9587d5229555daa5b1fa1ba2f8a40adb"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a9587d5229555daa5b1fa1ba2f8a40adb">e</a></div><div class="ttdeci">SymmetricTensor&lt; 2, dim, Number &gt; e(const Tensor&lt; 2, dim, Number &gt; &amp;F)</div></div>
 <div class="ttc" id="aclassGridOut_html_a6b72484c35abc1f84abb8bf1bc1048dc"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/classGridOut.html#a6b72484c35abc1f84abb8bf1bc1048dc">GridOut::write_vtk</a></div><div class="ttdeci">void write_vtk(const Triangulation&lt; dim, spacedim &gt; &amp;tria, std::ostream &amp;out) const</div></div>
 <div class="ttc" id="aclassMatrixFree_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/classMatrixFree.html">MatrixFree</a></div></div>
-<div class="ttc" id="anamespacetypes_html_aed8813fee8c8a2edcc6005e6a48c321a"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/namespacetypes.html#aed8813fee8c8a2edcc6005e6a48c321a">types::boundary_id</a></div><div class="ttdeci">unsigned int boundary_id</div></div>
 <div class="ttc" id="astruct_copy_data_1_1_face_data_html"><div class="ttname"><a href="struct_copy_data_1_1_face_data.html">CopyData::FaceData</a></div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l00432">laplace_problem.cc:433</a></div></div>
 <div class="ttc" id="anamespacemg_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/namespacemg.html">mg</a></div></div>
 <div class="ttc" id="aclassDataOutInterface_html_a0864e51eb173c87e2a3edc9391ea8009"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/classDataOutInterface.html#a0864e51eb173c87e2a3edc9391ea8009">DataOut&lt; dim &gt;::write_vtu_with_pvtu_record</a></div><div class="ttdeci">std::string write_vtu_with_pvtu_record(const std::string &amp;directory, const std::string &amp;filename_without_extension, const unsigned int counter, const MPI_Comm &amp;mpi_communicator, const unsigned int n_digits_for_counter=numbers::invalid_unsigned_int, const unsigned int n_groups=0) const</div></div>
@@ -1058,7 +1057,7 @@ $(document).ready(function(){initNavTree('laplace__problem_8cc_source.html','');
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_aa394cd1d9abb8ffe941d9aaafca8d03.html">github</a></li><li class="navelem"><a class="el" href="dir_c52569aa89a7adbb6029022c2fa60a11.html">workspace</a></li><li class="navelem"><a class="el" href="dir_37bdb9d2191b5493db509660c6a8c15a.html">source</a></li><li class="navelem"><a class="el" href="laplace__problem_8cc.html">laplace_problem.cc</a></li>
-    <li class="footer">Generated on Mon Jan 4 2021 17:50:45 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Tue Jan 5 2021 09:01:01 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>
