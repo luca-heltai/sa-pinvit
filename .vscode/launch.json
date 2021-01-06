@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "gtest executable",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build${env:BUILD_POSTFIX}/gtests/gtests.g",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build${env:BUILD_POSTFIX}/gtests/",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
