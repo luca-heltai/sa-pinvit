@@ -1,5 +1,6 @@
 var utilities_8h =
 [
+    [ "compute_rayleigh_quotient", "utilities_8h.html#a5bf739a65c56530cb71868e22abdc007", null ],
     [ "copy", "utilities_8h.html#a8336206bc102d6f0697e9ea4d84135b4", null ],
     [ "copy", "utilities_8h.html#ab02c2aab844dac4c888a76aa68cba3e7", null ],
     [ "evaluate_function", "utilities_8h.html#ab1c2c0129e3d8177d2c5871507855e18", null ],
