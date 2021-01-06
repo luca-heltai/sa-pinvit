@@ -209,11 +209,11 @@ read_grid_and_cad_files(const std::string &           grid_file_name,
 }
 
 
-template <class VectorType, class MatrixType>
+template <class VectorType, class StiffnessMatrixType, class MassMatrixType>
 typename VectorType::value_type
-compute_rayleigh_quotient(const MatrixType &stiffness_matrix,
-                          const MatrixType &mass_matrix,
-                          const VectorType &vector)
+compute_rayleigh_quotient(const StiffnessMatrixType &stiffness_matrix,
+                          const MassMatrixType &     mass_matrix,
+                          const VectorType &         vector)
 {
   VectorType dst_tmp(vector);
   stiffness_matrix.vmult(dst_tmp, vector);
@@ -223,6 +223,54 @@ compute_rayleigh_quotient(const MatrixType &stiffness_matrix,
   Assert(vtMv > 0.0,
          ExcInternalError("Mass matrix must be positive definite."));
   return vtAv / vtMv;
+}
+
+
+
+template <class VectorType,
+          class StiffnessMatrixType,
+          class MassMatrixType,
+          class PreconditionerType,
+          class ConstraintsType>
+void
+one_step_pinvit(typename VectorType::value_type &mu,
+                VectorType &                     vector,
+                const StiffnessMatrixType &      stiffness_matrix,
+                const MassMatrixType &           mass_matrix,
+                const PreconditionerType &       preconditioner,
+                const ConstraintsType &          constraints)
+{
+  VectorType v1(vector);
+  VectorType v2(vector);
+  // v1 = A v
+  stiffness_matrix.vmult(v1, vector);
+  // v2 = M v
+  mass_matrix.vmult(v2, vector);
+
+  // v^T A v
+  const auto vtAv = vector * v1;
+  // v^T M v
+  const auto vtMv = vector * v2;
+
+  Assert(vtMv > 0.0,
+         ExcInternalError("Mass matrix must be positive definite."));
+
+  // mu(v) = (v^T A v) / (v^T M v)
+  const auto mu_old = vtAv / vtMv;
+
+  // v = v - P^{-1}(A v - mu(v) M v)
+  v2 *= -mu_old;
+  v1 -= v2;
+  preconditioner.vmult(v2, v1);
+  vector -= v2;
+  constraints.distribute(vector);
+
+  mass_matrix.vmult(v2, vector);
+  const auto L2norm = std::sqrt(v2 * vector);
+  vector *= 1 / L2norm;
+
+  stiffness_matrix.vmult(v1, vector);
+  mu = v1 * vector;
 }
 
 

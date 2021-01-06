@@ -15,10 +15,11 @@ public:
 
   std::string problem_type = "source";
 
-  double       smoother_dampen = 1.0;
-  unsigned int smoother_steps  = 1;
-  unsigned int n_steps         = 10;
-  unsigned int degree          = 2;
+  double       smoother_dampen         = 1.0;
+  unsigned int smoother_steps          = 1;
+  unsigned int n_steps                 = 7;
+  unsigned int degree                  = 2;
+  bool         write_high_order_output = true;
 
   unsigned int initial_refinement = 1;
   std::string  output_directory   = "";

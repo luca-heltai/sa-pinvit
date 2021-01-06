@@ -381,26 +381,51 @@ LaplaceProblem<dim, degree>::solve()
     TimerOutput::Scope timing(computing_timer, "Solve: 1 multigrid V-cycle");
     preconditioner.vmult(solution_copy, right_hand_side_copy);
   }
-  solution_copy = 0.;
 
-  // Solve the linear system, update the ghost values of the solution,
-  // copy back to LA::MPI::Vector and distribute constraints.
-  {
-    SolverCG<MatrixFreeActiveVector> solver(solver_control);
+  if (settings.problem_type == "source")
+    {
+      solution_copy = 0.;
+      // Solve the linear system, update the ghost values of the solution,
+      // copy back to LA::MPI::Vector and distribute constraints.
+      {
+        SolverCG<MatrixFreeActiveVector> solver(solver_control);
 
-    TimerOutput::Scope timing(computing_timer, "Solve: CG");
-    solver.solve(stiffness_operator,
-                 solution_copy,
-                 right_hand_side_copy,
-                 preconditioner);
-  }
+        TimerOutput::Scope timing(computing_timer, "Solve: CG");
+        solver.solve(stiffness_operator,
+                     solution_copy,
+                     right_hand_side_copy,
+                     preconditioner);
+      }
 
-  solution_copy.update_ghost_values();
-  ChangeVectorTypes::copy(solution, solution_copy);
-  constraints.distribute(solution);
+      solution_copy.update_ghost_values();
+      ChangeVectorTypes::copy(solution, solution_copy);
+      constraints.distribute(solution);
 
-  pcout << "   Number of CG iterations:      " << solver_control.last_step()
-        << std::endl;
+      pcout << "   Number of CG iterations:      " << solver_control.last_step()
+            << std::endl;
+    }
+  else if (settings.problem_type == "eigenvalues")
+    {
+      // Initial guess for eigenvalue
+      double                 mu = 1;
+      MatrixFreeActiveVector v;
+      stiffness_operator.initialize_dof_vector(v);
+      v = 1.0;
+      constraints.distribute(v);
+      for (unsigned int i = 0; i < 10; ++i)
+        {
+          TimerOutput::Scope timing(computing_timer, "Solve: pinvit steps");
+          one_step_pinvit(mu,
+                          v,
+                          stiffness_operator,
+                          mass_operator,
+                          preconditioner,
+                          constraints);
+          pcout << "mu^(" << i << ") = " << mu << std::endl;
+        }
+      v.update_ghost_values();
+      ChangeVectorTypes::copy(solution, v);
+    }
 }
 
 
@@ -661,7 +686,20 @@ LaplaceProblem<dim, degree>::output_results(const unsigned int cycle)
         data_out.add_data_vector(estimated_error_square_per_cell,
                                  "estimated_error_square_per_cell");
 
-      data_out.build_patches();
+      if (settings.write_high_order_output == true)
+        {
+          DataOutBase::VtkFlags flags;
+          flags.write_higher_order_cells = true;
+          data_out.set_flags(flags);
+          data_out.build_patches(mapping,
+                                 degree,
+                                 DataOut<dim>::curved_inner_cells);
+        }
+      else
+        {
+          data_out.build_patches();
+        }
+
 
       const std::string pvtu_filename =
         data_out.write_vtu_with_pvtu_record(settings.output_directory,

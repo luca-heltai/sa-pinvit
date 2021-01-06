@@ -6,7 +6,8 @@
         "__node_handle": "cpp",
         "optional": "cpp",
         "system_error": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "vector": "cpp"
     },
     "editor.tokenColorCustomizations": {
         "textMateRules": [

@@ -24,6 +24,9 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
     "Output directory",
     output_directory,
     "Directory where we want to save output files. Leave empty for no output.");
+  add_parameter("Write high order output",
+                write_high_order_output,
+                "Write output using high order vtu format.");
 
   enter_my_subsection(this->prm);
   this->prm.enter_subsection("Grid parameters");
