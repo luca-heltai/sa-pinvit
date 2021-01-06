@@ -6,6 +6,7 @@
 #include <type_traits>
 
 #include "test_bench.h"
+#include "utilities.h"
 
 using namespace dealii;
 
@@ -30,24 +31,22 @@ TEST_F(TestBench2D, IntegrateWithMassMatrix)
 
   MatrixFreeActiveVector ones;
   MatrixFreeActiveVector M_ones;
-  pb.mf_mass_matrix.initialize_dof_vector(ones);
-  pb.mf_mass_matrix.initialize_dof_vector(M_ones);
+  pb.mass_operator.initialize_dof_vector(ones);
+  pb.mass_operator.initialize_dof_vector(M_ones);
   ones = 1.0;
 
   // One in each support point: 17*17 = 289
   ASSERT_NEAR(ones.l1_norm(), 289, 1e-10);
 
-  pb.mf_mass_matrix.vmult(M_ones, ones);
+  pb.mass_operator.vmult(M_ones, ones);
   // one = \int_\Omega ones * ones = 1.0
   auto one = M_ones * ones;
   pb.pcout << "one: " << one << std::endl;
 
   ASSERT_NEAR(one, 1.0, 1e-10);
-}
 
+  // Check trivial rayleigh quotient
+  one = compute_rayleigh_quotient(pb.mass_operator, pb.mass_operator, ones);
 
-
-TEST_F(TestBench2D, FakeTest)
-{
-  ASSERT_TRUE(true);
+  ASSERT_NEAR(one, 1.0, 1e-10);
 }

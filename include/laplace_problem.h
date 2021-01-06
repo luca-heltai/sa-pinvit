@@ -136,14 +136,14 @@ public:
   IndexSet                  locally_relevant_dofs;
   AffineConstraints<double> constraints;
 
-  MatrixFreeActiveMatrix     mf_system_matrix;
-  MatrixFreeActiveMassMatrix mf_mass_matrix;
+  MatrixFreeActiveMatrix     stiffness_operator;
+  MatrixFreeActiveMassMatrix mass_operator;
   VectorType                 solution;
   VectorType                 right_hand_side;
   Vector<double>             estimated_error_square_per_cell;
 
-  MGLevelObject<MatrixFreeLevelMatrix>     mf_mg_matrix;
-  MGLevelObject<MatrixFreeLevelMassMatrix> mf_mg_mass_matrix;
+  MGLevelObject<MatrixFreeLevelMatrix>     mg_stiffness_operator;
+  MGLevelObject<MatrixFreeLevelMassMatrix> mg_mass_operator;
   MGConstrainedDoFs                        mg_constrained_dofs;
   MGConstrainedDoFs                        mg_constrained_mass_dofs;
 

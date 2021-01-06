@@ -209,5 +209,21 @@ read_grid_and_cad_files(const std::string &           grid_file_name,
 }
 
 
+template <class VectorType, class MatrixType>
+typename VectorType::value_type
+compute_rayleigh_quotient(const MatrixType &stiffness_matrix,
+                          const MatrixType &mass_matrix,
+                          const VectorType &vector)
+{
+  VectorType dst_tmp(vector);
+  stiffness_matrix.vmult(dst_tmp, vector);
+  const auto vtAv = vector * dst_tmp;
+  mass_matrix.vmult(dst_tmp, vector);
+  const auto vtMv = vector * dst_tmp;
+  Assert(vtMv > 0.0,
+         ExcInternalError("Mass matrix must be positive definite."));
+  return vtAv / vtMv;
+}
+
 
 #endif

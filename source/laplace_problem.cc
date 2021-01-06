@@ -134,9 +134,9 @@ LaplaceProblem<dim, degree>::setup_system()
                        QGauss<1>(degree + 1),
                        additional_data);
 
-    mf_system_matrix.initialize(mf_storage);
+    stiffness_operator.initialize(mf_storage);
 
-    mf_system_matrix.set_coefficient(
+    stiffness_operator.set_coefficient(
       make_coefficient_table(settings.coefficient, *mf_storage));
   }
 
@@ -158,7 +158,7 @@ LaplaceProblem<dim, degree>::setup_system()
                          QGauss<1>(degree + 1),
                          additional_data);
 
-      mf_mass_matrix.initialize(mf_storage);
+      mass_operator.initialize(mf_storage);
     }
 }
 
@@ -180,10 +180,10 @@ LaplaceProblem<dim, degree>::setup_multigrid()
 
   const unsigned int n_levels = triangulation.n_global_levels();
 
-  mf_mg_matrix.resize(0, n_levels - 1);
+  mg_stiffness_operator.resize(0, n_levels - 1);
 
   if (settings.problem_type == "eigenvalues")
-    mf_mg_mass_matrix.resize(0, n_levels - 1);
+    mg_mass_operator.resize(0, n_levels - 1);
 
   for (unsigned int level = 0; level < n_levels; ++level)
     {
@@ -193,7 +193,7 @@ LaplaceProblem<dim, degree>::setup_multigrid()
                                                     relevant_dofs);
       // Stiffness level matrices
       {
-        AffineConstraints<double> level_constraints;
+        AffineConstraints<float> level_constraints;
         level_constraints.reinit(relevant_dofs);
         level_constraints.add_lines(
           mg_constrained_dofs.get_boundary_indices(level));
@@ -212,14 +212,14 @@ LaplaceProblem<dim, degree>::setup_multigrid()
                                  QGauss<1>(degree + 1),
                                  additional_data);
 
-        mf_mg_matrix[level].initialize(mf_storage_level,
-                                       mg_constrained_dofs,
-                                       level);
+        mg_stiffness_operator[level].initialize(mf_storage_level,
+                                                mg_constrained_dofs,
+                                                level);
 
-        mf_mg_matrix[level].set_coefficient(
+        mg_stiffness_operator[level].set_coefficient(
           make_coefficient_table(settings.coefficient, *mf_storage_level));
 
-        mf_mg_matrix[level].compute_diagonal();
+        mg_stiffness_operator[level].compute_diagonal();
       }
 
       //  mass level matrices
@@ -228,7 +228,7 @@ LaplaceProblem<dim, degree>::setup_multigrid()
           mg_constrained_mass_dofs.clear();
           mg_constrained_mass_dofs.initialize(dof_handler);
 
-          AffineConstraints<double> level_constraints_empty;
+          AffineConstraints<float> level_constraints_empty;
           level_constraints_empty.reinit(relevant_dofs);
           level_constraints_empty.close();
 
@@ -246,11 +246,11 @@ LaplaceProblem<dim, degree>::setup_multigrid()
                                    QGauss<1>(degree + 1),
                                    additional_data);
 
-          mf_mg_mass_matrix[level].initialize(mf_storage_level,
-                                              mg_constrained_mass_dofs,
-                                              level);
+          mg_mass_operator[level].initialize(mf_storage_level,
+                                             mg_constrained_mass_dofs,
+                                             level);
 
-          mf_mg_mass_matrix[level].compute_diagonal();
+          mg_mass_operator[level].compute_diagonal();
         }
     }
 
@@ -273,21 +273,21 @@ LaplaceProblem<dim, degree>::assemble_rhs()
 
   MatrixFreeActiveVector solution_copy;
   MatrixFreeActiveVector right_hand_side_copy;
-  mf_system_matrix.initialize_dof_vector(solution_copy);
-  mf_system_matrix.initialize_dof_vector(right_hand_side_copy);
+  stiffness_operator.initialize_dof_vector(solution_copy);
+  stiffness_operator.initialize_dof_vector(right_hand_side_copy);
 
   solution_copy = 0.;
   constraints.distribute(solution_copy);
   solution_copy.update_ghost_values();
   right_hand_side_copy = 0;
   const Table<2, VectorizedArray<double>> &coefficient =
-    *(mf_system_matrix.get_coefficient());
+    *(stiffness_operator.get_coefficient());
 
   FEEvaluation<dim, degree, degree + 1, 1, double> phi(
-    *mf_system_matrix.get_matrix_free());
+    *stiffness_operator.get_matrix_free());
 
   for (unsigned int cell = 0;
-       cell < mf_system_matrix.get_matrix_free()->n_cell_batches();
+       cell < stiffness_operator.get_matrix_free()->n_cell_batches();
        ++cell)
     {
       phi.reinit(cell);
@@ -338,22 +338,23 @@ LaplaceProblem<dim, degree>::solve()
                               SolverCG<MatrixFreeLevelVector>,
                               MatrixFreeLevelMatrix,
                               PreconditionIdentity>
-    coarse_grid_solver(coarse_solver, mf_mg_matrix[0], identity);
+    coarse_grid_solver(coarse_solver, mg_stiffness_operator[0], identity);
 
   using Smoother = dealii::PreconditionJacobi<MatrixFreeLevelMatrix>;
   MGSmootherPrecondition<MatrixFreeLevelMatrix, Smoother, MatrixFreeLevelVector>
     smoother;
-  smoother.initialize(
-    mf_mg_matrix, typename Smoother::AdditionalData(settings.smoother_dampen));
+  smoother.initialize(mg_stiffness_operator,
+                      typename Smoother::AdditionalData(
+                        settings.smoother_dampen));
   smoother.set_steps(settings.smoother_steps);
 
-  mg::Matrix<MatrixFreeLevelVector> mg_m(mf_mg_matrix);
+  mg::Matrix<MatrixFreeLevelVector> mg_m(mg_stiffness_operator);
 
   MGLevelObject<MatrixFreeOperators::MGInterfaceOperator<MatrixFreeLevelMatrix>>
     mg_interface_matrices;
   mg_interface_matrices.resize(0, triangulation.n_global_levels() - 1);
   for (unsigned int level = 0; level < triangulation.n_global_levels(); ++level)
-    mg_interface_matrices[level].initialize(mf_mg_matrix[level]);
+    mg_interface_matrices[level].initialize(mg_stiffness_operator[level]);
   mg::Matrix<MatrixFreeLevelVector> mg_interface(mg_interface_matrices);
 
   Multigrid<MatrixFreeLevelVector> mg(
@@ -368,8 +369,8 @@ LaplaceProblem<dim, degree>::solve()
   // solve.
   MatrixFreeActiveVector solution_copy;
   MatrixFreeActiveVector right_hand_side_copy;
-  mf_system_matrix.initialize_dof_vector(solution_copy);
-  mf_system_matrix.initialize_dof_vector(right_hand_side_copy);
+  stiffness_operator.initialize_dof_vector(solution_copy);
+  stiffness_operator.initialize_dof_vector(right_hand_side_copy);
 
   ChangeVectorTypes::copy(solution_copy, solution);
   ChangeVectorTypes::copy(right_hand_side_copy, right_hand_side);
@@ -388,7 +389,7 @@ LaplaceProblem<dim, degree>::solve()
     SolverCG<MatrixFreeActiveVector> solver(solver_control);
 
     TimerOutput::Scope timing(computing_timer, "Solve: CG");
-    solver.solve(mf_system_matrix,
+    solver.solve(stiffness_operator,
                  solution_copy,
                  right_hand_side_copy,
                  preconditioner);
