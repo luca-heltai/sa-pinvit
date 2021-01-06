@@ -141,29 +141,32 @@ Functions</h2></td></tr>
 <tr class="memitem:a553034346c0de67e14a78f80f57d84e7"><td class="memTemplParams" colspan="2">template&lt;int dim, int spacedim&gt; </td></tr>
 <tr class="memitem:a553034346c0de67e14a78f80f57d84e7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="utilities_8h.html#a553034346c0de67e14a78f80f57d84e7">read_grid_and_cad_files</a> (const std::string &amp;grid_file_name, const std::string &amp;ids_and_cad_file_names, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classTriangulation.html">Triangulation</a>&lt; dim, spacedim &gt; &amp;tria)</td></tr>
 <tr class="separator:a553034346c0de67e14a78f80f57d84e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bf739a65c56530cb71868e22abdc007"><td class="memTemplParams" colspan="2">template&lt;class VectorType , class MatrixType &gt; </td></tr>
-<tr class="memitem:a5bf739a65c56530cb71868e22abdc007"><td class="memTemplItemLeft" align="right" valign="top"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/structFEValuesViews_1_1Tensor_3_012_00_01dim_00_01spacedim_01_4_1_1OutputType.html#a3ace053d7fc569bacdd038b041d17d78">VectorType::value_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="utilities_8h.html#a5bf739a65c56530cb71868e22abdc007">compute_rayleigh_quotient</a> (const MatrixType &amp;stiffness_matrix, const MatrixType &amp;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLocalIntegrators_1_1L2.html#a1c15243765304a803037988b5561627d">mass_matrix</a>, const VectorType &amp;vector)</td></tr>
-<tr class="separator:a5bf739a65c56530cb71868e22abdc007"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34457eaf59366de32ab715be037093b9"><td class="memTemplParams" colspan="2">template&lt;class VectorType , class StiffnessMatrixType , class MassMatrixType &gt; </td></tr>
+<tr class="memitem:a34457eaf59366de32ab715be037093b9"><td class="memTemplItemLeft" align="right" valign="top"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/structFEValuesViews_1_1Tensor_3_012_00_01dim_00_01spacedim_01_4_1_1OutputType.html#a3ace053d7fc569bacdd038b041d17d78">VectorType::value_type</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="utilities_8h.html#a34457eaf59366de32ab715be037093b9">compute_rayleigh_quotient</a> (const StiffnessMatrixType &amp;stiffness_matrix, const MassMatrixType &amp;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLocalIntegrators_1_1L2.html#a1c15243765304a803037988b5561627d">mass_matrix</a>, const VectorType &amp;vector)</td></tr>
+<tr class="separator:a34457eaf59366de32ab715be037093b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0ed3bcbfb71a8029333e578ed5c4a6d"><td class="memTemplParams" colspan="2">template&lt;class VectorType , class StiffnessMatrixType , class MassMatrixType , class PreconditionerType , class ConstraintsType &gt; </td></tr>
+<tr class="memitem:ab0ed3bcbfb71a8029333e578ed5c4a6d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="utilities_8h.html#ab0ed3bcbfb71a8029333e578ed5c4a6d">one_step_pinvit</a> (typename <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/structFEValuesViews_1_1Tensor_3_012_00_01dim_00_01spacedim_01_4_1_1OutputType.html#a3ace053d7fc569bacdd038b041d17d78">VectorType::value_type</a> &amp;mu, VectorType &amp;vector, const StiffnessMatrixType &amp;stiffness_matrix, const MassMatrixType &amp;<a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLocalIntegrators_1_1L2.html#a1c15243765304a803037988b5561627d">mass_matrix</a>, const PreconditionerType &amp;preconditioner, const ConstraintsType &amp;constraints)</td></tr>
+<tr class="separator:ab0ed3bcbfb71a8029333e578ed5c4a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a5bf739a65c56530cb71868e22abdc007"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5bf739a65c56530cb71868e22abdc007">&#9670;&nbsp;</a></span>compute_rayleigh_quotient()</h2>
+<a id="a34457eaf59366de32ab715be037093b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34457eaf59366de32ab715be037093b9">&#9670;&nbsp;</a></span>compute_rayleigh_quotient()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class VectorType , class MatrixType &gt; </div>
+template&lt;class VectorType , class StiffnessMatrixType , class MassMatrixType &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/structFEValuesViews_1_1Tensor_3_012_00_01dim_00_01spacedim_01_4_1_1OutputType.html#a3ace053d7fc569bacdd038b041d17d78">VectorType::value_type</a> compute_rayleigh_quotient </td>
           <td>(</td>
-          <td class="paramtype">const MatrixType &amp;&#160;</td>
+          <td class="paramtype">const StiffnessMatrixType &amp;&#160;</td>
           <td class="paramname"><em>stiffness_matrix</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const MatrixType &amp;&#160;</td>
+          <td class="paramtype">const MassMatrixType &amp;&#160;</td>
           <td class="paramname"><em>mass_matrix</em>, </td>
         </tr>
         <tr>
@@ -298,6 +301,66 @@ template&lt;int dim, typename number &gt; </div>
 
 </div>
 </div>
+<a id="ab0ed3bcbfb71a8029333e578ed5c4a6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0ed3bcbfb71a8029333e578ed5c4a6d">&#9670;&nbsp;</a></span>one_step_pinvit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class VectorType , class StiffnessMatrixType , class MassMatrixType , class PreconditionerType , class ConstraintsType &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void one_step_pinvit </td>
+          <td>(</td>
+          <td class="paramtype">typename <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/structFEValuesViews_1_1Tensor_3_012_00_01dim_00_01spacedim_01_4_1_1OutputType.html#a3ace053d7fc569bacdd038b041d17d78">VectorType::value_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>mu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">VectorType &amp;&#160;</td>
+          <td class="paramname"><em>vector</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const StiffnessMatrixType &amp;&#160;</td>
+          <td class="paramname"><em>stiffness_matrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const MassMatrixType &amp;&#160;</td>
+          <td class="paramname"><em>mass_matrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const PreconditionerType &amp;&#160;</td>
+          <td class="paramname"><em>preconditioner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ConstraintsType &amp;&#160;</td>
+          <td class="paramname"><em>constraints</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="utilities_8h_source.html#l00236">236</a> of file <a class="el" href="utilities_8h_source.html">utilities.h</a>.</p>
+
+<p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#ga70a0bb353656e704acf927945277bbc6">Assert</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#ga31978c026b8b6b5116df30b8e748f6b7">ExcInternalError()</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLocalIntegrators_1_1L2.html#a1c15243765304a803037988b5561627d">mass_matrix()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="laplace__problem_8cc_source.html#l00320">LaplaceProblem&lt; dim, degree &gt;::solve()</a>.</p>
+
+</div>
+</div>
 <a id="a553034346c0de67e14a78f80f57d84e7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a553034346c0de67e14a78f80f57d84e7">&#9670;&nbsp;</a></span>read_grid_and_cad_files()</h2>
 
@@ -346,7 +409,7 @@ template&lt;int dim, int spacedim&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_aa394cd1d9abb8ffe941d9aaafca8d03.html">github</a></li><li class="navelem"><a class="el" href="dir_c52569aa89a7adbb6029022c2fa60a11.html">workspace</a></li><li class="navelem"><a class="el" href="dir_7a95a9cc00fcc7af5a429eec361b64d1.html">include</a></li><li class="navelem"><a class="el" href="utilities_8h.html">utilities.h</a></li>
-    <li class="footer">Generated on Wed Jan 6 2021 12:53:11 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
+    <li class="footer">Generated on Wed Jan 6 2021 17:33:59 for SA-PVINT for Elliptic Boundary Value Problems by <a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20 </li>
   </ul>
 </div>
 </body>

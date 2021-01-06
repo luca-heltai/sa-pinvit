@@ -14,5 +14,6 @@ var class_laplace_problem_settings =
     [ "refinement_strategy", "class_laplace_problem_settings.html#a202549583a7084c05db050b8af763f90", null ],
     [ "rhs", "class_laplace_problem_settings.html#abd2121df675121a7ff2dba9308849ee2", null ],
     [ "smoother_dampen", "class_laplace_problem_settings.html#a9525098d66459fe0f624c1b8d1874923", null ],
-    [ "smoother_steps", "class_laplace_problem_settings.html#a908b40601fd915165db269704550b572", null ]
+    [ "smoother_steps", "class_laplace_problem_settings.html#a908b40601fd915165db269704550b572", null ],
+    [ "write_high_order_output", "class_laplace_problem_settings.html#abd5d0ed14f79f97e93b4ba37ca479aa8", null ]
 ];

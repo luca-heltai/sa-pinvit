@@ -58,6 +58,7 @@ var NAVTREEINDEX0 =
 "class_laplace_problem_settings.html#aa7fac4d6430147d81ef0cd5d1a5056b9":[1,0,2,2],
 "class_laplace_problem_settings.html#abc42cc30490d69f0efba4be716e47407":[1,0,2,6],
 "class_laplace_problem_settings.html#abd2121df675121a7ff2dba9308849ee2":[1,0,2,12],
+"class_laplace_problem_settings.html#abd5d0ed14f79f97e93b4ba37ca479aa8":[1,0,2,15],
 "class_laplace_problem_settings.html#ac9716aafb3b8f72426bf1aa3fadf4b31":[1,0,2,0],
 "class_laplace_problem_settings.html#ad1111c74be0627544d5655e8557acf5b":[1,0,2,10],
 "classes.html":[1,1],
@@ -109,10 +110,11 @@ var NAVTREEINDEX0 =
 "utilities_8h.html":[2,0,0,0,0,2],
 "utilities_8h.html#a09584e1f4183c5b0a4b43ac0219ca727":[2,0,0,0,0,2,4],
 "utilities_8h.html#a10cce59afcab63e8cffdd0b1016308cd":[2,0,0,0,0,2,5],
-"utilities_8h.html#a553034346c0de67e14a78f80f57d84e7":[2,0,0,0,0,2,6],
-"utilities_8h.html#a5bf739a65c56530cb71868e22abdc007":[2,0,0,0,0,2,0],
+"utilities_8h.html#a34457eaf59366de32ab715be037093b9":[2,0,0,0,0,2,0],
+"utilities_8h.html#a553034346c0de67e14a78f80f57d84e7":[2,0,0,0,0,2,7],
 "utilities_8h.html#a8336206bc102d6f0697e9ea4d84135b4":[2,0,0,0,0,2,1],
 "utilities_8h.html#ab02c2aab844dac4c888a76aa68cba3e7":[2,0,0,0,0,2,2],
+"utilities_8h.html#ab0ed3bcbfb71a8029333e578ed5c4a6d":[2,0,0,0,0,2,6],
 "utilities_8h.html#ab1c2c0129e3d8177d2c5871507855e18":[2,0,0,0,0,2,3],
 "utilities_8h_source.html":[2,0,0,0,0,2]
 };
