@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['exceptions_20and_20assertions_21169',['Exceptions and assertions',['http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html',1,'']]]
+  ['exceptions_20and_20assertions_21181',['Exceptions and assertions',['http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html',1,'']]]
 ];
