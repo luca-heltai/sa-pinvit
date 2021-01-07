@@ -48,6 +48,7 @@
 #include <deal.II/numerics/data_out.h>
 #include <deal.II/numerics/vector_tools.h>
 
+#include "pinvit.h"
 #include "utilities.h"
 
 using namespace dealii;
@@ -141,7 +142,7 @@ LaplaceProblem<dim, degree>::setup_system()
   }
 
   // Initialize matrix free mass, only for eivengalue calculations
-  if (settings.problem_type == "eigenvalues")
+  if (settings.problem_type == "pinvit")
     {
       AffineConstraints<double> empty_constraints;
       empty_constraints.close();
@@ -182,7 +183,7 @@ LaplaceProblem<dim, degree>::setup_multigrid()
 
   mg_stiffness_operator.resize(0, n_levels - 1);
 
-  if (settings.problem_type == "eigenvalues")
+  if (settings.problem_type == "pinvit")
     mg_mass_operator.resize(0, n_levels - 1);
 
   for (unsigned int level = 0; level < n_levels; ++level)
@@ -223,7 +224,7 @@ LaplaceProblem<dim, degree>::setup_multigrid()
       }
 
       //  mass level matrices
-      if (settings.problem_type == "eigenvalues")
+      if (settings.problem_type == "pinvit")
         {
           mg_constrained_mass_dofs.clear();
           mg_constrained_mass_dofs.initialize(dof_handler);
@@ -317,7 +318,7 @@ LaplaceProblem<dim, degree>::assemble_rhs()
 
 template <int dim, int degree>
 void
-LaplaceProblem<dim, degree>::solve()
+LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
 {
   TimerOutput::Scope timing(computing_timer, "Solve");
 
@@ -404,27 +405,64 @@ LaplaceProblem<dim, degree>::solve()
       pcout << "   Number of CG iterations:      " << solver_control.last_step()
             << std::endl;
     }
-  else if (settings.problem_type == "eigenvalues")
+  else if (settings.problem_type == "pinvit")
     {
-      // Initial guess for eigenvalue
-      double                 mu = 1;
-      MatrixFreeActiveVector v;
-      stiffness_operator.initialize_dof_vector(v);
-      v = 1.0;
-      constraints.distribute(v);
-      for (unsigned int i = 0; i < 10; ++i)
+      eigenvalues.resize(settings.number_of_eigenvalues);
+      eigenvectors.resize(settings.number_of_eigenvalues);
+      for (auto &v : eigenvectors)
+        {
+          stiffness_operator.initialize_dof_vector(v);
+          for (unsigned int i = 0; i < v.local_size(); ++i)
+            v.local_element(i) =
+              Utilities::generate_normal_random_number(.5, .5);
+          constraints.distribute(v);
+        }
+
+      const auto max_pinvit_iterations =
+        ((cycle > 0 && cycle < settings.n_steps - 1) &&
+         settings.pinvit_intermediate_max_iterations != 0) ?
+          settings.pinvit_intermediate_max_iterations :
+          settings.pinvit_initial_and_final_max_iterations;
+
+      const auto pinvit_tolerance =
+        ((cycle > 0 && cycle < settings.n_steps - 1) &&
+         settings.pinvit_intermediate_tolerance != 0) ?
+          settings.pinvit_intermediate_tolerance :
+          settings.pinvit_initial_and_final_tolerance;
+
+      unsigned int        current_pinvit_it    = 0;
+      double              current_error        = 1e10;
+      std::vector<double> previous_eigenvalues = eigenvalues;
+
+      while (current_error > pinvit_tolerance &&
+             current_pinvit_it < max_pinvit_iterations)
         {
           TimerOutput::Scope timing(computing_timer, "Solve: pinvit steps");
-          one_step_pinvit(mu,
-                          v,
+          one_step_pinvit(eigenvalues,
+                          eigenvectors,
                           stiffness_operator,
                           mass_operator,
                           preconditioner,
                           constraints);
-          pcout << "mu^(" << i << ") = " << mu << std::endl;
+          ++current_pinvit_it;
+          current_error = 0;
+          for (unsigned int i = 0; i < eigenvalues.size(); ++i)
+            current_error +=
+              std::abs(eigenvalues[i] - previous_eigenvalues[i]) /
+              eigenvalues[i];
+          current_error /= eigenvalues.size();
+          previous_eigenvalues = eigenvalues;
+
+          pcout << "   i= " << current_pinvit_it;
         }
-      v.update_ghost_values();
-      ChangeVectorTypes::copy(solution, v);
+      pcout << std::endl
+            << "   Error(" << current_pinvit_it << ") = " << current_error
+            << std::endl;
+      pcout << "   Eigenvalues(" << current_pinvit_it
+            << ") = " << Patterns::Tools::to_string(eigenvalues) << std::endl;
+
+      for (auto &v : eigenvectors)
+        v.update_ghost_values();
     }
 }
 
@@ -498,10 +536,18 @@ LaplaceProblem<dim, degree>::estimate()
   TimerOutput::Scope timing(computing_timer, "Estimate");
 
   VectorType temp_solution;
-  temp_solution.reinit(locally_owned_dofs,
-                       locally_relevant_dofs,
-                       mpi_communicator);
-  temp_solution = solution;
+  if (settings.problem_type == "source")
+    {
+      temp_solution.reinit(locally_owned_dofs,
+                           locally_relevant_dofs,
+                           mpi_communicator);
+      temp_solution = solution;
+    }
+  else
+    {
+      ChangeVectorTypes::copy(temp_solution, eigenvectors[0]);
+    }
+
 
   estimated_error_square_per_cell.reinit(triangulation.n_active_cells());
 
@@ -662,15 +708,26 @@ LaplaceProblem<dim, degree>::output_results(const unsigned int cycle)
     {
       TimerOutput::Scope timing(computing_timer, "Output results");
 
+
+      DataOut<dim> data_out;
+      data_out.attach_dof_handler(dof_handler);
+
       VectorType temp_solution;
       temp_solution.reinit(locally_owned_dofs,
                            locally_relevant_dofs,
                            mpi_communicator);
       temp_solution = solution;
+      if (settings.problem_type == "source")
+        {
+          data_out.add_data_vector(temp_solution, "solution");
+        }
+      else
+        for (unsigned int i = 0; i < eigenvectors.size(); ++i)
+          {
+            std::string name = "eigenvector_" + Utilities::int_to_string(i, 2);
+            data_out.add_data_vector(eigenvectors[i], name);
+          }
 
-      DataOut<dim> data_out;
-      data_out.attach_dof_handler(dof_handler);
-      data_out.add_data_vector(temp_solution, "solution");
 
       Vector<float> subdomain(triangulation.n_active_cells());
       for (unsigned int i = 0; i < subdomain.size(); ++i)
@@ -776,7 +833,7 @@ LaplaceProblem<dim, degree>::run()
 
       assemble_rhs();
 
-      solve();
+      solve(cycle);
 
       estimate();
 

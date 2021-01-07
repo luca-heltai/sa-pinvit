@@ -1,22 +1,3 @@
-/* ---------------------------------------------------------------------
- *
- * Copyright (C) 2000 - 2020 by the deal.II authors
- *
- * This file is part of the deal.II library.
- *
- * The deal.II library is free software; you can use it, redistribute
- * it, and/or modify it under the terms of the GNU Lesser General
- * Public License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- * The full text of the license can be found in the file LICENSE.md at
- * the top level directory of deal.II.
- *
- * ---------------------------------------------------------------------
-
- *
- * Author: Wolfgang Bangerth, University of Heidelberg, 2000
- * Modified by: Luca Heltai, 2020
- */
 #ifndef laplace_problem_h
 #define laplace_problem_h
 
@@ -111,7 +92,7 @@ public:
   void
   assemble_rhs();
   void
-  solve();
+  solve(const unsigned int cycle);
   void
   estimate();
   void
@@ -136,11 +117,13 @@ public:
   IndexSet                  locally_relevant_dofs;
   AffineConstraints<double> constraints;
 
-  MatrixFreeActiveMatrix     stiffness_operator;
-  MatrixFreeActiveMassMatrix mass_operator;
-  VectorType                 solution;
-  VectorType                 right_hand_side;
-  Vector<double>             estimated_error_square_per_cell;
+  MatrixFreeActiveMatrix              stiffness_operator;
+  MatrixFreeActiveMassMatrix          mass_operator;
+  VectorType                          solution;
+  VectorType                          right_hand_side;
+  std::vector<MatrixFreeActiveVector> eigenvectors;
+  std::vector<double>                 eigenvalues;
+  Vector<double>                      estimated_error_square_per_cell;
 
   MGLevelObject<MatrixFreeLevelMatrix>     mg_stiffness_operator;
   MGLevelObject<MatrixFreeLevelMassMatrix> mg_mass_operator;

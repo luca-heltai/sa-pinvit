@@ -11,9 +11,9 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
 {
   add_parameter("Problem type",
                 problem_type,
-                "Source problem or Eigenvalues problem (source|eigenvalues).",
+                "Source problem or Eigenvalues problem (source|pinvit).",
                 this->prm,
-                Patterns::Selection("source|eigenvalues"));
+                Patterns::Selection("source|pinvit"));
   add_parameter("n_steps", n_steps, "Number of adaptive refinement steps.");
   add_parameter("smoother dampen",
                 smoother_dampen,
@@ -28,6 +28,28 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
                 write_high_order_output,
                 "Write output using high order vtu format.");
 
+
+  enter_my_subsection(this->prm);
+  this->prm.enter_subsection("PINVIT parameters");
+  {
+    this->prm.add_parameter("Max iterations in intermediate PINVIT steps",
+                            pinvit_intermediate_max_iterations,
+                            "Set to zero to use the first and last value.");
+    this->prm.add_parameter("Tolerance in intermediate PINVIT steps",
+                            pinvit_intermediate_tolerance,
+                            "Set to zero to use the first and last value.");
+    this->prm.add_parameter("Max iterations in first and last PINVIT steps",
+                            pinvit_initial_and_final_max_iterations);
+    this->prm.add_parameter("Tolerance in first and last PINVIT steps",
+                            pinvit_initial_and_final_tolerance);
+    this->prm.add_parameter("Number of eigenvalues to compute",
+                            number_of_eigenvalues,
+                            "",
+                            Patterns::Integer(1));
+  }
+  this->prm.leave_subsection();
+  leave_my_subsection(this->prm);
+
   enter_my_subsection(this->prm);
   this->prm.enter_subsection("Grid parameters");
   {
@@ -41,7 +63,6 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
                             "",
                             Patterns::Selection(
                               "fixed_fraction|fixed_number|global"));
-
 
     add_parameter(
       "Homogeneous Dirichlet boundary ids",

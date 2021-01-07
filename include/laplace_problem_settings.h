@@ -24,6 +24,12 @@ public:
   unsigned int initial_refinement = 1;
   std::string  output_directory   = "";
 
+  unsigned int pinvit_intermediate_max_iterations      = 100;
+  double       pinvit_intermediate_tolerance           = 1e-6;
+  unsigned int pinvit_initial_and_final_max_iterations = 0;
+  double       pinvit_initial_and_final_tolerance      = 0;
+  unsigned int number_of_eigenvalues                   = 1;
+
   //! By default, we create a hyper_L without colorization, and we use
   // homogeneous Dirichlet boundary conditions. In this set we store the
   // boundary ids to use when setting the boundary conditions:
