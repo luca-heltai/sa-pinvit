@@ -9,6 +9,7 @@
 #include <deal.II/base/quadrature_lib.h>
 
 #include <deal.II/distributed/grid_refinement.h>
+#include <deal.II/distributed/solution_transfer.h>
 #include <deal.II/distributed/tria.h>
 
 #include <deal.II/dofs/dof_accessor.h>
@@ -66,6 +67,8 @@ LaplaceProblem<dim, degree>::LaplaceProblem(
   , mapping()
   , fe(degree)
   , dof_handler(triangulation)
+  , solution_transfer(dof_handler)
+  , eigenvectors_transfer(dof_handler)
   , computing_timer(pcout, TimerOutput::never, TimerOutput::wall_times)
 {}
 
@@ -101,7 +104,7 @@ LaplaceProblem<dim, degree>::make_grid()
 
 template <int dim, int degree>
 void
-LaplaceProblem<dim, degree>::setup_system()
+LaplaceProblem<dim, degree>::setup_system(const unsigned int cycle)
 {
   TimerOutput::Scope timing(computing_timer, "Setup");
 
@@ -111,6 +114,9 @@ LaplaceProblem<dim, degree>::setup_system()
   locally_owned_dofs = dof_handler.locally_owned_dofs();
 
   solution.reinit(locally_owned_dofs, mpi_communicator);
+  locally_relevant_solution.reinit(locally_owned_dofs,
+                                   locally_relevant_dofs,
+                                   mpi_communicator);
   right_hand_side.reinit(locally_owned_dofs, mpi_communicator);
   constraints.reinit(locally_relevant_dofs);
   DoFTools::make_hanging_node_constraints(dof_handler, constraints);
@@ -160,6 +166,42 @@ LaplaceProblem<dim, degree>::setup_system()
                          additional_data);
 
       mass_operator.initialize(mf_storage);
+
+
+      eigenvalues.resize(settings.number_of_eigenvalues);
+      eigenvectors.resize(settings.number_of_eigenvalues);
+      for (auto &v : eigenvectors)
+        stiffness_operator.initialize_dof_vector(v);
+
+      {
+        if (cycle > 0)
+          {
+            TimerOutput::Scope timing(computing_timer, "Transfer: interpolate");
+            // transfer information from previous computations to new
+            // eigenvalues
+            std::vector<MatrixFreeActiveVector *> all_out;
+            for (auto &v : eigenvectors)
+              all_out.push_back(&v);
+            eigenvectors_transfer.interpolate(all_out);
+          }
+        else
+          {
+            // setup to random values
+            for (auto &v : eigenvectors)
+              for (unsigned int i = 0; i < v.local_size(); ++i)
+                v.local_element(i) =
+                  Utilities::generate_normal_random_number(.5, .5);
+          }
+      }
+    }
+  else
+    {
+      // Transfer solution
+      if (cycle > 0)
+        {
+          TimerOutput::Scope timing(computing_timer, "Transfer: interpolate");
+          solution_transfer.interpolate(solution);
+        }
     }
 }
 
@@ -401,23 +443,13 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
       solution_copy.update_ghost_values();
       ChangeVectorTypes::copy(solution, solution_copy);
       constraints.distribute(solution);
+      locally_relevant_solution = solution;
 
       pcout << "   Number of CG iterations:      " << solver_control.last_step()
             << std::endl;
     }
   else if (settings.problem_type == "pinvit")
     {
-      eigenvalues.resize(settings.number_of_eigenvalues);
-      eigenvectors.resize(settings.number_of_eigenvalues);
-      for (auto &v : eigenvectors)
-        {
-          stiffness_operator.initialize_dof_vector(v);
-          for (unsigned int i = 0; i < v.local_size(); ++i)
-            v.local_element(i) =
-              Utilities::generate_normal_random_number(.5, .5);
-          constraints.distribute(v);
-        }
-
       const auto max_pinvit_iterations =
         ((cycle > 0 && cycle < settings.n_steps - 1) &&
          settings.pinvit_intermediate_max_iterations != 0) ?
@@ -535,19 +567,7 @@ LaplaceProblem<dim, degree>::estimate()
 {
   TimerOutput::Scope timing(computing_timer, "Estimate");
 
-  VectorType temp_solution;
-  if (settings.problem_type == "source")
-    {
-      temp_solution.reinit(locally_owned_dofs,
-                           locally_relevant_dofs,
-                           mpi_communicator);
-      temp_solution = solution;
-    }
-  else
-    {
-      ChangeVectorTypes::copy(temp_solution, eigenvectors[0]);
-    }
-
+  locally_relevant_solution = solution;
 
   estimated_error_square_per_cell.reinit(triangulation.n_active_cells());
 
@@ -565,7 +585,7 @@ LaplaceProblem<dim, degree>::estimate()
     const double nu = settings.coefficient.value(cell->center());
 
     std::vector<Tensor<2, dim>> hessians(fe_values.n_quadrature_points);
-    fe_values.get_function_hessians(temp_solution, hessians);
+    fe_values.get_function_hessians(locally_relevant_solution, hessians);
 
     copy_data.cell_index = cell->active_cell_index();
 
@@ -609,7 +629,146 @@ LaplaceProblem<dim, degree>::estimate()
       {
         grad_u[i].resize(fe_interface_values.n_quadrature_points);
         fe_interface_values.get_fe_face_values(i).get_function_gradients(
-          temp_solution, grad_u[i]);
+          locally_relevant_solution, grad_u[i]);
+      }
+
+    double jump_norm_square = 0.;
+
+    for (unsigned int qpoint = 0;
+         qpoint < fe_interface_values.n_quadrature_points;
+         ++qpoint)
+      {
+        const double jump =
+          coeff1 * grad_u[0][qpoint] * fe_interface_values.normal(qpoint) -
+          coeff2 * grad_u[1][qpoint] * fe_interface_values.normal(qpoint);
+
+        jump_norm_square += jump * jump * fe_interface_values.JxW(qpoint);
+      }
+
+    const double h           = cell->face(f)->measure();
+    copy_data_face.values[0] = 0.5 * h * jump_norm_square;
+    copy_data_face.values[1] = copy_data_face.values[0];
+  };
+
+  auto copier = [&](const CopyData &copy_data) {
+    if (copy_data.cell_index != numbers::invalid_unsigned_int)
+      estimated_error_square_per_cell[copy_data.cell_index] += copy_data.value;
+
+    for (auto &cdf : copy_data.face_data)
+      for (unsigned int j = 0; j < 2; ++j)
+        estimated_error_square_per_cell[cdf.cell_indices[j]] += cdf.values[j];
+  };
+
+  const unsigned int n_gauss_points = degree + 1;
+  ScratchData<dim>   scratch_data(mapping,
+                                fe,
+                                n_gauss_points,
+                                update_hessians | update_quadrature_points |
+                                  update_JxW_values,
+                                update_values | update_gradients |
+                                  update_JxW_values | update_normal_vectors);
+  CopyData           copy_data;
+
+  // We need to assemble each interior face once but we need to make sure that
+  // both processes assemble the face term between a locally owned and a ghost
+  // cell. This is achieved by setting the
+  // MeshWorker::assemble_ghost_faces_both flag. We need to do this, because
+  // we do not communicate the error estimator contributions here.
+  MeshWorker::mesh_loop(dof_handler.begin_active(),
+                        dof_handler.end(),
+                        cell_worker,
+                        copier,
+                        scratch_data,
+                        copy_data,
+                        MeshWorker::assemble_own_cells |
+                          MeshWorker::assemble_ghost_faces_both |
+                          MeshWorker::assemble_own_interior_faces_once,
+                        /*boundary_worker=*/nullptr,
+                        face_worker);
+
+  const double global_error_estimate =
+    std::sqrt(Utilities::MPI::sum(estimated_error_square_per_cell.l1_norm(),
+                                  mpi_communicator));
+  pcout << "   Global error estimate:        " << global_error_estimate
+        << std::endl;
+}
+
+
+
+template <int dim, int degree>
+void
+LaplaceProblem<dim, degree>::estimate(unsigned int eigenvector_index)
+{
+  TimerOutput::Scope timing(computing_timer, "Estimate");
+
+  if (settings.problem_type == "source")
+    locally_relevant_solution = solution;
+  else
+    ChangeVectorTypes::copy(locally_relevant_solution,
+                            eigenvectors[eigenvector_index]);
+
+  if (eigenvector_index == 0)
+    estimated_error_square_per_cell.reinit(triangulation.n_active_cells());
+
+  using Iterator = typename DoFHandler<dim>::active_cell_iterator;
+
+  // Assembler for cell residual $h^2 \| f + \epsilon \triangle u \|_K^2$
+  auto cell_worker = [&](const Iterator &  cell,
+                         ScratchData<dim> &scratch_data,
+                         CopyData &        copy_data) {
+    FEValues<dim> &fe_values = scratch_data.fe_values;
+    fe_values.reinit(cell);
+
+    const double rhs_value = settings.rhs.value(cell->center());
+
+    const double nu = settings.coefficient.value(cell->center());
+
+    std::vector<Tensor<2, dim>> hessians(fe_values.n_quadrature_points);
+    fe_values.get_function_hessians(locally_relevant_solution, hessians);
+
+    copy_data.cell_index = cell->active_cell_index();
+
+    double residual_norm_square = 0.;
+    for (unsigned k = 0; k < fe_values.n_quadrature_points; ++k)
+      {
+        const double residual = (rhs_value + nu * trace(hessians[k]));
+        residual_norm_square += residual * residual * fe_values.JxW(k);
+      }
+
+    copy_data.value =
+      cell->diameter() * cell->diameter() * residual_norm_square;
+  };
+
+  // Assembler for face term $\sum_F h_F \| \jump{\epsilon \nabla u \cdot n}
+  // \|_F^2$
+  auto face_worker = [&](const Iterator &    cell,
+                         const unsigned int &f,
+                         const unsigned int &sf,
+                         const Iterator &    ncell,
+                         const unsigned int &nf,
+                         const unsigned int &nsf,
+                         ScratchData<dim> &  scratch_data,
+                         CopyData &          copy_data) {
+    FEInterfaceValues<dim> &fe_interface_values =
+      scratch_data.fe_interface_values;
+    fe_interface_values.reinit(cell, f, sf, ncell, nf, nsf);
+
+    copy_data.face_data.emplace_back();
+    CopyData::FaceData &copy_data_face = copy_data.face_data.back();
+
+    copy_data_face.cell_indices[0] = cell->active_cell_index();
+    copy_data_face.cell_indices[1] = ncell->active_cell_index();
+
+    const double coeff1 = settings.coefficient.value(cell->center());
+    const double coeff2 = settings.coefficient.value(ncell->center());
+
+    std::vector<Tensor<1, dim>> grad_u[2];
+
+    for (unsigned int i = 0; i < 2; ++i)
+      {
+        grad_u[i].resize(fe_interface_values.n_quadrature_points);
+        fe_interface_values.get_fe_face_values(i).get_function_gradients(
+          locally_relevant_solution, grad_u[i]);
       }
 
     double jump_norm_square = 0.;
@@ -694,6 +853,20 @@ LaplaceProblem<dim, degree>::refine_grid()
   else
     Assert(false, ExcInternalError("Unknown refinement strategy."));
 
+  if (settings.problem_type == "pinvit")
+    {
+      TimerOutput::Scope timing(computing_timer, "Transfer: prepare");
+      std::vector<const MatrixFreeActiveVector *> all_in;
+      for (const auto &v : eigenvectors)
+        all_in.push_back(&v);
+      eigenvectors_transfer.prepare_for_coarsening_and_refinement(all_in);
+    }
+  else
+    {
+      TimerOutput::Scope timing(computing_timer, "Transfer: prepare");
+      solution_transfer.prepare_for_coarsening_and_refinement(
+        locally_relevant_solution);
+    }
   triangulation.execute_coarsening_and_refinement();
   print_grid_info();
 }
@@ -712,14 +885,9 @@ LaplaceProblem<dim, degree>::output_results(const unsigned int cycle)
       DataOut<dim> data_out;
       data_out.attach_dof_handler(dof_handler);
 
-      VectorType temp_solution;
-      temp_solution.reinit(locally_owned_dofs,
-                           locally_relevant_dofs,
-                           mpi_communicator);
-      temp_solution = solution;
       if (settings.problem_type == "source")
         {
-          data_out.add_data_vector(temp_solution, "solution");
+          data_out.add_data_vector(locally_relevant_solution, "solution");
         }
       else
         for (unsigned int i = 0; i < eigenvectors.size(); ++i)
@@ -827,7 +995,7 @@ LaplaceProblem<dim, degree>::run()
       else
         refine_grid();
 
-      setup_system();
+      setup_system(cycle);
 
       setup_multigrid();
 

@@ -24,7 +24,7 @@ TEST_F(TestBench2D, IntegrateWithMassMatrix)
     )");
 
   pb.make_grid();
-  pb.setup_system();
+  pb.setup_system(0);
   pb.setup_multigrid();
 
   // ref 3 = 8 cells x 8 cells = 64 cells.

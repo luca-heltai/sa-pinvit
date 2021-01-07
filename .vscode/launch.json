@@ -1,6 +1,25 @@
 {
     "configurations": [
         {
+            "name": "Laplacian 2d (gdb)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build${env:BUILD_POSTFIX}/laplacian_2d.g",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build${env:BUILD_POSTFIX}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
             "name": "gtest executable",
             "type": "cppdbg",
             "request": "launch",

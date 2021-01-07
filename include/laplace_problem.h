@@ -7,6 +7,7 @@
 #include <deal.II/base/timer.h>
 
 #include <deal.II/distributed/grid_refinement.h>
+#include <deal.II/distributed/solution_transfer.h>
 #include <deal.II/distributed/tria.h>
 
 #include <deal.II/dofs/dof_handler.h>
@@ -84,7 +85,7 @@ public:
   void
   make_grid();
   void
-  setup_system();
+  setup_system(const unsigned int cycle);
   void
   setup_multigrid();
   void
@@ -93,8 +94,20 @@ public:
   assemble_rhs();
   void
   solve(const unsigned int cycle);
+
+  /**
+   * Compute a Residual based error estimator on the source problem
+   */
   void
   estimate();
+
+  /**
+   * Compute a Residual based error estimator on the eigenvalue problem. The
+   * argument is used only to accumulate the estimator based on each computed
+   * eigenvector and eigenvalue pair.
+   */
+  void
+  estimate(const unsigned int eigenvector_index);
   void
   refine_grid();
   void
@@ -111,7 +124,10 @@ public:
   const MappingQ1<dim>                      mapping;
   FE_Q<dim>                                 fe;
 
-  DoFHandler<dim> dof_handler;
+  DoFHandler<dim>                                          dof_handler;
+  parallel::distributed::SolutionTransfer<dim, VectorType> solution_transfer;
+  parallel::distributed::SolutionTransfer<dim, MatrixFreeActiveVector>
+    eigenvectors_transfer;
 
   IndexSet                  locally_owned_dofs;
   IndexSet                  locally_relevant_dofs;
@@ -120,6 +136,7 @@ public:
   MatrixFreeActiveMatrix              stiffness_operator;
   MatrixFreeActiveMassMatrix          mass_operator;
   VectorType                          solution;
+  VectorType                          locally_relevant_solution;
   VectorType                          right_hand_side;
   std::vector<MatrixFreeActiveVector> eigenvectors;
   std::vector<double>                 eigenvalues;
