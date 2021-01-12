@@ -362,7 +362,15 @@ template <int dim, int degree>
 void
 LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
 {
-  TimerOutput::Scope timing(computing_timer, "Solve");
+  std::string section_name =
+    ((cycle > 0 && cycle < settings.n_steps - 1) &&
+     (settings.pinvit_intermediate_max_iterations !=
+      settings.pinvit_initial_and_final_max_iterations) &&
+     (settings.pinvit_intermediate_tolerance !=
+      settings.pinvit_initial_and_final_tolerance)) ?
+      "Intermediate solves" :
+      "Solve";
+  TimerOutput::Scope timing(computing_timer, section_name);
 
   SolverControl solver_control(1000, 1.e-10 * right_hand_side.l2_norm());
   solver_control.enable_history_data();
@@ -1018,10 +1026,8 @@ LaplaceProblem<dim, degree>::run()
       estimate();
 
       output_results(cycle);
-
-      computing_timer.print_summary();
-      computing_timer.reset();
     }
+  computing_timer.print_summary();
 }
 
 // degree 1
