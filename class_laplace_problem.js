@@ -13,7 +13,6 @@ var class_laplace_problem =
     [ "assemble_multigrid", "class_laplace_problem.html#a101cec2c5731e6a3050f0cbe51ba73d9", null ],
     [ "assemble_rhs", "class_laplace_problem.html#a670e053832d79fe34335dfa8d00c893c", null ],
     [ "estimate", "class_laplace_problem.html#a514c25f98f8d1168b4686c5c9db51ead", null ],
-    [ "estimate", "class_laplace_problem.html#a7c29c9dc7fd8d682da61c91d3bab5b35", null ],
     [ "make_grid", "class_laplace_problem.html#a40512c826e6ae29fa2a79546771b4157", null ],
     [ "output_results", "class_laplace_problem.html#a5f861ad639abf228785d8efa9105c7ac", null ],
     [ "print_grid_info", "class_laplace_problem.html#a76d9e666a48f398465359d351bcc20ea", null ],
