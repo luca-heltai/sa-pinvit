@@ -37,4 +37,9 @@
 	"containerEnv": {
 		"BUILD_POSTFIX": "-container",
 	},
+	"mounts": [
+		"source=vscode-extensions,target=/home/dealii/.vscode-server/extensions,type=volume",
+		// And/or for VS Code Insiders
+		"source=vscode-extensions-insiders,target=/home/dealii/.vscode-server-insiders/extensions,type=volume",
+	]
 }
