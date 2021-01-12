@@ -78,7 +78,7 @@ one_step_pinvit(typename VectorType::value_type &mu,
 }
 
 
-
+#ifdef DEAL_II_WITH_LAPACK
 template <class VectorType,
           class StiffnessMatrixType,
           class MassMatrixType,
@@ -159,4 +159,5 @@ one_step_pinvit(std::vector<typename VectorType::value_type> &mus,
       vectors[i] /= std::sqrt(MV[i] * vectors[i]);
     }
 }
+#endif
 #endif

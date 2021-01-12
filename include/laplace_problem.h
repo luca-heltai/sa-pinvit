@@ -96,18 +96,11 @@ public:
   solve(const unsigned int cycle);
 
   /**
-   * Compute a Residual based error estimator on the source problem
+   * Compute a Residual based error estimator on the source or eigenvalue
+   * problem.
    */
   void
   estimate();
-
-  /**
-   * Compute a Residual based error estimator on the eigenvalue problem. The
-   * argument is used only to accumulate the estimator based on each computed
-   * eigenvector and eigenvalue pair.
-   */
-  void
-  estimate(const unsigned int eigenvector_index);
   void
   refine_grid();
   void

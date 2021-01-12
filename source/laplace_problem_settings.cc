@@ -46,6 +46,10 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
                             number_of_eigenvalues,
                             "",
                             Patterns::Integer(1));
+    this->prm.add_parameter("Eigenvectors indices for estimator",
+                            eigen_estimators,
+                            "All indices must be lower than the number of "
+                            "computed eigenvalues.");
   }
   this->prm.leave_subsection();
   leave_my_subsection(this->prm);
