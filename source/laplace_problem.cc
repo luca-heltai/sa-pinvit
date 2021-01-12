@@ -362,21 +362,29 @@ template <int dim, int degree>
 void
 LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
 {
-  std::string section_name =
-    ((cycle > 0 && cycle < settings.n_steps - 1) &&
-     (settings.pinvit_intermediate_max_iterations !=
-      settings.pinvit_initial_and_final_max_iterations) &&
-     (settings.pinvit_intermediate_tolerance !=
-      settings.pinvit_initial_and_final_tolerance)) ?
-      "Intermediate solves" :
-      "Solve";
+  const bool is_intermediate_cycle = cycle > 0 && cycle < settings.n_steps - 1;
+  bool same_controls = (settings.intermediate_solver_control.tolerance() ==
+                        settings.first_and_last_solver_control.tolerance()) &&
+                       (settings.intermediate_solver_control.max_steps() ==
+                        settings.first_and_last_solver_control.max_steps()) &&
+                       (settings.intermediate_solver_control.reduction() ==
+                        settings.first_and_last_solver_control.reduction());
+
+  if (settings.intermediate_solver_control.max_steps() == 0)
+    same_controls = true;
+
+  SmartPointer<SolverControl> solver_control(
+    (is_intermediate_cycle && !same_controls ?
+       &settings.intermediate_solver_control :
+       &settings.first_and_last_solver_control));
+
+  std::string section_name = ((is_intermediate_cycle) && !same_controls) ?
+                               "Solve - intermediate" :
+                               "Solve";
+
   TimerOutput::Scope timing(computing_timer, section_name);
 
-  SolverControl solver_control(1000, 1.e-10 * right_hand_side.l2_norm());
-  solver_control.enable_history_data();
-
   solution = 0.;
-
   computing_timer.enter_subsection("Solve: Preconditioner setup");
 
   MGTransferMatrixFree<dim, float> mg_transfer(mg_constrained_dofs);
@@ -439,7 +447,7 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
       // Solve the linear system, update the ghost values of the solution,
       // copy back to LA::MPI::Vector and distribute constraints.
       {
-        SolverCG<MatrixFreeActiveVector> solver(solver_control);
+        SolverCG<MatrixFreeActiveVector> solver(*solver_control);
 
         TimerOutput::Scope timing(computing_timer, "Solve: CG");
         solver.solve(stiffness_operator,
@@ -453,29 +461,16 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
       constraints.distribute(solution);
       locally_relevant_solution = solution;
 
-      pcout << "   Number of CG iterations:      " << solver_control.last_step()
-            << std::endl;
+      pcout << "   Number of CG iterations:      "
+            << solver_control->last_step() << std::endl;
     }
   else if (settings.problem_type == "pinvit")
     {
-      const auto max_pinvit_iterations =
-        ((cycle > 0 && cycle < settings.n_steps - 1) &&
-         settings.pinvit_intermediate_max_iterations != 0) ?
-          settings.pinvit_intermediate_max_iterations :
-          settings.pinvit_initial_and_final_max_iterations;
-
-      const auto pinvit_tolerance =
-        ((cycle > 0 && cycle < settings.n_steps - 1) &&
-         settings.pinvit_intermediate_tolerance != 0) ?
-          settings.pinvit_intermediate_tolerance :
-          settings.pinvit_initial_and_final_tolerance;
-
       unsigned int        current_pinvit_it    = 0;
       double              current_error        = 1e10;
       std::vector<double> previous_eigenvalues = eigenvalues;
 
-      while (current_error > pinvit_tolerance &&
-             current_pinvit_it < max_pinvit_iterations)
+      do
         {
           TimerOutput::Scope timing(computing_timer, "Solve: pinvit steps");
           one_step_pinvit(eigenvalues,
@@ -495,6 +490,9 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
 
           pcout << "   i= " << current_pinvit_it;
         }
+      while (solver_control->check(current_pinvit_it, current_error) ==
+             SolverControl::iterate);
+
       pcout << std::endl
             << "   Error(" << current_pinvit_it << ") = " << current_error
             << std::endl;
@@ -503,6 +501,9 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
 
       for (auto &v : eigenvectors)
         v.update_ghost_values();
+
+      pcout << "   Number of PINVIT iterations:      "
+            << solver_control->last_step() << std::endl;
     }
 }
 
@@ -676,7 +677,7 @@ LaplaceProblem<dim, degree>::estimate()
                                     fe,
                                     n_gauss_points,
                                     update_hessians | update_quadrature_points |
-                                      update_JxW_values,
+                                      update_JxW_values | update_values,
                                     update_values | update_gradients |
                                       update_JxW_values |
                                       update_normal_vectors);
@@ -821,7 +822,8 @@ LaplaceProblem<dim, degree>::estimate()
             ScratchData<dim>   scratch_data(mapping,
                                           fe,
                                           n_gauss_points,
-                                          update_hessians | update_JxW_values,
+                                          update_hessians | update_JxW_values |
+                                            update_values,
                                           update_values | update_gradients |
                                             update_normal_vectors);
             CopyData           copy_data;

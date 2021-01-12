@@ -8,6 +8,8 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
   , exact("Exact solution")
   , coefficient("Coefficient")
   , rhs("Forcing term")
+  , first_and_last_solver_control("Solver/First and last cycle")
+  , intermediate_solver_control("Solver/Intermediate cycles")
 {
   add_parameter("Problem type",
                 problem_type,
@@ -32,16 +34,6 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
   enter_my_subsection(this->prm);
   this->prm.enter_subsection("PINVIT parameters");
   {
-    this->prm.add_parameter("Max iterations in intermediate PINVIT steps",
-                            pinvit_intermediate_max_iterations,
-                            "Set to zero to use the first and last value.");
-    this->prm.add_parameter("Tolerance in intermediate PINVIT steps",
-                            pinvit_intermediate_tolerance,
-                            "Set to zero to use the first and last value.");
-    this->prm.add_parameter("Max iterations in first and last PINVIT steps",
-                            pinvit_initial_and_final_max_iterations);
-    this->prm.add_parameter("Tolerance in first and last PINVIT steps",
-                            pinvit_initial_and_final_tolerance);
     this->prm.add_parameter("Number of eigenvalues to compute",
                             number_of_eigenvalues,
                             "",
@@ -80,6 +72,15 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
     [&]() { this->prm.set("Function expression", "1"); });
   rhs.declare_parameters_call_back.connect(
     [&]() { this->prm.set("Function expression", "1"); });
+
+  first_and_last_solver_control.declare_parameters_call_back.connect(
+    [&]() { this->prm.set("Reduction", "1e-6"); });
+
+  intermediate_solver_control.declare_parameters_call_back.connect([&]() {
+    this->prm.set("Reduction", "0");
+    this->prm.set("Max steps", "0");
+    this->prm.set("Tolerance", "0");
+  });
 }
 
 template class LaplaceProblemSettings<2>;
