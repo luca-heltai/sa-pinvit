@@ -1,5 +1,8 @@
 var dir_7a95a9cc00fcc7af5a429eec361b64d1 =
 [
+    [ "inner_control.h", "inner__control_8h.html", [
+      [ "InnerControl", "class_inner_control.html", "class_inner_control" ]
+    ] ],
     [ "laplace_problem.h", "laplace__problem_8h.html", [
       [ "LaplaceProblem", "class_laplace_problem.html", "class_laplace_problem" ]
     ] ],

@@ -7,6 +7,11 @@ var hierarchy =
     [ "Subscriptor", "http://www.dealii.org/developer/doxygen/deal.II/classSubscriptor.html", [
       [ "ParameterAcceptor", "http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html", [
         [ "LaplaceProblemSettings< dim >", "class_laplace_problem_settings.html", null ]
+      ] ],
+      [ "SolverControl", "http://www.dealii.org/developer/doxygen/deal.II/classSolverControl.html", [
+        [ "ReductionControl", "http://www.dealii.org/developer/doxygen/deal.II/classReductionControl.html", [
+          [ "InnerControl", "class_inner_control.html", null ]
+        ] ]
       ] ]
     ] ]
 ];
