@@ -487,8 +487,6 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
               eigenvalues[i];
           current_error /= eigenvalues.size();
           previous_eigenvalues = eigenvalues;
-
-          pcout << "   i= " << current_pinvit_it;
         }
       while (solver_control->check(current_pinvit_it, current_error) ==
              SolverControl::iterate);

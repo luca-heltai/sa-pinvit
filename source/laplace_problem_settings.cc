@@ -8,8 +8,8 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
   , exact("Exact solution")
   , coefficient("Coefficient")
   , rhs("Forcing term")
-  , first_and_last_solver_control("Solver/First and last cycle")
-  , intermediate_solver_control("Solver/Intermediate cycles")
+  , first_and_last_solver_control("/Solver/First and last cycle")
+  , intermediate_solver_control("/Solver/Intermediate cycles")
 {
   add_parameter("Problem type",
                 problem_type,
