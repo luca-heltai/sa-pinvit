@@ -312,48 +312,51 @@ template <int dim, int degree>
 void
 LaplaceProblem<dim, degree>::assemble_rhs()
 {
-  TimerOutput::Scope timing(computing_timer, "Assemble right-hand side");
-
-  MatrixFreeActiveVector solution_copy;
-  MatrixFreeActiveVector right_hand_side_copy;
-  stiffness_operator.initialize_dof_vector(solution_copy);
-  stiffness_operator.initialize_dof_vector(right_hand_side_copy);
-
-  solution_copy = 0.;
-  constraints.distribute(solution_copy);
-  solution_copy.update_ghost_values();
-  right_hand_side_copy = 0;
-  const Table<2, VectorizedArray<double>> &coefficient =
-    *(stiffness_operator.get_coefficient());
-
-  FEEvaluation<dim, degree, degree + 1, 1, double> phi(
-    *stiffness_operator.get_matrix_free());
-
-  for (unsigned int cell = 0;
-       cell < stiffness_operator.get_matrix_free()->n_cell_batches();
-       ++cell)
+  if (settings.problem_type == "source")
     {
-      phi.reinit(cell);
-      phi.read_dof_values_plain(solution_copy);
-      phi.evaluate(EvaluationFlags::gradients);
+      TimerOutput::Scope timing(computing_timer, "Assemble right-hand side");
 
-      for (unsigned int q = 0; q < phi.n_q_points; ++q)
+      MatrixFreeActiveVector solution_copy;
+      MatrixFreeActiveVector right_hand_side_copy;
+      stiffness_operator.initialize_dof_vector(solution_copy);
+      stiffness_operator.initialize_dof_vector(right_hand_side_copy);
+
+      solution_copy = 0.;
+      constraints.distribute(solution_copy);
+      solution_copy.update_ghost_values();
+      right_hand_side_copy = 0;
+      const Table<2, VectorizedArray<double>> &coefficient =
+        *(stiffness_operator.get_coefficient());
+
+      FEEvaluation<dim, degree, degree + 1, 1, double> phi(
+        *stiffness_operator.get_matrix_free());
+
+      for (unsigned int cell = 0;
+           cell < stiffness_operator.get_matrix_free()->n_cell_batches();
+           ++cell)
         {
-          phi.submit_gradient(-1.0 *
-                                (coefficient(cell, 0) * phi.get_gradient(q)),
-                              q);
-          phi.submit_value(
-            evaluate_function(settings.rhs, phi.quadrature_point(q), 0), q);
+          phi.reinit(cell);
+          phi.read_dof_values_plain(solution_copy);
+          phi.evaluate(EvaluationFlags::gradients);
+
+          for (unsigned int q = 0; q < phi.n_q_points; ++q)
+            {
+              phi.submit_gradient(-1.0 * (coefficient(cell, 0) *
+                                          phi.get_gradient(q)),
+                                  q);
+              phi.submit_value(
+                evaluate_function(settings.rhs, phi.quadrature_point(q), 0), q);
+            }
+
+          phi.integrate_scatter(EvaluationFlags::values |
+                                  EvaluationFlags::gradients,
+                                right_hand_side_copy);
         }
 
-      phi.integrate_scatter(EvaluationFlags::values |
-                              EvaluationFlags::gradients,
-                            right_hand_side_copy);
+      right_hand_side_copy.compress(VectorOperation::add);
+
+      ChangeVectorTypes::copy(right_hand_side, right_hand_side_copy);
     }
-
-  right_hand_side_copy.compress(VectorOperation::add);
-
-  ChangeVectorTypes::copy(right_hand_side, right_hand_side_copy);
 }
 
 
@@ -362,7 +365,7 @@ template <int dim, int degree>
 void
 LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
 {
-  const bool is_intermediate_cycle = cycle > 0 && cycle < settings.n_steps - 1;
+  const bool is_intermediate_cycle = cycle > 0 && cycle < settings.n_cycles - 1;
   bool same_controls = (settings.intermediate_solver_control.tolerance() ==
                         settings.first_and_last_solver_control.tolerance()) &&
                        (settings.intermediate_solver_control.max_steps() ==
@@ -374,9 +377,10 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
     same_controls = true;
 
   SmartPointer<SolverControl> solver_control(
-    (is_intermediate_cycle && !same_controls ?
-       &settings.intermediate_solver_control :
-       &settings.first_and_last_solver_control));
+    &settings.first_and_last_solver_control);
+
+  if (is_intermediate_cycle && !same_controls)
+    solver_control = &settings.intermediate_solver_control;
 
   std::string section_name = ((is_intermediate_cycle) && !same_controls) ?
                                "Solve - intermediate" :
@@ -404,8 +408,8 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
     smoother;
   smoother.initialize(mg_stiffness_operator,
                       typename Smoother::AdditionalData(
-                        settings.smoother_dampen));
-  smoother.set_steps(settings.smoother_steps);
+                        settings.gmg_smoother_dampen));
+  smoother.set_steps(settings.gmg_smoother_steps);
 
   mg::Matrix<MatrixFreeLevelVector> mg_m(mg_stiffness_operator);
 
@@ -1007,7 +1011,7 @@ template <int dim, int degree>
 void
 LaplaceProblem<dim, degree>::run()
 {
-  for (unsigned int cycle = 0; cycle < settings.n_steps; ++cycle)
+  for (unsigned int cycle = 0; cycle < settings.n_cycles; ++cycle)
     {
       pcout << "Cycle " << cycle << ':' << std::endl;
       if (cycle == 0)

@@ -10,49 +10,85 @@
 using namespace dealii;
 
 /* Default parameter file:
-
-set Output directory =
-set degree           = 2
-set n_steps          = 10
-set smoother dampen  = 1
-set smoother steps   = 1
-subsection Coefficient
-  set Function constants  =
-  set Function expression = 1
-  set Variable names      = x,y,t
-end
-subsection Exact solution
-  set Function constants  =
-  set Function expression = 0
-  set Variable names      = x,y,t
-end
-subsection Forcing term
-  set Function constants  =
-  set Function expression = 1
-  set Variable names      = x,y,t
-end
-subsection Grid parameters
-  set Grid generator                     = hyper_L
-  set Grid generator arguments           = -1.: 1.: false
-  set Homogeneous Dirichlet boundary ids = 0
-  set Initial refinement                 = 1
-  set Refinement strategy                = fixed_number
-end
-
-*/
+ *
+ * subsection Coefficient
+ *   set Function constants  =
+ *   set Function expression = 1
+ *   set Variable names      = x,y,t
+ * end
+ * subsection Exact solution
+ *   set Function constants  =
+ *   set Function expression = 0
+ *   set Variable names      = x,y,t
+ * end
+ * subsection Forcing term
+ *   set Function constants  =
+ *   set Function expression = 1
+ *   set Variable names      = x,y,t
+ * end
+ * subsection Global parameters
+ *   set Finite element degree   = 2
+ *   set Number of cycles        = 7
+ *   set Output directory        =
+ *   set Problem type            = source
+ *   set Smoother type           = gmg
+ *   set Write high order output = true
+ * end
+ * subsection Grid parameters
+ *   set Grid generator                     = hyper_L
+ *   set Grid generator arguments           = -1.: 1.: false
+ *   set Homogeneous Dirichlet boundary ids = 0
+ *   set Initial refinement                 = 1
+ *   set Refinement strategy                = fixed_number
+ * end
+ * subsection PINVIT parameters
+ *   set Eigenvectors indices for estimator = 0
+ *   set Number of eigenvalues to compute   = 1
+ * end
+ * subsection Smoothers
+ *   subsection GMG
+ *     set Smoother dampen = 1
+ *     set smoother steps  = 1
+ *   end
+ * end
+ * subsection Solver
+ *   subsection First and last cycle
+ *     set Log frequency = 1
+ *     set Log history   = false
+ *     set Log result    = true
+ *     set Max steps     = 100
+ *     set Reduction     = 1e-6
+ *     set Tolerance     = 1.e-10
+ *   end
+ *   subsection Intermediate cycles
+ *     set Log frequency = 1
+ *     set Log history   = false
+ *     set Log result    = true
+ *     set Max steps     = 0
+ *     set Reduction     = 0
+ *     set Tolerance     = 0
+ *   end
+ * end
+ */
 
 
 TEST_F(TestBench2D, CheckStandardSettings)
 {
   setup(R"(
-    set n_steps = 1
-    set smoother dampen = 2
-    set smoother steps = 3
+     subsection Global parameters
+       set Number of cycles  = 1
+     end
+     subsection Smoothers
+       subsection GMG
+         set Smoother dampen = 2
+         set smoother steps  = 3
+       end
+     end
     )");
 
-  ASSERT_EQ(settings.n_steps, 1);
-  ASSERT_EQ(settings.smoother_dampen, 2.0);
-  ASSERT_EQ(settings.smoother_steps, 3);
+  ASSERT_EQ(settings.n_cycles, 1);
+  ASSERT_EQ(settings.gmg_smoother_dampen, 2.0);
+  ASSERT_EQ(settings.gmg_smoother_steps, 3);
 }
 
 TEST_F(TestBench2D, CheckFunctionSettings)

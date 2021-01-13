@@ -14,7 +14,9 @@ using namespace dealii;
 TEST_F(TestBench2D, IntegrateWithMassMatrix)
 {
   setup(R"(
-    set Problem type                         = pinvit
+    subsection Global parameters
+      set Problem type = pinvit
+    end
     subsection Grid parameters
       set Grid generator                     = hyper_cube
       set Grid generator arguments           = 0.: 1.: false

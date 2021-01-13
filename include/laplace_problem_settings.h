@@ -7,6 +7,8 @@
 
 #include <deal.II/lac/solver_control.h>
 
+#include "inner_control.h"
+
 using namespace dealii;
 
 template <int dim>
@@ -15,11 +17,12 @@ class LaplaceProblemSettings : public ParameterAcceptor
 public:
   LaplaceProblemSettings();
 
-  std::string problem_type = "source";
+  std::string problem_type  = "source";
+  std::string smoother_type = "gmg";
 
-  double       smoother_dampen         = 1.0;
-  unsigned int smoother_steps          = 1;
-  unsigned int n_steps                 = 7;
+  double       gmg_smoother_dampen     = 1.0;
+  unsigned int gmg_smoother_steps      = 1;
+  unsigned int n_cycles                = 7;
   unsigned int degree                  = 2;
   bool         write_high_order_output = true;
 
@@ -47,8 +50,8 @@ public:
   ParameterAcceptorProxy<Functions::ParsedFunction<dim>> rhs;
 
   mutable ParameterAcceptorProxy<ReductionControl>
-                                                   first_and_last_solver_control;
-  mutable ParameterAcceptorProxy<ReductionControl> intermediate_solver_control;
+                                               first_and_last_solver_control;
+  mutable ParameterAcceptorProxy<InnerControl> intermediate_solver_control;
 };
 
 #endif
