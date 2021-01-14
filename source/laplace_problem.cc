@@ -509,7 +509,10 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
 
       pcout << "   Number of PINVIT iterations:      "
             << solver_control->last_step() << std::endl;
-      ChangeVectorTypes::copy(locally_relevant_solution, eigenvectors[0]);
+
+      ChangeVectorTypes::copy(solution, eigenvectors[0]);
+      constraints.distribute(solution);
+      locally_relevant_solution = solution;
     }
 }
 
