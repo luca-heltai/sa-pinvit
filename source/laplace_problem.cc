@@ -181,7 +181,10 @@ LaplaceProblem<dim, degree>::setup_system(const unsigned int cycle)
             // eigenvalues
             std::vector<MatrixFreeActiveVector *> all_out;
             for (auto &v : eigenvectors)
-              all_out.push_back(&v);
+              {
+                all_out.push_back(&v);
+                v.zero_out_ghosts();
+              }
             eigenvectors_transfer.interpolate(all_out);
           }
         else
@@ -506,6 +509,7 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
 
       pcout << "   Number of PINVIT iterations:      "
             << solver_control->last_step() << std::endl;
+      ChangeVectorTypes::copy(locally_relevant_solution, eigenvectors[0]);
     }
 }
 
@@ -849,7 +853,7 @@ LaplaceProblem<dim, degree>::estimate()
               /*boundary_worker=*/nullptr,
               face_worker);
           }
-      const double global_error_estimate =
+      global_error_estimate =
         std::sqrt(Utilities::MPI::sum(estimated_error_square_per_cell.l1_norm(),
                                       mpi_communicator));
       pcout << "   Global error estimate:        " << global_error_estimate
@@ -989,6 +993,51 @@ LaplaceProblem<dim, degree>::output_results(const unsigned int cycle)
 
 template <int dim, int degree>
 void
+LaplaceProblem<dim, degree>::compute_errors()
+{
+  TimerOutput::Scope timing(computing_timer, "Compute errors");
+  if (settings.problem_type == "source")
+    {
+      settings.error_table.add_extra_column("estimator", [&]() {
+        return global_error_estimate;
+      });
+      settings.error_table.error_from_exact(dof_handler,
+                                            locally_relevant_solution,
+                                            settings.exact);
+    }
+  else
+    {
+      std::vector<std::function<double()>> eigen_errors;
+      std::vector<std::string>             eigen_error_names;
+
+      for (unsigned int i = 0; i < settings.number_of_eigenvalues; ++i)
+        if (i < settings.exact_eigenvalues.size())
+          {
+            eigen_errors.push_back([&, i]() {
+              return std::abs(settings.exact_eigenvalues[i] - eigenvalues[i]);
+            });
+            eigen_error_names.push_back("e_" + Utilities::to_string(i, 2));
+          }
+      for (unsigned int i = 0; i < eigen_errors.size(); ++i)
+        settings.error_table.add_extra_column(eigen_error_names[i],
+                                              eigen_errors[i]);
+
+      settings.error_table.add_extra_column("estimator", [&]() {
+        return global_error_estimate;
+      });
+
+      if (eigen_errors.size())
+        settings.error_table.error_from_exact(dof_handler,
+                                              locally_relevant_solution,
+                                              settings.exact);
+    }
+  if (pcout.is_active())
+    settings.error_table.output_table(pcout.get_stream());
+}
+
+
+template <int dim, int degree>
+void
 LaplaceProblem<dim, degree>::print_grid_info() const
 {
   pcout << "   Number of active cells:       "
@@ -1030,6 +1079,8 @@ LaplaceProblem<dim, degree>::run()
       estimate();
 
       output_results(cycle);
+
+      compute_errors();
     }
   computing_timer.print_summary();
 }

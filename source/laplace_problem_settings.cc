@@ -10,6 +10,7 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
   , rhs("Forcing term")
   , first_and_last_solver_control("/Solver/First and last cycle")
   , intermediate_solver_control("/Solver/Intermediate cycles")
+  , error_table({"u"}, {{}})
 {
   enter_subsection("Global parameters");
   add_parameter("Problem type",
@@ -62,6 +63,8 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
                 eigen_estimators,
                 "All indices must be lower than the number of "
                 "computed eigenvalues.");
+  add_parameter("Exact eigenvalues", exact_eigenvalues);
+
   leave_subsection();
 
   enter_subsection("Grid parameters");
@@ -95,6 +98,13 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
     this->prm.set("Max steps", "0");
     this->prm.set("Tolerance", "0");
   });
+
+
+  enter_subsection("Error parameters");
+  enter_my_subsection(this->prm);
+  error_table.add_parameters(this->prm);
+  leave_my_subsection(this->prm);
+  leave_subsection();
 }
 
 template class LaplaceProblemSettings<2>;

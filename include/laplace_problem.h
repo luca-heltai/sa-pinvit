@@ -106,6 +106,8 @@ public:
   void
   output_results(const unsigned int cycle);
   void
+  compute_errors();
+  void
   print_grid_info() const;
 
   const LaplaceProblemSettings<dim> &settings;
@@ -134,6 +136,7 @@ public:
   std::vector<MatrixFreeActiveVector> eigenvectors;
   std::vector<double>                 eigenvalues;
   Vector<double>                      estimated_error_square_per_cell;
+  double                              global_error_estimate;
 
   MGLevelObject<MatrixFreeLevelMatrix>     mg_stiffness_operator;
   MGLevelObject<MatrixFreeLevelMassMatrix> mg_mass_operator;
