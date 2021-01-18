@@ -33,8 +33,14 @@ public:
   std::string  output_directory   = "";
 
   unsigned int           number_of_eigenvalues = 1;
+  unsigned int           exact_eigenvector     = 0;
   std::set<unsigned int> eigen_estimators      = {0};
 
+  unsigned int cheb_degree              = 1;
+  double       cheb_smoothing_range     = 0;
+  unsigned int cheb_eig_cg_n_iterations = 8;
+  double       cheb_eig_cg_residual     = 1e-2;
+  double       cheb_max_eigenvalue      = 1;
 
   /**
    * By default, we create a hyper_L without colorization, and we use

@@ -96,6 +96,19 @@ public:
   solve(const unsigned int cycle);
 
   /**
+   * According to the problem type, solve using the given preconditioner,
+   * or perform on smoothing step using the given preconditioner.
+   *
+   * At the end of this call, @p locally_relevant_solution, and @p solution
+   * will contain sensible data (both for source problem and for pinvit
+   * problem). When calling pinvit, then also eigenvalues and eigenvectors
+   * will be updated.
+   */
+  template <class PreconditionerType>
+  void
+  solve_system(const PreconditionerType &prec, SolverControl &control);
+
+  /**
    * Compute a Residual based error estimator on the source or eigenvalue
    * problem.
    */

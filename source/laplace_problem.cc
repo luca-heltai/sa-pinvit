@@ -385,82 +385,112 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
   if (is_intermediate_cycle && !same_controls)
     solver_control = &settings.intermediate_solver_control;
 
-  std::string section_name = ((is_intermediate_cycle) && !same_controls) ?
-                               "Solve - intermediate" :
-                               "Solve";
+  const bool is_only_smoother = (is_intermediate_cycle) && !same_controls;
+
+  std::string section_name =
+    (is_only_smoother ? "Solve - intermediate" : "Solve");
 
   TimerOutput::Scope timing(computing_timer, section_name);
 
-  solution = 0.;
-  computing_timer.enter_subsection("Solve: Preconditioner setup");
+  if (is_only_smoother && settings.smoother_type == "chebyshev")
+    {
+      computing_timer.enter_subsection("Solve: Chebyshev smoother setup");
+      using Smoother = dealii::PreconditionChebyshev<MatrixFreeActiveMatrix,
+                                                     MatrixFreeActiveVector>;
+      Smoother preconditioner;
+      preconditioner.initialize(
+        stiffness_operator,
+        typename Smoother::AdditionalData(settings.cheb_degree,
+                                          settings.cheb_smoothing_range,
+                                          settings.cheb_eig_cg_n_iterations,
+                                          settings.cheb_eig_cg_residual,
+                                          settings.cheb_max_eigenvalue));
+      computing_timer.leave_subsection("Solve: Chebyshev smoother setup");
+      solve_system(preconditioner, *solver_control);
+    }
+  else
+    {
+      solution = 0.;
+      computing_timer.enter_subsection("Solve: GMG preconditioner setup");
 
-  MGTransferMatrixFree<dim, float> mg_transfer(mg_constrained_dofs);
-  mg_transfer.build(dof_handler);
+      MGTransferMatrixFree<dim, float> mg_transfer(mg_constrained_dofs);
+      mg_transfer.build(dof_handler);
 
-  SolverControl coarse_solver_control(1000, 1e-12, false, false);
-  SolverCG<MatrixFreeLevelVector> coarse_solver(coarse_solver_control);
-  PreconditionIdentity            identity;
-  MGCoarseGridIterativeSolver<MatrixFreeLevelVector,
-                              SolverCG<MatrixFreeLevelVector>,
-                              MatrixFreeLevelMatrix,
-                              PreconditionIdentity>
-    coarse_grid_solver(coarse_solver, mg_stiffness_operator[0], identity);
+      SolverControl coarse_solver_control(1000, 1e-12, false, false);
+      SolverCG<MatrixFreeLevelVector> coarse_solver(coarse_solver_control);
+      PreconditionIdentity            identity;
+      MGCoarseGridIterativeSolver<MatrixFreeLevelVector,
+                                  SolverCG<MatrixFreeLevelVector>,
+                                  MatrixFreeLevelMatrix,
+                                  PreconditionIdentity>
+        coarse_grid_solver(coarse_solver, mg_stiffness_operator[0], identity);
 
-  using Smoother = dealii::PreconditionJacobi<MatrixFreeLevelMatrix>;
-  MGSmootherPrecondition<MatrixFreeLevelMatrix, Smoother, MatrixFreeLevelVector>
-    smoother;
-  smoother.initialize(mg_stiffness_operator,
-                      typename Smoother::AdditionalData(
-                        settings.gmg_smoother_dampen));
-  smoother.set_steps(settings.gmg_smoother_steps);
+      using Smoother = dealii::PreconditionJacobi<MatrixFreeLevelMatrix>;
+      MGSmootherPrecondition<MatrixFreeLevelMatrix,
+                             Smoother,
+                             MatrixFreeLevelVector>
+        smoother;
+      smoother.initialize(mg_stiffness_operator,
+                          typename Smoother::AdditionalData(
+                            settings.gmg_smoother_dampen));
+      smoother.set_steps(settings.gmg_smoother_steps);
 
-  mg::Matrix<MatrixFreeLevelVector> mg_m(mg_stiffness_operator);
+      mg::Matrix<MatrixFreeLevelVector> mg_m(mg_stiffness_operator);
 
-  MGLevelObject<MatrixFreeOperators::MGInterfaceOperator<MatrixFreeLevelMatrix>>
-    mg_interface_matrices;
-  mg_interface_matrices.resize(0, triangulation.n_global_levels() - 1);
-  for (unsigned int level = 0; level < triangulation.n_global_levels(); ++level)
-    mg_interface_matrices[level].initialize(mg_stiffness_operator[level]);
-  mg::Matrix<MatrixFreeLevelVector> mg_interface(mg_interface_matrices);
+      MGLevelObject<
+        MatrixFreeOperators::MGInterfaceOperator<MatrixFreeLevelMatrix>>
+        mg_interface_matrices;
+      mg_interface_matrices.resize(0, triangulation.n_global_levels() - 1);
+      for (unsigned int level = 0; level < triangulation.n_global_levels();
+           ++level)
+        mg_interface_matrices[level].initialize(mg_stiffness_operator[level]);
+      mg::Matrix<MatrixFreeLevelVector> mg_interface(mg_interface_matrices);
 
-  Multigrid<MatrixFreeLevelVector> mg(
-    mg_m, coarse_grid_solver, mg_transfer, smoother, smoother);
-  mg.set_edge_matrices(mg_interface, mg_interface);
+      Multigrid<MatrixFreeLevelVector> mg(
+        mg_m, coarse_grid_solver, mg_transfer, smoother, smoother);
+      mg.set_edge_matrices(mg_interface, mg_interface);
 
-  PreconditionMG<dim, MatrixFreeLevelVector, MGTransferMatrixFree<dim, float>>
-    preconditioner(dof_handler, mg, mg_transfer);
+      PreconditionMG<dim,
+                     MatrixFreeLevelVector,
+                     MGTransferMatrixFree<dim, float>>
+        preconditioner(dof_handler, mg, mg_transfer);
 
-  // Copy the solution vector and right-hand side from LA::MPI::Vector
-  // to dealii::LinearAlgebra::distributed::Vector so that we can
-  // solve.
-  MatrixFreeActiveVector solution_copy;
-  MatrixFreeActiveVector right_hand_side_copy;
-  stiffness_operator.initialize_dof_vector(solution_copy);
-  stiffness_operator.initialize_dof_vector(right_hand_side_copy);
+      computing_timer.leave_subsection("Solve: GMG preconditioner setup");
+      solve_system(preconditioner, *solver_control);
+    }
+}
 
-  ChangeVectorTypes::copy(solution_copy, solution);
-  ChangeVectorTypes::copy(right_hand_side_copy, right_hand_side);
-  computing_timer.leave_subsection("Solve: Preconditioner setup");
 
-  // Timing for 1 V-cycle.
-  {
-    TimerOutput::Scope timing(computing_timer, "Solve: 1 multigrid V-cycle");
-    preconditioner.vmult(solution_copy, right_hand_side_copy);
-  }
-
+template <int dim, int degree>
+template <class PreconditionerType>
+void
+LaplaceProblem<dim, degree>::solve_system(const PreconditionerType &prec,
+                                          SolverControl &           control)
+{
   if (settings.problem_type == "source")
     {
+      // Copy the solution vector and right-hand side from LA::MPI::Vector
+      // to dealii::LinearAlgebra::distributed::Vector so that we can
+      // solve.
+      MatrixFreeActiveVector solution_copy;
+      MatrixFreeActiveVector right_hand_side_copy;
+      stiffness_operator.initialize_dof_vector(solution_copy);
+      stiffness_operator.initialize_dof_vector(right_hand_side_copy);
+
+      ChangeVectorTypes::copy(solution_copy, solution);
+      ChangeVectorTypes::copy(right_hand_side_copy, right_hand_side);
+
       solution_copy = 0.;
       // Solve the linear system, update the ghost values of the solution,
       // copy back to LA::MPI::Vector and distribute constraints.
       {
-        SolverCG<MatrixFreeActiveVector> solver(*solver_control);
+        SolverCG<MatrixFreeActiveVector> solver(control);
 
         TimerOutput::Scope timing(computing_timer, "Solve: CG");
         solver.solve(stiffness_operator,
                      solution_copy,
                      right_hand_side_copy,
-                     preconditioner);
+                     prec);
       }
 
       solution_copy.update_ghost_values();
@@ -468,8 +498,8 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
       constraints.distribute(solution);
       locally_relevant_solution = solution;
 
-      pcout << "   Number of CG iterations:      "
-            << solver_control->last_step() << std::endl;
+      pcout << "   Number of CG iterations:      " << control.last_step()
+            << std::endl;
     }
   else if (settings.problem_type == "pinvit")
     {
@@ -484,7 +514,7 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
                           eigenvectors,
                           stiffness_operator,
                           mass_operator,
-                          preconditioner,
+                          prec,
                           constraints);
           ++current_pinvit_it;
           current_error = 0;
@@ -495,7 +525,7 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
           current_error /= eigenvalues.size();
           previous_eigenvalues = eigenvalues;
         }
-      while (solver_control->check(current_pinvit_it, current_error) ==
+      while (control.check(current_pinvit_it, current_error) ==
              SolverControl::iterate);
 
       pcout << std::endl
@@ -504,27 +534,30 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
       pcout << "   Eigenvalues(" << current_pinvit_it
             << ") = " << Patterns::Tools::to_string(eigenvalues) << std::endl;
 
+      AssertThrow(settings.exact_eigenvector < settings.number_of_eigenvalues,
+                  ExcMessage("Cannot compute error on this eigenvector: "
+                             "i didn't compute it."));
+      ChangeVectorTypes::copy(solution,
+                              eigenvectors[settings.exact_eigenvector]);
+      constraints.distribute(solution);
+      locally_relevant_solution = solution;
+
       for (auto &v : eigenvectors)
         v.update_ghost_values();
 
-      pcout << "   Number of PINVIT iterations:      "
-            << solver_control->last_step() << std::endl;
-
-      ChangeVectorTypes::copy(solution, eigenvectors[0]);
-      constraints.distribute(solution);
-      locally_relevant_solution = solution;
+      pcout << "   Number of PINVIT iterations:      " << control.last_step()
+            << std::endl;
     }
 }
 
-
 // @sect3{The error estimator}
 
-// We use the FEInterfaceValues class to assemble an error estimator to decide
-// which cells to refine. See the exact definition of the cell and face
-// integrals in the introduction. To use the method, we define Scratch and
-// Copy objects for the MeshWorker::mesh_loop() with much of the following
-// code being in essence as was set up in step-12 already (or at least similar
-// in spirit).
+// We use the FEInterfaceValues class to assemble an error estimator to
+// decide which cells to refine. See the exact definition of the cell and
+// face integrals in the introduction. To use the method, we define Scratch
+// and Copy objects for the MeshWorker::mesh_loop() with much of the
+// following code being in essence as was set up in step-12 already (or at
+// least similar in spirit).
 template <int dim>
 struct ScratchData
 {
@@ -593,7 +626,8 @@ LaplaceProblem<dim, degree>::estimate()
 
       using Iterator = typename DoFHandler<dim>::active_cell_iterator;
 
-      // Assembler for cell residual $h^2 \| f + \epsilon \triangle u \|_K^2$
+      // Assembler for cell residual $h^2 \| f + \epsilon \triangle u
+      // \|_K^2$
       auto cell_worker = [&](const Iterator &  cell,
                              ScratchData<dim> &scratch_data,
                              CopyData &        copy_data) {
@@ -620,7 +654,8 @@ LaplaceProblem<dim, degree>::estimate()
           cell->diameter() * cell->diameter() * residual_norm_square;
       };
 
-      // Assembler for face term $\sum_F h_F \| \jump{\epsilon \nabla u \cdot n}
+      // Assembler for face term $\sum_F h_F \| \jump{\epsilon \nabla u
+      // \cdot n}
       // \|_F^2$
       auto face_worker = [&](const Iterator &    cell,
                              const unsigned int &f,
@@ -692,11 +727,12 @@ LaplaceProblem<dim, degree>::estimate()
                                       update_normal_vectors);
       CopyData           copy_data;
 
-      // We need to assemble each interior face once but we need to make sure
-      // that both processes assemble the face term between a locally owned and
-      // a ghost cell. This is achieved by setting the
-      // MeshWorker::assemble_ghost_faces_both flag. We need to do this, because
-      // we do not communicate the error estimator contributions here.
+      // We need to assemble each interior face once but we need to make
+      // sure that both processes assemble the face term between a locally
+      // owned and a ghost cell. This is achieved by setting the
+      // MeshWorker::assemble_ghost_faces_both flag. We need to do this,
+      // because we do not communicate the error estimator contributions
+      // here.
       MeshWorker::mesh_loop(dof_handler.begin_active(),
                             dof_handler.end(),
                             cell_worker,
@@ -709,7 +745,7 @@ LaplaceProblem<dim, degree>::estimate()
                             /*boundary_worker=*/nullptr,
                             face_worker);
 
-      const double global_error_estimate =
+      global_error_estimate =
         std::sqrt(Utilities::MPI::sum(estimated_error_square_per_cell.l1_norm(),
                                       mpi_communicator));
       pcout << "   Global error estimate:        " << global_error_estimate
@@ -724,8 +760,8 @@ LaplaceProblem<dim, degree>::estimate()
             pcout << "   Computing estimator on eigenvector "
                   << eigenvector_index << std::endl;
             const auto lambda = eigenvalues[eigenvector_index];
-            ChangeVectorTypes::copy(locally_relevant_solution,
-                                    eigenvectors[eigenvector_index]);
+            ChangeVectorTypes::copy(solution, eigenvectors[eigenvector_index]);
+            locally_relevant_solution = solution;
 
             using Iterator = typename DoFHandler<dim>::active_cell_iterator;
 
@@ -762,8 +798,8 @@ LaplaceProblem<dim, degree>::estimate()
                 cell->diameter() * cell->diameter() * residual_norm_square;
             };
 
-            // Assembler for face term $\sum_F h_F \| \jump{\epsilon \nabla u
-            // \cdot n}
+            // Assembler for face term $\sum_F h_F \| \jump{\epsilon \nabla
+            // u \cdot n}
             // \|_F^2$
             auto face_worker = [&](const Iterator &    cell,
                                    const unsigned int &f,
@@ -837,12 +873,12 @@ LaplaceProblem<dim, degree>::estimate()
                                             update_normal_vectors);
             CopyData           copy_data;
 
-            // We need to assemble each interior face once but we need to make
-            // sure that both processes assemble the face term between a locally
-            // owned and a ghost cell. This is achieved by setting the
-            // MeshWorker::assemble_ghost_faces_both flag. We need to do this,
-            // because we do not communicate the error estimator contributions
-            // here.
+            // We need to assemble each interior face once but we need to
+            // make sure that both processes assemble the face term between
+            // a locally owned and a ghost cell. This is achieved by setting
+            // the MeshWorker::assemble_ghost_faces_both flag. We need to do
+            // this, because we do not communicate the error estimator
+            // contributions here.
             MeshWorker::mesh_loop(
               dof_handler.begin_active(),
               dof_handler.end(),

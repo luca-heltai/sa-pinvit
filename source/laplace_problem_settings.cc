@@ -22,7 +22,7 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
                 smoother_type,
                 "Smoother to use in intermediate cycles.",
                 this->prm,
-                Patterns::Selection("gmg|chebyshev|richardson"));
+                Patterns::Selection("gmg|chebyshev"));
   add_parameter("Finite element degree",
                 degree,
                 "Degree of the finite element space.");
@@ -41,6 +41,7 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
 
 
   enter_subsection("Smoothers");
+
   enter_subsection("GMG");
   add_parameter("Smoother dampen",
                 gmg_smoother_dampen,
@@ -49,9 +50,16 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
                 gmg_smoother_steps,
                 "Number of smoother steps.");
   leave_subsection();
+
+  enter_subsection("Chebyshev");
+  add_parameter("Degree", cheb_degree);
+  add_parameter("Smoothing range", cheb_smoothing_range);
+  add_parameter("Number of eig cg iterations", cheb_eig_cg_n_iterations);
+  add_parameter("Eig residual", cheb_eig_cg_residual);
+  add_parameter("Maximum eigenvalue", cheb_max_eigenvalue);
   leave_subsection();
 
-
+  leave_subsection();
 
   enter_subsection("PINVIT parameters");
   add_parameter("Number of eigenvalues to compute",
@@ -63,6 +71,10 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
                 eigen_estimators,
                 "All indices must be lower than the number of "
                 "computed eigenvalues.");
+  add_parameter("Exact eigenvector",
+                exact_eigenvector,
+                "Use the exact soluiton entry to define the "
+                "exact eigenvector for error computation.");
   add_parameter("Exact eigenvalues", exact_eigenvalues);
 
   leave_subsection();
