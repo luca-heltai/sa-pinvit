@@ -24,7 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "SA-PVINT for Elliptic Boundary Value Problems", "index.html", [
+  [ "S-AFEM and SA-PINVIT for Elliptic Boundary Value Problems", "index.html", [
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -58,15 +58,15 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "group__MeshWorker.html#gae1cf14f6f8ff8f5e1f168c19ad4979b9",
-"namespaceDoFTools.html#a5514e4f59ea659f63953d62ca429eaff",
-"namespaceGridTools.html#a4ff265d387af7b430f5aec7005faace6",
-"namespaceMeshWorker.html#a942bcd91597d0b5eb774c160cdf41986",
-"namespaceNonMatching.html#a4899168c199b9c045280e19287dd9d50",
-"namespaceNonMatching.html#a93d503e72e78488665e0a3bd15751f0d",
-"namespaceNonMatching.html#adfefd36fdabd9a73a0bc8d979561c112",
-"namespaceTimeStepping.html#abff97b5326e452552f108a379dd6cff4a037245063b5afdaf23a96ec566373613",
-"namespaceWorkStream.html#a2f054e2848cf513aec9e5e4eb115bef4",
-"namespacenumbers.html#a8205d4e9ed50e992d56eb5c524a0f689"
+"namespaceDoFTools.html#a495fa975b1d6b81f0875bf641f266ce5",
+"namespaceGridTools.html#a3f129213c63c92a6ed84c6f2a906048b",
+"namespaceMemorySpace.html#aa305d2cf39a99e7571fdaf256ce130ec",
+"namespaceNonMatching.html#a46aef83100159308592bdd8d4600d1d6",
+"namespaceNonMatching.html#a91a082114e963c526d8c27145dc355b2",
+"namespaceNonMatching.html#adef60c9b3c670ad6a982a3935e5f498a",
+"namespaceTimeStepping.html#abff97b5326e452552f108a379dd6cff4ad502a4be71ee90ce567e0e65d083c595",
+"namespacedeal__II__exceptions.html#a0a5db0650b1c82f4bc04217f9a6eb388",
+"namespacenumbers.html#a9b7cf507f7010dde825c4baae64281ad"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

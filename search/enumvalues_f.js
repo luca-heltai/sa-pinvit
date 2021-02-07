@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['tet_21056',['Tet',['http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCell.html#a825c9f58e76f94d0235317884798623da36a04c4c21d4024e5a8cb138fc249d78',1,'ReferenceCell']]],
-  ['tri_21057',['Tri',['http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCell.html#a825c9f58e76f94d0235317884798623dab8c4c2cd6e0f11e2fbb894caeaeccef3',1,'ReferenceCell']]]
+  ['zoltan_21504',['zoltan',['http://www.dealii.org/developer/doxygen/deal.II/namespaceSparsityTools.html#a34d8cbf5559e454001e512c4368c2c3ea9b2a08291b328fd80d8196926ba685ec',1,'SparsityTools']]]
 ];
