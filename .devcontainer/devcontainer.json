@@ -20,7 +20,8 @@
 		"ms-vscode.cmake-tools",
 		"xaver.clang-format",
 		"ms-azuretools.vscode-docker",
-		"davidschuldenfrei.gtest-adapter"
+		"davidschuldenfrei.gtest-adapter",
+		"cschleiden.vscode-github-actions"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
@@ -37,9 +38,5 @@
 	"containerEnv": {
 		"BUILD_POSTFIX": "-container",
 	},
-	"mounts": [
-		"source=vscode-extensions,target=/home/dealii/.vscode-server/extensions,type=volume",
-		// And/or for VS Code Insiders
-		"source=vscode-extensions-insiders,target=/home/dealii/.vscode-server-insiders/extensions,type=volume",
-	]
+	
 }
