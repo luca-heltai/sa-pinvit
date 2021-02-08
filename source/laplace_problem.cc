@@ -145,6 +145,8 @@ LaplaceProblem<dim, degree>::setup_system(const unsigned int cycle)
 
     stiffness_operator.set_coefficient(
       make_coefficient_table(settings.coefficient, *mf_storage));
+
+    stiffness_operator.compute_diagonal();
   }
 
   // Initialize matrix free mass, only for eivengalue calculations
@@ -388,23 +390,40 @@ LaplaceProblem<dim, degree>::solve(const unsigned int cycle)
   const bool is_only_smoother = (is_intermediate_cycle) && !same_controls;
 
   std::string section_name =
-    (is_only_smoother ? "Solve - intermediate" : "Solve");
+    (is_intermediate_cycle ? "Solve - intermediate" : "Solve");
 
   TimerOutput::Scope timing(computing_timer, section_name);
 
   if (is_only_smoother && settings.smoother_type == "chebyshev")
     {
       computing_timer.enter_subsection("Solve: Chebyshev smoother setup");
+      using SmootherPreconditioner =
+        dealii::PreconditionJacobi<MatrixFreeActiveMatrix>;
+
       using Smoother = dealii::PreconditionChebyshev<MatrixFreeActiveMatrix,
-                                                     MatrixFreeActiveVector>;
-      Smoother preconditioner;
-      preconditioner.initialize(
+                                                     MatrixFreeActiveVector,
+                                                     SmootherPreconditioner>;
+
+      auto preconditioner_of_smoother =
+        std::make_shared<SmootherPreconditioner>();
+
+      preconditioner_of_smoother->initialize(
         stiffness_operator,
-        typename Smoother::AdditionalData(settings.cheb_degree,
-                                          settings.cheb_smoothing_range,
-                                          settings.cheb_eig_cg_n_iterations,
-                                          settings.cheb_eig_cg_residual,
-                                          settings.cheb_max_eigenvalue));
+        typename SmootherPreconditioner::AdditionalData(
+          settings.gmg_smoother_dampen));
+
+      Smoother preconditioner;
+
+      typename Smoother::AdditionalData preconditioner_data(
+        settings.cheb_degree,
+        settings.cheb_smoothing_range,
+        settings.cheb_eig_cg_n_iterations,
+        settings.cheb_eig_cg_residual,
+        settings.cheb_max_eigenvalue);
+
+      preconditioner_data.preconditioner = preconditioner_of_smoother;
+      preconditioner.initialize(stiffness_operator, preconditioner_data);
+
       computing_timer.leave_subsection("Solve: Chebyshev smoother setup");
       solve_system(preconditioner, *solver_control);
     }
@@ -765,7 +784,7 @@ LaplaceProblem<dim, degree>::estimate()
 
             using Iterator = typename DoFHandler<dim>::active_cell_iterator;
 
-            // Assembler for cell residual $h^2 \| f + \epsilon \triangle u
+            // Assembler for cell residual $h^2 \| f + \epsilon \Delta u
             // \|_K^2$
             auto cell_worker = [&](const Iterator &  cell,
                                    ScratchData<dim> &scratch_data,
