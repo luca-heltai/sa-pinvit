@@ -170,8 +170,12 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a970fd754e4564b406a21f024af1aa3f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c034efbdb0487390fae4564531decfb"><td class="memItemLeft" align="right" valign="top">MPI_Comm&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem.html#a3c034efbdb0487390fae4564531decfb">mpi_communicator</a></td></tr>
 <tr class="separator:a3c034efbdb0487390fae4564531decfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f17da064919286620fd318813dbadab"><td class="memItemLeft" align="right" valign="top">std::ofstream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem.html#a4f17da064919286620fd318813dbadab">timeroutputfile</a></td></tr>
+<tr class="separator:a4f17da064919286620fd318813dbadab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9dfb32ec79403126dcdff7c8e216a9a7"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classConditionalOStream.html">ConditionalOStream</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem.html#a9dfb32ec79403126dcdff7c8e216a9a7">pcout</a></td></tr>
 <tr class="separator:a9dfb32ec79403126dcdff7c8e216a9a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b9d08a24aa73fdd91fb7bb6e863705"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classConditionalOStream.html">ConditionalOStream</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem.html#af9b9d08a24aa73fdd91fb7bb6e863705">timerpcout</a></td></tr>
+<tr class="separator:af9b9d08a24aa73fdd91fb7bb6e863705"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f9c6147583b774bd1620d534c32dee5"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classparallel_1_1distributed_1_1Triangulation.html">parallel::distributed::Triangulation</a>&lt; dim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem.html#a1f9c6147583b774bd1620d534c32dee5">triangulation</a></td></tr>
 <tr class="separator:a1f9c6147583b774bd1620d534c32dee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0506c6ac18096b033313e5d965ac43eb"><td class="memItemLeft" align="right" valign="top">const <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classMappingQ1.html">MappingQ1</a>&lt; dim &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_laplace_problem.html#a0506c6ac18096b033313e5d965ac43eb">mapping</a></td></tr>
@@ -453,7 +457,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00318">318</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00323">323</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/structVectorOperation.html#a40c50779cd14ba89bbf0bd9b4561964cae1077e8dbf4afea5d2df8c8b723c0708">VectorOperation::add</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classLinearAlgebra_1_1VectorSpaceVector.html#a6207efeaeff0d0f321b35d29d58e8df2">LinearAlgebra::distributed::Vector&lt; Number, MemorySpace &gt;::compress()</a>, <a class="el" href="utilities_8h_source.html#l00069">ChangeVectorTypes::copy()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEEvaluation.html#a710c252e9dccc0c4ce07044cac3bdd9b">FEEvaluation&lt; dim, fe_degree, n_q_points_1d, n_components_, Number, VectorizedArrayType &gt;::evaluate()</a>, <a class="el" href="utilities_8h_source.html#l00025">evaluate_function()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEEvaluationBase.html#a132c024aa9243845d3777b227607da6b">FEEvaluation&lt; dim, fe_degree, n_q_points_1d, n_components_, Number, VectorizedArrayType &gt;::get_gradient()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceEvaluationFlags.html#a9b7c6d689cb76386839d0d13640f59aea91b5f00e4be473005cc331b8644ab2f1">EvaluationFlags::gradients</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEEvaluation.html#a491779be7bd032d277e41f1dda8dc584">FEEvaluation&lt; dim, fe_degree, n_q_points_1d, n_components_, Number, VectorizedArrayType &gt;::integrate_scatter()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEEvaluation.html#a1b8934d6ae273d7b3f91994eddcad239">FEEvaluation&lt; dim, fe_degree, n_q_points_1d, n_components_, Number, VectorizedArrayType &gt;::n_q_points</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEEvaluation.html#ac502951246b5155d586bd090cc9e1572">FEEvaluation&lt; dim, fe_degree, n_q_points_1d, n_components_, Number, VectorizedArrayType &gt;::quadrature_point()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEEvaluationBase.html#a5bd35a59ccde6eaab46d1264450b93f5">FEEvaluation&lt; dim, fe_degree, n_q_points_1d, n_components_, Number, VectorizedArrayType &gt;::read_dof_values_plain()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEEvaluation.html#a5e77cd8900f05a73a91ca8edf31f4a91">FEEvaluation&lt; dim, fe_degree, n_q_points_1d, n_components_, Number, VectorizedArrayType &gt;::reinit()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEEvaluationBase.html#a2a78655d119bd1bde992619c52b2d2f8">FEEvaluation&lt; dim, fe_degree, n_q_points_1d, n_components_, Number, VectorizedArrayType &gt;::submit_gradient()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEEvaluationBase.html#a2c0efc6f70b305c0585001632063c98b">FEEvaluation&lt; dim, fe_degree, n_q_points_1d, n_components_, Number, VectorizedArrayType &gt;::submit_value()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classLinearAlgebra_1_1distributed_1_1Vector.html#a2a6cb7d50e02022283af53c2ae14f878">LinearAlgebra::distributed::Vector&lt; Number, MemorySpace &gt;::update_ghost_values()</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceEvaluationFlags.html#a9b7c6d689cb76386839d0d13640f59aeaf9825c682f693a6a200094641a0d6a58">EvaluationFlags::values</a>.</p>
 
@@ -473,7 +477,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l01054">1054</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l01059">1059</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLAPACKSupport.html#a1a9009db0d9a77923a7031b549b9b638ad91ede5cc912c10676843bf58fa60636">eigenvalues</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceUtilities.html#a56cb23f1982e4aa0bec09b60903303ce">Utilities::to_string()</a>.</p>
 
@@ -494,9 +498,9 @@ template&lt;int dim, int degree&gt; </div>
 </div><div class="memdoc">
 <p>Compute a Residual based error estimator on the source or eigenvalue problem. </p>
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00636">636</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00641">641</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
-<p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceMeshWorker.html#ac7a9db8b34d398d7d398d1e8809874aaa9396964e7e270fe0a0c5d01474721c24">MeshWorker::assemble_ghost_faces_both</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceMeshWorker.html#ac7a9db8b34d398d7d398d1e8809874aaa44a76e905b1d4cd80af387b5fac4d8aa">MeshWorker::assemble_own_cells</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceMeshWorker.html#ac7a9db8b34d398d7d398d1e8809874aaa47c6806a06155c94191629fae2755763">MeshWorker::assemble_own_interior_faces_once</a>, <a class="el" href="laplace__problem_8cc_source.html#l00624">CopyData::FaceData::cell_indices</a>, <a class="el" href="utilities_8h_source.html#l00069">ChangeVectorTypes::copy()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLAPACKSupport.html#a1a9009db0d9a77923a7031b549b9b638ad91ede5cc912c10676843bf58fa60636">eigenvalues</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/symmetric__tensor_8h.html#aa18a9d623fcd520f022421fd1d6c7a14">eigenvectors()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEInterfaceValues.html#a6ac7ddd5ac77cc4a1925ec5f0b100bf2">FEInterfaceValues&lt; dim, spacedim &gt;::get_fe_face_values()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEValuesBase.html#ae8f183c9d6da0c7daf9d345e0bc91b0a">FEValues&lt; dim &gt;::get_function_hessians()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEValuesBase.html#a357b422e374f2f2207af3512093f3907">FEValues&lt; dim &gt;::get_function_values()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceEvaluationFlags.html#a9b7c6d689cb76386839d0d13640f59aeaccf663e018d31c264b769c80bd91db4d">hessians</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacenumbers.html#a8ae36952c7e0cc778b47b5371b3aeff1">numbers::invalid_unsigned_int</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEInterfaceValues.html#a9f8f06f7da061e1c2a20c5cc68a89db1">FEInterfaceValues&lt; dim, spacedim &gt;::JxW()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEValuesBase.html#abade89efb068b71b7ced7082012a2441">FEValues&lt; dim &gt;::JxW()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceDifferentiation_1_1SD.html#a841a7b84dc17bf2ba675522093a97e8ba945f3fc449518a73b9f5f32868db466c">lambda</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__MeshWorker.html#ga76ec61fbd188fb320fe8ca166a79b322">MeshWorker::mesh_loop()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEInterfaceValues.html#a41f6734be1313f750fa8b3b7ba470f35">FEInterfaceValues&lt; dim, spacedim &gt;::n_quadrature_points</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEValuesBase.html#a807c3049bfe81743fc0f237dfc2fbdea">FEValues&lt; dim &gt;::n_quadrature_points</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEInterfaceValues.html#a1a52fcfa2f54f153cc7cdda3788e5ac0">FEInterfaceValues&lt; dim, spacedim &gt;::normal()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEInterfaceValues.html#af6aa20b6652c2605d4cee36021f6bcd2">FEInterfaceValues&lt; dim, spacedim &gt;::reinit()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEValues.html#a21f914e63d588e2652a9514620653d77">FEValues&lt; dim &gt;::reinit()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceUtilities_1_1MPI.html#ab544a3bf3301a6dd3e705ee352c5551b">Utilities::MPI::sum()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/symmetric__tensor_8h.html#a4248760c880275bab1f288fc80f27039">trace()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52facbcc430975fa6af05f75ca786dc6fe20">update_gradients</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa378cbcddbdf54fb3f9f0acf47b1c4719">update_hessians</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa714204722e9eeb43aadbd0d5ddc48c85">update_JxW_values</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa5e7366a91c84a50ca4e7dbd43ca6369f">update_normal_vectors</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fad5c9ff886b9615349a5d04a6c782df4a">update_quadrature_points</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa4057ca2f127aa619c65886a9d3ad4aea">update_values</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceEvaluationFlags.html#a9b7c6d689cb76386839d0d13640f59aeaf9825c682f693a6a200094641a0d6a58">values</a>, and <a class="el" href="laplace__problem_8cc_source.html#l00625">CopyData::FaceData::values</a>.</p>
+<p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceMeshWorker.html#ac7a9db8b34d398d7d398d1e8809874aaa9396964e7e270fe0a0c5d01474721c24">MeshWorker::assemble_ghost_faces_both</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceMeshWorker.html#ac7a9db8b34d398d7d398d1e8809874aaa44a76e905b1d4cd80af387b5fac4d8aa">MeshWorker::assemble_own_cells</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceMeshWorker.html#ac7a9db8b34d398d7d398d1e8809874aaa47c6806a06155c94191629fae2755763">MeshWorker::assemble_own_interior_faces_once</a>, <a class="el" href="laplace__problem_8cc_source.html#l00629">CopyData::FaceData::cell_indices</a>, <a class="el" href="utilities_8h_source.html#l00069">ChangeVectorTypes::copy()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLAPACKSupport.html#a1a9009db0d9a77923a7031b549b9b638ad91ede5cc912c10676843bf58fa60636">eigenvalues</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/symmetric__tensor_8h.html#aa18a9d623fcd520f022421fd1d6c7a14">eigenvectors()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEInterfaceValues.html#a6ac7ddd5ac77cc4a1925ec5f0b100bf2">FEInterfaceValues&lt; dim, spacedim &gt;::get_fe_face_values()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEValuesBase.html#ae8f183c9d6da0c7daf9d345e0bc91b0a">FEValues&lt; dim &gt;::get_function_hessians()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEValuesBase.html#a357b422e374f2f2207af3512093f3907">FEValues&lt; dim &gt;::get_function_values()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceEvaluationFlags.html#a9b7c6d689cb76386839d0d13640f59aeaccf663e018d31c264b769c80bd91db4d">hessians</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacenumbers.html#a8ae36952c7e0cc778b47b5371b3aeff1">numbers::invalid_unsigned_int</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEInterfaceValues.html#a9f8f06f7da061e1c2a20c5cc68a89db1">FEInterfaceValues&lt; dim, spacedim &gt;::JxW()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEValuesBase.html#abade89efb068b71b7ced7082012a2441">FEValues&lt; dim &gt;::JxW()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceDifferentiation_1_1SD.html#a841a7b84dc17bf2ba675522093a97e8ba945f3fc449518a73b9f5f32868db466c">lambda</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__MeshWorker.html#ga76ec61fbd188fb320fe8ca166a79b322">MeshWorker::mesh_loop()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEInterfaceValues.html#a41f6734be1313f750fa8b3b7ba470f35">FEInterfaceValues&lt; dim, spacedim &gt;::n_quadrature_points</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEValuesBase.html#a807c3049bfe81743fc0f237dfc2fbdea">FEValues&lt; dim &gt;::n_quadrature_points</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEInterfaceValues.html#a1a52fcfa2f54f153cc7cdda3788e5ac0">FEInterfaceValues&lt; dim, spacedim &gt;::normal()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEInterfaceValues.html#af6aa20b6652c2605d4cee36021f6bcd2">FEInterfaceValues&lt; dim, spacedim &gt;::reinit()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classFEValues.html#a21f914e63d588e2652a9514620653d77">FEValues&lt; dim &gt;::reinit()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceUtilities_1_1MPI.html#ab544a3bf3301a6dd3e705ee352c5551b">Utilities::MPI::sum()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/symmetric__tensor_8h.html#a4248760c880275bab1f288fc80f27039">trace()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52facbcc430975fa6af05f75ca786dc6fe20">update_gradients</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa378cbcddbdf54fb3f9f0acf47b1c4719">update_hessians</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa714204722e9eeb43aadbd0d5ddc48c85">update_JxW_values</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa5e7366a91c84a50ca4e7dbd43ca6369f">update_normal_vectors</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fad5c9ff886b9615349a5d04a6c782df4a">update_quadrature_points</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa4057ca2f127aa619c65886a9d3ad4aea">update_values</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceEvaluationFlags.html#a9b7c6d689cb76386839d0d13640f59aeaf9825c682f693a6a200094641a0d6a58">values</a>, and <a class="el" href="laplace__problem_8cc_source.html#l00630">CopyData::FaceData::values</a>.</p>
 
 </div>
 </div>
@@ -515,7 +519,7 @@ template&lt;int dim, int degree&gt; </div>
 </div><div class="memdoc">
 <p>Create the grid from the specification in the settings. </p>
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00079">79</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00084">84</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceGridGenerator.html#a1e6c4dcc63863449f08a78a22ec73747">GridGenerator::generate_from_name_and_arguments()</a>, <a class="el" href="utilities_8h_source.html#l00134">read_grid_and_cad_files()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classGridOut.html#a6b72484c35abc1f84abb8bf1bc1048dc">GridOut::write_vtk()</a>.</p>
 
@@ -539,7 +543,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00965">965</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00970">970</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classDataOut__DoFData.html#ace4b76e565ba0701c4d32c26075ed3b9">DataOut&lt; dim &gt;::add_data_vector()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classDataOut__DoFData.html#ac1eb26168177faa30ffbcf9cbb9c3cd5">DataOut&lt; dim &gt;::attach_dof_handler()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classDataOut.html#a5eb51872b8736849bb7e8d2007fae086">DataOut&lt; dim &gt;::build_patches()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/symmetric__tensor_8h.html#aa18a9d623fcd520f022421fd1d6c7a14">eigenvectors()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceUtilities.html#a6195c5f009ea8c7c536c6ffdf108c32f">Utilities::int_to_string()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/grid__out_8cc.html#a9082f945c1d289684d0bcd51ee08e11e">level</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classDataOutInterface.html#ac7280a24690b117454acfb0fa058299c">DataOut&lt; dim &gt;::set_flags()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classVector.html#a81dcfa5c77bdd426603386c0844149ae">Vector&lt; float &gt;::size()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceUtilities_1_1MPI.html#a895dcd8223a0ee6f0e6a80b80e2d5982">Utilities::MPI::this_mpi_process()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/structDataOutBase_1_1VtkFlags.html#aa9dd1830c0ff35a2431704c4d45453eb">DataOutBase::VtkFlags::write_higher_order_cells</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classGridOut.html#af1e059d62c5431082381c9fa5cfaab35">GridOut::write_mesh_per_processor_as_vtu()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceDataOutBase.html#a6f1c052ba49fd44cd8e3f35ba871aebd">DataOutBase::write_pvd_record()</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classDataOutInterface.html#a0864e51eb173c87e2a3edc9391ea8009">DataOut&lt; dim &gt;::write_vtu_with_pvtu_record()</a>.</p>
 
@@ -559,7 +563,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l01099">1099</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l01104">1104</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceMGTools.html#a8776ac550d9ac85e7e0db51625935673">MGTools::workload_imbalance()</a>.</p>
 
@@ -579,7 +583,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00926">926</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00931">931</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#ga70a0bb353656e704acf927945277bbc6">Assert</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/symmetric__tensor_8h.html#aa18a9d623fcd520f022421fd1d6c7a14">eigenvectors()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#ga31978c026b8b6b5116df30b8e748f6b7">ExcInternalError()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceparallel_1_1distributed_1_1GridRefinement.html#ae5159e3207f6786f0749fc0b66ab8ca3">parallel::distributed::GridRefinement::refine_and_coarsen_fixed_fraction()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceparallel_1_1distributed_1_1GridRefinement.html#aa2ffb707a796ae6dedb75036606ef2e6">parallel::distributed::GridRefinement::refine_and_coarsen_fixed_number()</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>.</p>
 
@@ -599,7 +603,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l01119">1119</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l01124">1124</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="main_8cc_source.html#l00023">main()</a>.</p>
 
@@ -619,7 +623,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00217">217</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00222">222</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classAffineConstraints.html#aef97b22281acb10c914d79a3881e2735">AffineConstraints&lt; number &gt;::add_lines()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classAffineConstraints.html#a1611aa37f754086388ca76bcd421cce5">AffineConstraints&lt; number &gt;::close()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceDoFTools.html#a1fef7be07cf379b661646e39b9354e17">DoFTools::extract_locally_relevant_level_dofs()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/grid__out_8cc.html#a9082f945c1d289684d0bcd51ee08e11e">level</a>, <a class="el" href="utilities_8h_source.html#l00108">make_coefficient_table()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classMatrixFree.html#a65d5b0dfea8051c30f80a7f3f72fd5bc">MatrixFree&lt; dim, Number, VectorizedArrayType &gt;::mg_level</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classAffineConstraints.html#a2c9d71b5b7e8851c25a411ccf34de986">AffineConstraints&lt; number &gt;::reinit()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52facbcc430975fa6af05f75ca786dc6fe20">update_gradients</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa714204722e9eeb43aadbd0d5ddc48c85">update_JxW_values</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fad5c9ff886b9615349a5d04a6c782df4a">update_quadrature_points</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa4057ca2f127aa619c65886a9d3ad4aea">update_values</a>.</p>
 
@@ -643,7 +647,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00107">107</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00112">112</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classAffineConstraints.html#a1611aa37f754086388ca76bcd421cce5">AffineConstraints&lt; double &gt;::close()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLAPACKSupport.html#a1a9009db0d9a77923a7031b549b9b638ad91ede5cc912c10676843bf58fa60636">eigenvalues</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/symmetric__tensor_8h.html#aa18a9d623fcd520f022421fd1d6c7a14">eigenvectors()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceDoFTools.html#acad7e0841b9046eaafddc4c617ab1d9d">DoFTools::extract_locally_relevant_dofs()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceUtilities.html#acc6aef87ce08208501a4b524563836db">Utilities::generate_normal_random_number()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceVectorTools.html#af27ac28c698a9ed0199faed50a204538">VectorTools::interpolate_boundary_values()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__CPP11.html#gad39fd2189568f2f6b7d557237e3372e3">locally_owned_dofs()</a>, <a class="el" href="utilities_8h_source.html#l00108">make_coefficient_table()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__constraints.html#ga3b4ea7dfd313e388d868c4e4aa685799">DoFTools::make_hanging_node_constraints()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classMatrixFree.html#adb324d469b296f2a6921b41208732ddf">MatrixFree&lt; dim, Number, VectorizedArrayType &gt;::reinit()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52facbcc430975fa6af05f75ca786dc6fe20">update_gradients</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa714204722e9eeb43aadbd0d5ddc48c85">update_JxW_values</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fad5c9ff886b9615349a5d04a6c782df4a">update_quadrature_points</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__feaccess.html#ggaa94b67d2fdcc390690c523f28019e52fa4057ca2f127aa619c65886a9d3ad4aea">update_values</a>.</p>
 
@@ -667,7 +671,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00371">371</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00376">376</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classMGTransferMatrixFree.html#a8f214ffade006cfa85e902a94902fc7b">MGTransferMatrixFree&lt; dim, Number &gt;::build()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePhysics_1_1Elasticity_1_1Kinematics.html#a9587d5229555daa5b1fa1ba2f8a40adb">e()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/grid__out_8cc.html#a9082f945c1d289684d0bcd51ee08e11e">level</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>.</p>
 
@@ -705,7 +709,7 @@ template&lt;class PreconditionerType &gt; </div>
 <p>According to the problem type, solve using the given preconditioner, or perform on smoothing step using the given preconditioner.</p>
 <p>At the end of this call, <code>locally_relevant_solution</code>, and <code>solution</code> will contain sensible data (both for source problem and for pinvit problem). When calling pinvit, then also eigenvalues and eigenvectors will be updated. </p>
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00486">486</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8cc_source.html#l00491">491</a> of file <a class="el" href="laplace__problem_8cc_source.html">laplace_problem.cc</a>.</p>
 
 <p class="reference">References <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#gafc0ca7ad85b3ebd64e8e51689ac85caf">AssertThrow</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classSolverControl.html#a56fdf4c8d099edaca6fad443d7c76649">SolverControl::check()</a>, <a class="el" href="utilities_8h_source.html#l00069">ChangeVectorTypes::copy()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLAPACKSupport.html#a1a9009db0d9a77923a7031b549b9b638ad91ede5cc912c10676843bf58fa60636">eigenvalues</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/symmetric__tensor_8h.html#aa18a9d623fcd520f022421fd1d6c7a14">eigenvectors()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#gae9a45f517af1401c50811a11083f9114">ExcMessage()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classSolverControl.html#afcdeab4b55513dbd766b56e35efecbaaa0df2bbb86c9c456f02c3d69739be394c">SolverControl::iterate</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classSolverControl.html#a42aeae81cd6b67ce93b5fbea3328371f">SolverControl::last_step()</a>, <a class="el" href="pinvit_8h_source.html#l00032">one_step_pinvit()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classSolverCG.html#aa52469650d9b9ef2f4cb4884caeb0723">SolverCG&lt; VectorType &gt;::solve()</a>, <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespacePatterns_1_1Tools.html#a72743302dcb1a0fb1f2f8dc5122d299e">Patterns::Tools::to_string()</a>, and <a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classLinearAlgebra_1_1distributed_1_1Vector.html#a2a6cb7d50e02022283af53c2ae14f878">LinearAlgebra::distributed::Vector&lt; Number, MemorySpace &gt;::update_ghost_values()</a>.</p>
 
@@ -737,7 +741,7 @@ template&lt;int , int &gt; </div>
 </div><div class="memdoc">
 <p>Make sure google tests can access private members. </p>
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00165">165</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00167">167</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -756,7 +760,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00159">159</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00161">161</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -774,7 +778,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00142">142</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00144">144</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -792,7 +796,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00135">135</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00137">137</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -810,7 +814,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00150">150</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00152">152</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -828,7 +832,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00149">149</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00151">151</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -846,7 +850,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00138">138</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00140">140</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -864,7 +868,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00151">151</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00153">153</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -882,7 +886,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00133">133</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00135">135</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -900,7 +904,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00152">152</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00154">154</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -918,7 +922,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00140">140</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00142">142</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -936,7 +940,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00141">141</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00143">143</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -954,7 +958,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00147">147</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00149">149</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -972,7 +976,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00132">132</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00134">134</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -990,7 +994,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00145">145</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00147">147</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1008,7 +1012,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00156">156</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00158">158</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1026,7 +1030,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00157">157</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00159">159</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1044,7 +1048,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00155">155</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00157">157</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1062,7 +1066,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00154">154</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00156">156</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1098,7 +1102,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00129">129</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00130">130</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1116,7 +1120,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00148">148</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00150">150</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1152,7 +1156,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00146">146</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00148">148</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1170,7 +1174,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00136">136</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00138">138</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1188,7 +1192,43 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00144">144</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00146">146</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+
+</div>
+</div>
+<a id="a4f17da064919286620fd318813dbadab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f17da064919286620fd318813dbadab">&#9670;&nbsp;</a></span>timeroutputfile</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int degree&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::ofstream <a class="el" href="class_laplace_problem.html">LaplaceProblem</a>&lt; dim, degree &gt;::timeroutputfile</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00129">129</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+
+</div>
+</div>
+<a id="af9b9d08a24aa73fdd91fb7bb6e863705"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b9d08a24aa73fdd91fb7bb6e863705">&#9670;&nbsp;</a></span>timerpcout</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim, int degree&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="elRef" href="http://www.dealii.org/developer/doxygen/deal.II/classConditionalOStream.html">ConditionalOStream</a> <a class="el" href="class_laplace_problem.html">LaplaceProblem</a>&lt; dim, degree &gt;::timerpcout</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00131">131</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1206,7 +1246,7 @@ template&lt;int dim, int degree&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00131">131</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="laplace__problem_8h_source.html#l00133">133</a> of file <a class="el" href="laplace__problem_8h_source.html">laplace_problem.h</a>.</p>
 
 </div>
 </div>
@@ -1220,7 +1260,7 @@ template&lt;int dim, int degree&gt; </div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_laplace_problem.html">LaplaceProblem</a></li>
-    <li class="footer">Generated on Mon Feb 8 2021 17:40:00 for S-AFEM and SA-PINVIT for Elliptic Boundary Value Problems by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Mon Feb 8 2021 23:15:30 for S-AFEM and SA-PINVIT for Elliptic Boundary Value Problems by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

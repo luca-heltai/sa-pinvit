@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"globals.html":[2,1,0],
+"globals_func.html":[2,1,1],
 "group__CPP11.html#ga880e3efbb0a778f8c9d91c69c2967475":[0,0,59,2],
 "group__CPP11.html#gaec59eec63fe5999c595cd0980f998a5a":[0,0,59,7],
 "group__CUDAWrappers.html#ga0a6ba40d780596a4ec4ac0eb8334eb5e":[0,0,29,0,4],
@@ -48,7 +50,6 @@ var NAVTREEINDEX1 =
 "group__Exceptions.html#ga21fa7fc7002aedd36ac53d6218afea99":[0,0,45,10],
 "group__Exceptions.html#ga23aa9f21044c8d4ef2ed2a972ea138ab":[0,0,61,4],
 "group__Exceptions.html#ga27200ce8d7e27b2acb32792fc040aedf":[0,0,47,1,1],
-"group__Exceptions.html#ga2806e742e2c50d102b2d9859c443a87a":[0,0,38,6],
 "group__Exceptions.html#ga29863aa7dd0b071bb6794c7780b59ff8":[0,0,14,21],
 "group__Exceptions.html#ga2added16caf5d21400c18e294bc110bb":[0,0,22,45],
 "group__Exceptions.html#ga2c1d901a06fcbb8e29f75aad6511886b":[0,0,55,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "main_8cc.html#a0ddf1224851353fc92bfbff6f499fa97":[2,0,0,0,1,3,0],
 "main_8cc_source.html":[2,0,0,0,1,3],
 "namespaceAlgorithms.html#a65de55666348d122ce948f4e11c41567":[0,0,0,1],
-"namespaceAlgorithms.html#a83b47b723d922f5b15e66f8892fdd063":[0,0,0,2],
-"namespaceAlgorithms_1_1Events.html#a15a12dfdadd39a026d192ad96cb6207b":[0,0,0,0,1]
+"namespaceAlgorithms.html#a83b47b723d922f5b15e66f8892fdd063":[0,0,0,2]
 };

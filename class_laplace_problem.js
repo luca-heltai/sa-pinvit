@@ -49,5 +49,7 @@ var class_laplace_problem =
     [ "solution", "class_laplace_problem.html#a5c6d887dea84186bb992ec9fec99f744", null ],
     [ "solution_transfer", "class_laplace_problem.html#a7f71a54e2ec0a744ac103fc150c4ed02", null ],
     [ "stiffness_operator", "class_laplace_problem.html#a66ad9d187e1fd1fd6dfc1d9914ab91b3", null ],
+    [ "timeroutputfile", "class_laplace_problem.html#a4f17da064919286620fd318813dbadab", null ],
+    [ "timerpcout", "class_laplace_problem.html#af9b9d08a24aa73fdd91fb7bb6e863705", null ],
     [ "triangulation", "class_laplace_problem.html#a1f9c6147583b774bd1620d534c32dee5", null ]
 ];
