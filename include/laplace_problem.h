@@ -126,7 +126,9 @@ public:
   const LaplaceProblemSettings<dim> &settings;
 
   MPI_Comm           mpi_communicator;
+  std::ofstream      timeroutputfile;
   ConditionalOStream pcout;
+  ConditionalOStream timerpcout;
 
   parallel::distributed::Triangulation<dim> triangulation;
   const MappingQ1<dim>                      mapping;

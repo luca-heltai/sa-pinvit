@@ -59,7 +59,10 @@ LaplaceProblem<dim, degree>::LaplaceProblem(
   const LaplaceProblemSettings<dim> &settings)
   : settings(settings)
   , mpi_communicator(MPI_COMM_WORLD)
+  , timeroutputfile(settings.output_directory + "timings.txt")
   , pcout(std::cout, (Utilities::MPI::this_mpi_process(mpi_communicator) == 0))
+  , timerpcout(timeroutputfile,
+               (Utilities::MPI::this_mpi_process(mpi_communicator) == 0))
   , triangulation(
       mpi_communicator,
       Triangulation<dim>::limit_level_difference_at_vertices,
@@ -69,7 +72,9 @@ LaplaceProblem<dim, degree>::LaplaceProblem(
   , dof_handler(triangulation)
   , solution_transfer(dof_handler)
   , eigenvectors_transfer(dof_handler)
-  , computing_timer(pcout, TimerOutput::never, TimerOutput::wall_times)
+  , computing_timer(timerpcout,
+                    TimerOutput::never,
+                    TimerOutput::cpu_and_wall_times)
 {}
 
 
