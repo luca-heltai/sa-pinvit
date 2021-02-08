@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quadrature_20formulas_21666',['Quadrature formulas',['http://www.dealii.org/developer/doxygen/deal.II/group__Quadrature.html',1,'']]]
+  ['quadrature_20formulas_21689',['Quadrature formulas',['http://www.dealii.org/developer/doxygen/deal.II/group__Quadrature.html',1,'']]]
 ];

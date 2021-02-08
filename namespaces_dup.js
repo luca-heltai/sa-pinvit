@@ -1151,6 +1151,9 @@ var namespaces_dup =
       [ "ExcComponentMismatch", "http://www.dealii.org/developer/doxygen/deal.II/group__Exceptions.html#ga2f12db899035258729f10cb6cc406862", null ]
     ] ],
     [ "MatrixFreeTools", null, [
+      [ "internal", null, [
+        [ "create_new_affine_constraints_if_needed", "http://www.dealii.org/developer/doxygen/deal.II/namespaceMatrixFreeTools_1_1internal.html#afbb23fbbdde2ba7125ed91300aed0f72", null ]
+      ] ],
       [ "categorize_by_boundary_ids", "http://www.dealii.org/developer/doxygen/deal.II/namespaceMatrixFreeTools.html#ae034b98c0db11285fae23a08ef3f197f", null ],
       [ "compute_diagonal", "http://www.dealii.org/developer/doxygen/deal.II/namespaceMatrixFreeTools.html#a523190adf5671e317d745fed4b1d357f", null ],
       [ "compute_diagonal", "http://www.dealii.org/developer/doxygen/deal.II/namespaceMatrixFreeTools.html#accc91cadac6ac470da075ccb694a8810", null ],
@@ -2237,6 +2240,17 @@ var namespaces_dup =
       [ "generate_complete_Lagrange_basis_on_subdivisions", "http://www.dealii.org/developer/doxygen/deal.II/namespacePolynomials.html#ae66b65dc61a9dca786ec84a122651ab9", null ],
       [ "jacobi_polynomial_roots", "http://www.dealii.org/developer/doxygen/deal.II/namespacePolynomials.html#adc782b64b1a5c3d009eb24dd372be6e4", null ],
       [ "jacobi_polynomial_value", "http://www.dealii.org/developer/doxygen/deal.II/namespacePolynomials.html#a1cb749462a4b600923ea340c55f703df", null ]
+    ] ],
+    [ "ReferenceCells", null, [
+      [ "Hexahedron", "http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCells.html#a4e8a1c53b7c500aa8f5f6076a48c2de2", null ],
+      [ "Invalid", "http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCells.html#a32ce1a7bd91dbfce6a50f6a0889b67cb", null ],
+      [ "Line", "http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCells.html#ac1fb4999821b349c80f18141ce203d19", null ],
+      [ "Pyramid", "http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCells.html#a2fa7498ee1af9d4adc73eb44c991e91c", null ],
+      [ "Quadrilateral", "http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCells.html#a14badca7aa0e6d807934973e046a2e2f", null ],
+      [ "Tetrahedron", "http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCells.html#a0c212a545f1f9d88893231c66d78d552", null ],
+      [ "Triangle", "http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCells.html#a3ab331cfe2d03f3c89c0738624a11344", null ],
+      [ "Vertex", "http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCells.html#a7734bdec13991c647019b7cc0c10d748", null ],
+      [ "Wedge", "http://www.dealii.org/developer/doxygen/deal.II/namespaceReferenceCells.html#a2a5c95240422d7dded5ef3c1c4bf07d7", null ]
     ] ],
     [ "Simplex", null, [
       [ "FE_P_BubblesImplementation", null, [
