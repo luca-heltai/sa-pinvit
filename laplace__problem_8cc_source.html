@@ -1181,88 +1181,101 @@ $(document).ready(function(){initNavTree('laplace__problem_8cc_source.html','');
 <div class="line"><a name="l01077"></a><span class="lineno"> 1077</span>&#160;        <span class="keywordflow">if</span> (i &lt; settings.exact_eigenvalues.size())</div>
 <div class="line"><a name="l01078"></a><span class="lineno"> 1078</span>&#160;          {</div>
 <div class="line"><a name="l01079"></a><span class="lineno"> 1079</span>&#160;            eigen_errors.push_back([&amp;, i]() {</div>
-<div class="line"><a name="l01080"></a><span class="lineno"> 1080</span>&#160;              <span class="keywordflow">return</span> std::abs(settings.exact_eigenvalues[i] - <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLAPACKSupport.html#a1a9009db0d9a77923a7031b549b9b638ad91ede5cc912c10676843bf58fa60636">eigenvalues</a>[i]);</div>
-<div class="line"><a name="l01081"></a><span class="lineno"> 1081</span>&#160;            });</div>
-<div class="line"><a name="l01082"></a><span class="lineno"> 1082</span>&#160;            eigen_error_names.push_back(<span class="stringliteral">&quot;e_&quot;</span> + <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceUtilities.html#a56cb23f1982e4aa0bec09b60903303ce">Utilities::to_string</a>(i, 2));</div>
-<div class="line"><a name="l01083"></a><span class="lineno"> 1083</span>&#160;          }</div>
-<div class="line"><a name="l01084"></a><span class="lineno"> 1084</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; eigen_errors.size(); ++i)</div>
-<div class="line"><a name="l01085"></a><span class="lineno"> 1085</span>&#160;        settings.error_table.add_extra_column(eigen_error_names[i],</div>
-<div class="line"><a name="l01086"></a><span class="lineno"> 1086</span>&#160;                                              eigen_errors[i]);</div>
-<div class="line"><a name="l01087"></a><span class="lineno"> 1087</span>&#160; </div>
-<div class="line"><a name="l01088"></a><span class="lineno"> 1088</span>&#160;      settings.error_table.add_extra_column(<span class="stringliteral">&quot;estimator&quot;</span>, [&amp;]() {</div>
-<div class="line"><a name="l01089"></a><span class="lineno"> 1089</span>&#160;        <span class="keywordflow">return</span> global_error_estimate;</div>
-<div class="line"><a name="l01090"></a><span class="lineno"> 1090</span>&#160;      });</div>
-<div class="line"><a name="l01091"></a><span class="lineno"> 1091</span>&#160; </div>
-<div class="line"><a name="l01092"></a><span class="lineno"> 1092</span>&#160;      <span class="keywordflow">if</span> (eigen_errors.size())</div>
-<div class="line"><a name="l01093"></a><span class="lineno"> 1093</span>&#160;        settings.error_table.error_from_exact(dof_handler,</div>
-<div class="line"><a name="l01094"></a><span class="lineno"> 1094</span>&#160;                                              locally_relevant_solution,</div>
-<div class="line"><a name="l01095"></a><span class="lineno"> 1095</span>&#160;                                              settings.exact);</div>
-<div class="line"><a name="l01096"></a><span class="lineno"> 1096</span>&#160;    }</div>
-<div class="line"><a name="l01097"></a><span class="lineno"> 1097</span>&#160;  <span class="keywordflow">if</span> (pcout.is_active())</div>
-<div class="line"><a name="l01098"></a><span class="lineno"> 1098</span>&#160;    settings.error_table.output_table(pcout.get_stream());</div>
-<div class="line"><a name="l01099"></a><span class="lineno"> 1099</span>&#160;}</div>
-<div class="line"><a name="l01100"></a><span class="lineno"> 1100</span>&#160; </div>
+<div class="line"><a name="l01080"></a><span class="lineno"> 1080</span>&#160;              <span class="keywordflow">return</span> std::abs(settings.exact_eigenvalues[i] - <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceLAPACKSupport.html#a1a9009db0d9a77923a7031b549b9b638ad91ede5cc912c10676843bf58fa60636">eigenvalues</a>[i]) /</div>
+<div class="line"><a name="l01081"></a><span class="lineno"> 1081</span>&#160;                     settings.exact_eigenvalues[i];</div>
+<div class="line"><a name="l01082"></a><span class="lineno"> 1082</span>&#160;            });</div>
+<div class="line"><a name="l01083"></a><span class="lineno"> 1083</span>&#160;            eigen_error_names.push_back(<span class="stringliteral">&quot;e_&quot;</span> + <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceUtilities.html#a56cb23f1982e4aa0bec09b60903303ce">Utilities::to_string</a>(i, 2));</div>
+<div class="line"><a name="l01084"></a><span class="lineno"> 1084</span>&#160;          }</div>
+<div class="line"><a name="l01085"></a><span class="lineno"> 1085</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i = 0; i &lt; eigen_errors.size(); ++i)</div>
+<div class="line"><a name="l01086"></a><span class="lineno"> 1086</span>&#160;        settings.error_table.add_extra_column(eigen_error_names[i],</div>
+<div class="line"><a name="l01087"></a><span class="lineno"> 1087</span>&#160;                                              eigen_errors[i]);</div>
+<div class="line"><a name="l01088"></a><span class="lineno"> 1088</span>&#160; </div>
+<div class="line"><a name="l01089"></a><span class="lineno"> 1089</span>&#160;      settings.error_table.add_extra_column(<span class="stringliteral">&quot;estimator&quot;</span>, [&amp;]() {</div>
+<div class="line"><a name="l01090"></a><span class="lineno"> 1090</span>&#160;        <span class="keywordflow">return</span> global_error_estimate;</div>
+<div class="line"><a name="l01091"></a><span class="lineno"> 1091</span>&#160;      });</div>
+<div class="line"><a name="l01092"></a><span class="lineno"> 1092</span>&#160; </div>
+<div class="line"><a name="l01093"></a><span class="lineno"> 1093</span>&#160;      <span class="keywordflow">if</span> (eigen_errors.size())</div>
+<div class="line"><a name="l01094"></a><span class="lineno"> 1094</span>&#160;        settings.error_table.error_from_exact(dof_handler,</div>
+<div class="line"><a name="l01095"></a><span class="lineno"> 1095</span>&#160;                                              locally_relevant_solution,</div>
+<div class="line"><a name="l01096"></a><span class="lineno"> 1096</span>&#160;                                              settings.exact);</div>
+<div class="line"><a name="l01097"></a><span class="lineno"> 1097</span>&#160;    }</div>
+<div class="line"><a name="l01098"></a><span class="lineno"> 1098</span>&#160;  <span class="keywordflow">if</span> (pcout.is_active())</div>
+<div class="line"><a name="l01099"></a><span class="lineno"> 1099</span>&#160;    settings.error_table.output_table(pcout.get_stream());</div>
+<div class="line"><a name="l01100"></a><span class="lineno"> 1100</span>&#160;}</div>
 <div class="line"><a name="l01101"></a><span class="lineno"> 1101</span>&#160; </div>
-<div class="line"><a name="l01102"></a><span class="lineno"> 1102</span>&#160;<span class="keyword">template</span> &lt;<span class="keywordtype">int</span> dim, <span class="keywordtype">int</span> degree&gt;</div>
-<div class="line"><a name="l01103"></a><span class="lineno"> 1103</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l01104"></a><span class="lineno"><a class="line" href="class_laplace_problem.html#a76d9e666a48f398465359d351bcc20ea"> 1104</a></span>&#160;<a class="code" href="class_laplace_problem.html#a76d9e666a48f398465359d351bcc20ea">LaplaceProblem&lt;dim, degree&gt;::print_grid_info</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l01105"></a><span class="lineno"> 1105</span>&#160;<span class="keyword"></span>{</div>
-<div class="line"><a name="l01106"></a><span class="lineno"> 1106</span>&#160;  pcout &lt;&lt; <span class="stringliteral">&quot;   Number of active cells:       &quot;</span></div>
-<div class="line"><a name="l01107"></a><span class="lineno"> 1107</span>&#160;        &lt;&lt; <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>.n_global_active_cells();</div>
-<div class="line"><a name="l01108"></a><span class="lineno"> 1108</span>&#160; </div>
-<div class="line"><a name="l01109"></a><span class="lineno"> 1109</span>&#160;  <span class="comment">// We only output level cell data for the GMG methods (same with DoF</span></div>
-<div class="line"><a name="l01110"></a><span class="lineno"> 1110</span>&#160;  <span class="comment">// data below). Note that the partition efficiency is irrelevant for AMG</span></div>
-<div class="line"><a name="l01111"></a><span class="lineno"> 1111</span>&#160;  <span class="comment">// since the level hierarchy is not distributed or used during the</span></div>
-<div class="line"><a name="l01112"></a><span class="lineno"> 1112</span>&#160;  <span class="comment">// computation.</span></div>
-<div class="line"><a name="l01113"></a><span class="lineno"> 1113</span>&#160;  pcout &lt;&lt; <span class="stringliteral">&quot; (&quot;</span> &lt;&lt; <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>.n_global_levels() &lt;&lt; <span class="stringliteral">&quot; global levels)&quot;</span></div>
-<div class="line"><a name="l01114"></a><span class="lineno"> 1114</span>&#160;        &lt;&lt; std::endl</div>
-<div class="line"><a name="l01115"></a><span class="lineno"> 1115</span>&#160;        &lt;&lt; <span class="stringliteral">&quot;   Partition efficiency:         &quot;</span></div>
-<div class="line"><a name="l01116"></a><span class="lineno"> 1116</span>&#160;        &lt;&lt; 1.0 / <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceMGTools.html#a8776ac550d9ac85e7e0db51625935673">MGTools::workload_imbalance</a>(<a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>);</div>
-<div class="line"><a name="l01117"></a><span class="lineno"> 1117</span>&#160;  pcout &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01118"></a><span class="lineno"> 1118</span>&#160;}</div>
-<div class="line"><a name="l01119"></a><span class="lineno"> 1119</span>&#160; </div>
+<div class="line"><a name="l01102"></a><span class="lineno"> 1102</span>&#160; </div>
+<div class="line"><a name="l01103"></a><span class="lineno"> 1103</span>&#160;<span class="keyword">template</span> &lt;<span class="keywordtype">int</span> dim, <span class="keywordtype">int</span> degree&gt;</div>
+<div class="line"><a name="l01104"></a><span class="lineno"> 1104</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l01105"></a><span class="lineno"><a class="line" href="class_laplace_problem.html#a76d9e666a48f398465359d351bcc20ea"> 1105</a></span>&#160;<a class="code" href="class_laplace_problem.html#a76d9e666a48f398465359d351bcc20ea">LaplaceProblem&lt;dim, degree&gt;::print_grid_info</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l01106"></a><span class="lineno"> 1106</span>&#160;<span class="keyword"></span>{</div>
+<div class="line"><a name="l01107"></a><span class="lineno"> 1107</span>&#160;  pcout &lt;&lt; <span class="stringliteral">&quot;   Number of active cells:       &quot;</span></div>
+<div class="line"><a name="l01108"></a><span class="lineno"> 1108</span>&#160;        &lt;&lt; <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>.n_global_active_cells();</div>
+<div class="line"><a name="l01109"></a><span class="lineno"> 1109</span>&#160; </div>
+<div class="line"><a name="l01110"></a><span class="lineno"> 1110</span>&#160;  <span class="comment">// We only output level cell data for the GMG methods (same with DoF</span></div>
+<div class="line"><a name="l01111"></a><span class="lineno"> 1111</span>&#160;  <span class="comment">// data below). Note that the partition efficiency is irrelevant for AMG</span></div>
+<div class="line"><a name="l01112"></a><span class="lineno"> 1112</span>&#160;  <span class="comment">// since the level hierarchy is not distributed or used during the</span></div>
+<div class="line"><a name="l01113"></a><span class="lineno"> 1113</span>&#160;  <span class="comment">// computation.</span></div>
+<div class="line"><a name="l01114"></a><span class="lineno"> 1114</span>&#160;  pcout &lt;&lt; <span class="stringliteral">&quot; (&quot;</span> &lt;&lt; <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>.n_global_levels() &lt;&lt; <span class="stringliteral">&quot; global levels)&quot;</span></div>
+<div class="line"><a name="l01115"></a><span class="lineno"> 1115</span>&#160;        &lt;&lt; std::endl</div>
+<div class="line"><a name="l01116"></a><span class="lineno"> 1116</span>&#160;        &lt;&lt; <span class="stringliteral">&quot;   Partition efficiency:         &quot;</span></div>
+<div class="line"><a name="l01117"></a><span class="lineno"> 1117</span>&#160;        &lt;&lt; 1.0 / <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/namespaceMGTools.html#a8776ac550d9ac85e7e0db51625935673">MGTools::workload_imbalance</a>(<a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/p4est__wrappers_8cc.html#ace00f2f80d9780ef9aa1007e1c22c6a4">triangulation</a>);</div>
+<div class="line"><a name="l01118"></a><span class="lineno"> 1118</span>&#160;  pcout &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01119"></a><span class="lineno"> 1119</span>&#160;}</div>
 <div class="line"><a name="l01120"></a><span class="lineno"> 1120</span>&#160; </div>
 <div class="line"><a name="l01121"></a><span class="lineno"> 1121</span>&#160; </div>
-<div class="line"><a name="l01122"></a><span class="lineno"> 1122</span>&#160;<span class="keyword">template</span> &lt;<span class="keywordtype">int</span> dim, <span class="keywordtype">int</span> degree&gt;</div>
-<div class="line"><a name="l01123"></a><span class="lineno"> 1123</span>&#160;<span class="keywordtype">void</span></div>
-<div class="line"><a name="l01124"></a><span class="lineno"><a class="line" href="class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922"> 1124</a></span>&#160;<a class="code" href="class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922">LaplaceProblem&lt;dim, degree&gt;::run</a>()</div>
-<div class="line"><a name="l01125"></a><span class="lineno"> 1125</span>&#160;{</div>
-<div class="line"><a name="l01126"></a><span class="lineno"> 1126</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> cycle = 0; cycle &lt; settings.n_cycles; ++cycle)</div>
-<div class="line"><a name="l01127"></a><span class="lineno"> 1127</span>&#160;    {</div>
-<div class="line"><a name="l01128"></a><span class="lineno"> 1128</span>&#160;      pcout &lt;&lt; <span class="stringliteral">&quot;Cycle &quot;</span> &lt;&lt; cycle &lt;&lt; <span class="charliteral">&#39;:&#39;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l01129"></a><span class="lineno"> 1129</span>&#160;      <span class="keywordflow">if</span> (cycle == 0)</div>
-<div class="line"><a name="l01130"></a><span class="lineno"> 1130</span>&#160;        make_grid();</div>
-<div class="line"><a name="l01131"></a><span class="lineno"> 1131</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l01132"></a><span class="lineno"> 1132</span>&#160;        refine_grid();</div>
+<div class="line"><a name="l01122"></a><span class="lineno"> 1122</span>&#160; </div>
+<div class="line"><a name="l01123"></a><span class="lineno"> 1123</span>&#160;<span class="keyword">template</span> &lt;<span class="keywordtype">int</span> dim, <span class="keywordtype">int</span> degree&gt;</div>
+<div class="line"><a name="l01124"></a><span class="lineno"> 1124</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l01125"></a><span class="lineno"><a class="line" href="class_laplace_problem.html#ab3e157e990b124e7cd135b3f216e16c9"> 1125</a></span>&#160;<a class="code" href="class_laplace_problem.html#ab3e157e990b124e7cd135b3f216e16c9">LaplaceProblem&lt;dim, degree&gt;::print_timing_info</a>()</div>
+<div class="line"><a name="l01126"></a><span class="lineno"> 1126</span>&#160;{</div>
+<div class="line"><a name="l01127"></a><span class="lineno"> 1127</span>&#160;  timeroutputfile.close();</div>
+<div class="line"><a name="l01128"></a><span class="lineno"> 1128</span>&#160;  timeroutputfile.open(settings.output_directory + <span class="stringliteral">&quot;timings.txt&quot;</span>);</div>
+<div class="line"><a name="l01129"></a><span class="lineno"> 1129</span>&#160;  computing_timer.print_summary();</div>
+<div class="line"><a name="l01130"></a><span class="lineno"> 1130</span>&#160;}</div>
+<div class="line"><a name="l01131"></a><span class="lineno"> 1131</span>&#160; </div>
+<div class="line"><a name="l01132"></a><span class="lineno"> 1132</span>&#160; </div>
 <div class="line"><a name="l01133"></a><span class="lineno"> 1133</span>&#160; </div>
-<div class="line"><a name="l01134"></a><span class="lineno"> 1134</span>&#160;      setup_system(cycle);</div>
-<div class="line"><a name="l01135"></a><span class="lineno"> 1135</span>&#160; </div>
-<div class="line"><a name="l01136"></a><span class="lineno"> 1136</span>&#160;      setup_multigrid();</div>
-<div class="line"><a name="l01137"></a><span class="lineno"> 1137</span>&#160; </div>
-<div class="line"><a name="l01138"></a><span class="lineno"> 1138</span>&#160;      assemble_rhs();</div>
-<div class="line"><a name="l01139"></a><span class="lineno"> 1139</span>&#160; </div>
-<div class="line"><a name="l01140"></a><span class="lineno"> 1140</span>&#160;      solve(cycle);</div>
-<div class="line"><a name="l01141"></a><span class="lineno"> 1141</span>&#160; </div>
-<div class="line"><a name="l01142"></a><span class="lineno"> 1142</span>&#160;      estimate();</div>
-<div class="line"><a name="l01143"></a><span class="lineno"> 1143</span>&#160; </div>
-<div class="line"><a name="l01144"></a><span class="lineno"> 1144</span>&#160;      output_results(cycle);</div>
+<div class="line"><a name="l01134"></a><span class="lineno"> 1134</span>&#160;<span class="keyword">template</span> &lt;<span class="keywordtype">int</span> dim, <span class="keywordtype">int</span> degree&gt;</div>
+<div class="line"><a name="l01135"></a><span class="lineno"> 1135</span>&#160;<span class="keywordtype">void</span></div>
+<div class="line"><a name="l01136"></a><span class="lineno"><a class="line" href="class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922"> 1136</a></span>&#160;<a class="code" href="class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922">LaplaceProblem&lt;dim, degree&gt;::run</a>()</div>
+<div class="line"><a name="l01137"></a><span class="lineno"> 1137</span>&#160;{</div>
+<div class="line"><a name="l01138"></a><span class="lineno"> 1138</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> cycle = 0; cycle &lt; settings.n_cycles; ++cycle)</div>
+<div class="line"><a name="l01139"></a><span class="lineno"> 1139</span>&#160;    {</div>
+<div class="line"><a name="l01140"></a><span class="lineno"> 1140</span>&#160;      pcout &lt;&lt; <span class="stringliteral">&quot;Cycle &quot;</span> &lt;&lt; cycle &lt;&lt; <span class="charliteral">&#39;:&#39;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l01141"></a><span class="lineno"> 1141</span>&#160;      <span class="keywordflow">if</span> (cycle == 0)</div>
+<div class="line"><a name="l01142"></a><span class="lineno"> 1142</span>&#160;        make_grid();</div>
+<div class="line"><a name="l01143"></a><span class="lineno"> 1143</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l01144"></a><span class="lineno"> 1144</span>&#160;        refine_grid();</div>
 <div class="line"><a name="l01145"></a><span class="lineno"> 1145</span>&#160; </div>
-<div class="line"><a name="l01146"></a><span class="lineno"> 1146</span>&#160;      compute_errors();</div>
-<div class="line"><a name="l01147"></a><span class="lineno"> 1147</span>&#160;    }</div>
-<div class="line"><a name="l01148"></a><span class="lineno"> 1148</span>&#160;  computing_timer.print_summary();</div>
-<div class="line"><a name="l01149"></a><span class="lineno"> 1149</span>&#160;}</div>
-<div class="line"><a name="l01150"></a><span class="lineno"> 1150</span>&#160; </div>
-<div class="line"><a name="l01151"></a><span class="lineno"> 1151</span>&#160;<span class="comment">// degree 1</span></div>
-<div class="line"><a name="l01152"></a><span class="lineno"> 1152</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;2, 1&gt;</a>;</div>
-<div class="line"><a name="l01153"></a><span class="lineno"> 1153</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;3, 1&gt;</a>;</div>
-<div class="line"><a name="l01154"></a><span class="lineno"> 1154</span>&#160; </div>
-<div class="line"><a name="l01155"></a><span class="lineno"> 1155</span>&#160;<span class="comment">// degree 2</span></div>
-<div class="line"><a name="l01156"></a><span class="lineno"> 1156</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;2, 2&gt;</a>;</div>
-<div class="line"><a name="l01157"></a><span class="lineno"> 1157</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;3, 2&gt;</a>;</div>
-<div class="line"><a name="l01158"></a><span class="lineno"> 1158</span>&#160; </div>
-<div class="line"><a name="l01159"></a><span class="lineno"> 1159</span>&#160;<span class="comment">// degree 3</span></div>
-<div class="line"><a name="l01160"></a><span class="lineno"> 1160</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;2, 3&gt;</a>;</div>
-<div class="line"><a name="l01161"></a><span class="lineno"> 1161</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;3, 3&gt;</a>;</div>
+<div class="line"><a name="l01146"></a><span class="lineno"> 1146</span>&#160;      setup_system(cycle);</div>
+<div class="line"><a name="l01147"></a><span class="lineno"> 1147</span>&#160; </div>
+<div class="line"><a name="l01148"></a><span class="lineno"> 1148</span>&#160;      setup_multigrid();</div>
+<div class="line"><a name="l01149"></a><span class="lineno"> 1149</span>&#160; </div>
+<div class="line"><a name="l01150"></a><span class="lineno"> 1150</span>&#160;      assemble_rhs();</div>
+<div class="line"><a name="l01151"></a><span class="lineno"> 1151</span>&#160; </div>
+<div class="line"><a name="l01152"></a><span class="lineno"> 1152</span>&#160;      solve(cycle);</div>
+<div class="line"><a name="l01153"></a><span class="lineno"> 1153</span>&#160; </div>
+<div class="line"><a name="l01154"></a><span class="lineno"> 1154</span>&#160;      estimate();</div>
+<div class="line"><a name="l01155"></a><span class="lineno"> 1155</span>&#160; </div>
+<div class="line"><a name="l01156"></a><span class="lineno"> 1156</span>&#160;      output_results(cycle);</div>
+<div class="line"><a name="l01157"></a><span class="lineno"> 1157</span>&#160; </div>
+<div class="line"><a name="l01158"></a><span class="lineno"> 1158</span>&#160;      compute_errors();</div>
+<div class="line"><a name="l01159"></a><span class="lineno"> 1159</span>&#160; </div>
+<div class="line"><a name="l01160"></a><span class="lineno"> 1160</span>&#160;      print_timing_info();</div>
+<div class="line"><a name="l01161"></a><span class="lineno"> 1161</span>&#160;    }</div>
+<div class="line"><a name="l01162"></a><span class="lineno"> 1162</span>&#160;}</div>
+<div class="line"><a name="l01163"></a><span class="lineno"> 1163</span>&#160; </div>
+<div class="line"><a name="l01164"></a><span class="lineno"> 1164</span>&#160;<span class="comment">// degree 1</span></div>
+<div class="line"><a name="l01165"></a><span class="lineno"> 1165</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;2, 1&gt;</a>;</div>
+<div class="line"><a name="l01166"></a><span class="lineno"> 1166</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;3, 1&gt;</a>;</div>
+<div class="line"><a name="l01167"></a><span class="lineno"> 1167</span>&#160; </div>
+<div class="line"><a name="l01168"></a><span class="lineno"> 1168</span>&#160;<span class="comment">// degree 2</span></div>
+<div class="line"><a name="l01169"></a><span class="lineno"> 1169</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;2, 2&gt;</a>;</div>
+<div class="line"><a name="l01170"></a><span class="lineno"> 1170</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;3, 2&gt;</a>;</div>
+<div class="line"><a name="l01171"></a><span class="lineno"> 1171</span>&#160; </div>
+<div class="line"><a name="l01172"></a><span class="lineno"> 1172</span>&#160;<span class="comment">// degree 3</span></div>
+<div class="line"><a name="l01173"></a><span class="lineno"> 1173</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;2, 3&gt;</a>;</div>
+<div class="line"><a name="l01174"></a><span class="lineno"> 1174</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem.html">LaplaceProblem&lt;3, 3&gt;</a>;</div>
 <div class="ttc" id="aaffine__constraints_8h_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/affine__constraints_8h.html">affine_constraints.h</a></div></div>
 <div class="ttc" id="abase_2quadrature__lib_8h_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/base_2quadrature__lib_8h.html">quadrature_lib.h</a></div></div>
 <div class="ttc" id="aclassAffineConstraints_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/classAffineConstraints.html">AffineConstraints&lt; double &gt;</a></div></div>
@@ -1341,10 +1354,11 @@ $(document).ready(function(){initNavTree('laplace__problem_8cc_source.html','');
 <div class="ttc" id="aclass_laplace_problem_html_a5f861ad639abf228785d8efa9105c7ac"><div class="ttname"><a href="class_laplace_problem.html#a5f861ad639abf228785d8efa9105c7ac">LaplaceProblem::output_results</a></div><div class="ttdeci">void output_results(const unsigned int cycle)</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l00970">laplace_problem.cc:970</a></div></div>
 <div class="ttc" id="aclass_laplace_problem_html_a670e053832d79fe34335dfa8d00c893c"><div class="ttname"><a href="class_laplace_problem.html#a670e053832d79fe34335dfa8d00c893c">LaplaceProblem::assemble_rhs</a></div><div class="ttdeci">void assemble_rhs()</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l00323">laplace_problem.cc:323</a></div></div>
 <div class="ttc" id="aclass_laplace_problem_html_a738866b2bce4d98f34ea6c3ec6bb5e14"><div class="ttname"><a href="class_laplace_problem.html#a738866b2bce4d98f34ea6c3ec6bb5e14">LaplaceProblem::setup_multigrid</a></div><div class="ttdeci">void setup_multigrid()</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l00222">laplace_problem.cc:222</a></div></div>
-<div class="ttc" id="aclass_laplace_problem_html_a76d9e666a48f398465359d351bcc20ea"><div class="ttname"><a href="class_laplace_problem.html#a76d9e666a48f398465359d351bcc20ea">LaplaceProblem::print_grid_info</a></div><div class="ttdeci">void print_grid_info() const</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l01104">laplace_problem.cc:1104</a></div></div>
+<div class="ttc" id="aclass_laplace_problem_html_a76d9e666a48f398465359d351bcc20ea"><div class="ttname"><a href="class_laplace_problem.html#a76d9e666a48f398465359d351bcc20ea">LaplaceProblem::print_grid_info</a></div><div class="ttdeci">void print_grid_info() const</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l01105">laplace_problem.cc:1105</a></div></div>
 <div class="ttc" id="aclass_laplace_problem_html_a835a2edbaed702e11a88e218973bc969"><div class="ttname"><a href="class_laplace_problem.html#a835a2edbaed702e11a88e218973bc969">LaplaceProblem::solve</a></div><div class="ttdeci">void solve(const unsigned int cycle)</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l00376">laplace_problem.cc:376</a></div></div>
-<div class="ttc" id="aclass_laplace_problem_html_a9933014a8275e32ea3ffcc018d804922"><div class="ttname"><a href="class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922">LaplaceProblem::run</a></div><div class="ttdeci">void run()</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l01124">laplace_problem.cc:1124</a></div></div>
+<div class="ttc" id="aclass_laplace_problem_html_a9933014a8275e32ea3ffcc018d804922"><div class="ttname"><a href="class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922">LaplaceProblem::run</a></div><div class="ttdeci">void run()</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l01136">laplace_problem.cc:1136</a></div></div>
 <div class="ttc" id="aclass_laplace_problem_html_ab083864f2723a9edaf9801ce40e07f4a"><div class="ttname"><a href="class_laplace_problem.html#ab083864f2723a9edaf9801ce40e07f4a">LaplaceProblem::setup_system</a></div><div class="ttdeci">void setup_system(const unsigned int cycle)</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l00112">laplace_problem.cc:112</a></div></div>
+<div class="ttc" id="aclass_laplace_problem_html_ab3e157e990b124e7cd135b3f216e16c9"><div class="ttname"><a href="class_laplace_problem.html#ab3e157e990b124e7cd135b3f216e16c9">LaplaceProblem::print_timing_info</a></div><div class="ttdeci">void print_timing_info()</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l01125">laplace_problem.cc:1125</a></div></div>
 <div class="ttc" id="aclass_laplace_problem_html_ad25cd614a18f6eae1539593b50714012"><div class="ttname"><a href="class_laplace_problem.html#ad25cd614a18f6eae1539593b50714012">LaplaceProblem::LaplaceProblem</a></div><div class="ttdeci">LaplaceProblem(const LaplaceProblemSettings&lt; dim &gt; &amp;settings)</div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem_8cc_source.html#l00058">laplace_problem.cc:58</a></div></div>
 <div class="ttc" id="aclass_laplace_problem_settings_html"><div class="ttname"><a href="class_laplace_problem_settings.html">LaplaceProblemSettings</a></div><div class="ttdef"><b>Definition:</b> <a href="laplace__problem__settings_8h_source.html#l00016">laplace_problem_settings.h:17</a></div></div>
 <div class="ttc" id="aclassmg_1_1Matrix_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/classmg_1_1Matrix.html">mg::Matrix</a></div></div>
@@ -1468,7 +1482,7 @@ $(document).ready(function(){initNavTree('laplace__problem_8cc_source.html','');
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_aa394cd1d9abb8ffe941d9aaafca8d03.html">github</a></li><li class="navelem"><a class="el" href="dir_c52569aa89a7adbb6029022c2fa60a11.html">workspace</a></li><li class="navelem"><a class="el" href="dir_37bdb9d2191b5493db509660c6a8c15a.html">source</a></li><li class="navelem"><a class="el" href="laplace__problem_8cc.html">laplace_problem.cc</a></li>
-    <li class="footer">Generated on Mon Feb 8 2021 23:28:42 for S-AFEM and SA-PINVIT for Elliptic Boundary Value Problems by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Wed Feb 10 2021 23:41:27 for S-AFEM and SA-PINVIT for Elliptic Boundary Value Problems by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

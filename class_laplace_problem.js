@@ -17,6 +17,7 @@ var class_laplace_problem =
     [ "make_grid", "class_laplace_problem.html#a40512c826e6ae29fa2a79546771b4157", null ],
     [ "output_results", "class_laplace_problem.html#a5f861ad639abf228785d8efa9105c7ac", null ],
     [ "print_grid_info", "class_laplace_problem.html#a76d9e666a48f398465359d351bcc20ea", null ],
+    [ "print_timing_info", "class_laplace_problem.html#ab3e157e990b124e7cd135b3f216e16c9", null ],
     [ "refine_grid", "class_laplace_problem.html#a26dad9514b9a37c103b9831c2080e882", null ],
     [ "run", "class_laplace_problem.html#a9933014a8275e32ea3ffcc018d804922", null ],
     [ "setup_multigrid", "class_laplace_problem.html#a738866b2bce4d98f34ea6c3ec6bb5e14", null ],

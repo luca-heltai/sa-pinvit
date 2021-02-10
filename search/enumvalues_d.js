@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['unspecified_21541',['unspecified',['http://www.dealii.org/developer/doxygen/deal.II/classMatrixFree.html#a751b5f06534d52773eba384d2c866a15ad415f0e30c471dfdd9bc4f827329ef48',1,'MatrixFree']]]
+  ['sacado_5fdfad_21559',['sacado_dfad',['http://www.dealii.org/developer/doxygen/deal.II/namespaceDifferentiation_1_1AD.html#acc1d0db17ec4125ac4e28f6ad2069b1ca3616da751c767b07051278ed7d81c0dc',1,'Differentiation::AD']]],
+  ['sacado_5fdfad_5fdfad_21560',['sacado_dfad_dfad',['http://www.dealii.org/developer/doxygen/deal.II/namespaceDifferentiation_1_1AD.html#acc1d0db17ec4125ac4e28f6ad2069b1ca31c59c1a501105f4291d9a492c4465f7',1,'Differentiation::AD']]],
+  ['sacado_5frad_21561',['sacado_rad',['http://www.dealii.org/developer/doxygen/deal.II/namespaceDifferentiation_1_1AD.html#acc1d0db17ec4125ac4e28f6ad2069b1ca7357c9c1f0fcfc795fc7e8d7156cc5cf',1,'Differentiation::AD']]],
+  ['sacado_5frad_5fdfad_21562',['sacado_rad_dfad',['http://www.dealii.org/developer/doxygen/deal.II/namespaceDifferentiation_1_1AD.html#acc1d0db17ec4125ac4e28f6ad2069b1cae9e37a2183d416cffa4b1e69c2ef264a',1,'Differentiation::AD']]]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['none_21529',['none',['http://www.dealii.org/developer/doxygen/deal.II/classMatrixFree.html#a751b5f06534d52773eba384d2c866a15a334c4a4c42fdb79d7ebc3e73b517e6f8',1,'MatrixFree::none()'],['http://www.dealii.org/developer/doxygen/deal.II/namespaceDifferentiation_1_1AD.html#acc1d0db17ec4125ac4e28f6ad2069b1ca334c4a4c42fdb79d7ebc3e73b517e6f8',1,'Differentiation::AD::none()']]]
+  ['metis_21549',['metis',['http://www.dealii.org/developer/doxygen/deal.II/namespaceSparsityTools.html#a34d8cbf5559e454001e512c4368c2c3ea523050e2859a16f13d8c0683d0806538',1,'SparsityTools']]],
+  ['multigrid_5frefinement_5fedge_21550',['multigrid_refinement_edge',['http://www.dealii.org/developer/doxygen/deal.II/structinternal_1_1MatrixFreeFunctions_1_1FaceSetup.html#aa8e29ddb5aafdd94db26be53c217f2eea567bcc153d55b7f57492208a3cb65f9a',1,'internal::MatrixFreeFunctions::FaceSetup']]]
 ];
