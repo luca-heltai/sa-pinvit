@@ -123,6 +123,9 @@ public:
   void
   print_grid_info() const;
 
+  void 
+  print_timing_info();
+
   const LaplaceProblemSettings<dim> &settings;
 
   MPI_Comm           mpi_communicator;

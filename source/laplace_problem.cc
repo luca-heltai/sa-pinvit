@@ -1077,7 +1077,8 @@ LaplaceProblem<dim, degree>::compute_errors()
         if (i < settings.exact_eigenvalues.size())
           {
             eigen_errors.push_back([&, i]() {
-              return std::abs(settings.exact_eigenvalues[i] - eigenvalues[i]);
+              return std::abs(settings.exact_eigenvalues[i] - eigenvalues[i]) /
+                     settings.exact_eigenvalues[i];
             });
             eigen_error_names.push_back("e_" + Utilities::to_string(i, 2));
           }
@@ -1121,6 +1122,17 @@ LaplaceProblem<dim, degree>::print_grid_info() const
 
 template <int dim, int degree>
 void
+LaplaceProblem<dim, degree>::print_timing_info()
+{
+  timeroutputfile.close();
+  timeroutputfile.open(settings.output_directory + "timings.txt");
+  computing_timer.print_summary();
+}
+
+
+
+template <int dim, int degree>
+void
 LaplaceProblem<dim, degree>::run()
 {
   for (unsigned int cycle = 0; cycle < settings.n_cycles; ++cycle)
@@ -1144,8 +1156,9 @@ LaplaceProblem<dim, degree>::run()
       output_results(cycle);
 
       compute_errors();
+
+      print_timing_info();
     }
-  computing_timer.print_summary();
 }
 
 // degree 1

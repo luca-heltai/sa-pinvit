@@ -3,3 +3,7 @@ build-container
 compile_commands.json
 cmake_install.cmake
 CMakeFiles
+*.vtu
+*.pvd
+*.pvtu
+*.vtk
