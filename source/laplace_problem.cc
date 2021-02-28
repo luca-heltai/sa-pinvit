@@ -49,6 +49,7 @@
 #include <deal.II/numerics/data_out.h>
 #include <deal.II/numerics/vector_tools.h>
 
+#include "inner_control.h"
 #include "pinvit.h"
 #include "utilities.h"
 
@@ -155,7 +156,7 @@ LaplaceProblem<dim, degree>::setup_system(const unsigned int cycle)
   }
 
   // Initialize matrix free mass, only for eivengalue calculations
-  if (settings.problem_type == "pinvit")
+  if (is_pinvit())
     {
       AffineConstraints<double> empty_constraints;
       empty_constraints.close();
@@ -235,7 +236,7 @@ LaplaceProblem<dim, degree>::setup_multigrid()
 
   mg_stiffness_operator.resize(0, n_levels - 1);
 
-  if (settings.problem_type == "pinvit")
+  if (is_pinvit())
     mg_mass_operator.resize(0, n_levels - 1);
 
   for (unsigned int level = 0; level < n_levels; ++level)
@@ -276,7 +277,7 @@ LaplaceProblem<dim, degree>::setup_multigrid()
       }
 
       //  mass level matrices
-      if (settings.problem_type == "pinvit")
+      if (is_pinvit())
         {
           mg_constrained_mass_dofs.clear();
           mg_constrained_mass_dofs.initialize(dof_handler);
@@ -322,7 +323,7 @@ template <int dim, int degree>
 void
 LaplaceProblem<dim, degree>::assemble_rhs()
 {
-  if (settings.problem_type == "source")
+  if (is_source())
     {
       TimerOutput::Scope timing(computing_timer, "Assemble right-hand side");
 
@@ -491,7 +492,7 @@ void
 LaplaceProblem<dim, degree>::solve_system(const PreconditionerType &prec,
                                           SolverControl &           control)
 {
-  if (settings.problem_type == "source")
+  if (is_source())
     {
       // Copy the solution vector and right-hand side from LA::MPI::Vector
       // to dealii::LinearAlgebra::distributed::Vector so that we can
@@ -525,7 +526,7 @@ LaplaceProblem<dim, degree>::solve_system(const PreconditionerType &prec,
       pcout << "   Number of CG iterations:      " << control.last_step()
             << std::endl;
     }
-  else if (settings.problem_type == "pinvit")
+  else if (is_pinvit())
     {
       unsigned int        current_pinvit_it    = 0;
       double              current_error        = 1e10;
@@ -534,12 +535,30 @@ LaplaceProblem<dim, degree>::solve_system(const PreconditionerType &prec,
       do
         {
           TimerOutput::Scope timing(computing_timer, "Solve: pinvit steps");
-          one_step_pinvit(eigenvalues,
-                          eigenvectors,
-                          stiffness_operator,
-                          mass_operator,
-                          prec,
-                          constraints);
+          if (settings.problem_type == "pinvit-cg")
+            {
+              InnerControl outer_control(
+                1, control.tolerance(), control.tolerance(), false, false);
+              SolverCG<MatrixFreeActiveVector> solver(outer_control);
+              auto                             op =
+                linear_operator<MatrixFreeActiveVector>(stiffness_operator);
+              auto new_prec = inverse_operator(op, solver, prec);
+              one_step_pinvit(eigenvalues,
+                              eigenvectors,
+                              stiffness_operator,
+                              mass_operator,
+                              new_prec,
+                              constraints);
+            }
+          else
+            {
+              one_step_pinvit(eigenvalues,
+                              eigenvectors,
+                              stiffness_operator,
+                              mass_operator,
+                              prec,
+                              constraints);
+            }
           ++current_pinvit_it;
           current_error = 0;
           for (unsigned int i = 0; i < eigenvalues.size(); ++i)
@@ -642,7 +661,7 @@ LaplaceProblem<dim, degree>::estimate()
 {
   TimerOutput::Scope timing(computing_timer, "Estimate");
 
-  if (settings.problem_type == "source")
+  if (is_source())
     {
       locally_relevant_solution = solution;
 
@@ -945,7 +964,7 @@ LaplaceProblem<dim, degree>::refine_grid()
   else
     Assert(false, ExcInternalError("Unknown refinement strategy."));
 
-  if (settings.problem_type == "pinvit")
+  if (is_pinvit())
     {
       TimerOutput::Scope timing(computing_timer, "Transfer: prepare");
       std::vector<const MatrixFreeActiveVector *> all_in;
@@ -976,7 +995,7 @@ LaplaceProblem<dim, degree>::output_results(const unsigned int cycle)
       DataOut<dim> data_out;
       data_out.attach_dof_handler(dof_handler);
 
-      if (settings.problem_type == "source")
+      if (is_source())
         {
           data_out.add_data_vector(locally_relevant_solution, "solution");
         }
@@ -1059,7 +1078,7 @@ void
 LaplaceProblem<dim, degree>::compute_errors()
 {
   TimerOutput::Scope timing(computing_timer, "Compute errors");
-  if (settings.problem_type == "source")
+  if (is_source())
     {
       settings.error_table.add_extra_column("estimator", [&]() {
         return global_error_estimate;
@@ -1124,8 +1143,11 @@ template <int dim, int degree>
 void
 LaplaceProblem<dim, degree>::print_timing_info()
 {
-  timeroutputfile.close();
-  timeroutputfile.open(settings.output_directory + "timings.txt");
+  if (timerpcout.is_active())
+    {
+      timeroutputfile.close();
+      timeroutputfile.open(settings.output_directory + "timings.txt");
+    }
   computing_timer.print_summary();
 }
 

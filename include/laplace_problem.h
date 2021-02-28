@@ -123,8 +123,20 @@ public:
   void
   print_grid_info() const;
 
-  void 
+  void
   print_timing_info();
+
+  bool
+  is_pinvit() const
+  {
+    return (settings.problem_type.find("pinvit") != std::string::npos);
+  };
+
+  bool
+  is_source() const
+  {
+    return (settings.problem_type.find("source") != std::string::npos);
+  };
 
   const LaplaceProblemSettings<dim> &settings;
 

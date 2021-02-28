@@ -13,11 +13,12 @@ LaplaceProblemSettings<dim>::LaplaceProblemSettings()
   , error_table({"u"}, {{}})
 {
   enter_subsection("Global parameters");
-  add_parameter("Problem type",
-                problem_type,
-                "Source problem or Eigenvalues problem (source|pinvit).",
-                this->prm,
-                Patterns::Selection("source|pinvit"));
+  add_parameter(
+    "Problem type",
+    problem_type,
+    "Source problem or Eigenvalues problem (source|pinvit|pinvit-cg).",
+    this->prm,
+    Patterns::Selection("source|pinvit|pinvit-cg"));
   add_parameter("Smoother type",
                 smoother_type,
                 "Smoother to use in intermediate cycles.",
