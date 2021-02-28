@@ -117,114 +117,115 @@ $(document).ready(function(){initNavTree('laplace__problem__settings_8cc_source.
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  , error_table({<span class="stringliteral">&quot;u&quot;</span>}, {{}})</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;{</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  enter_subsection(<span class="stringliteral">&quot;Global parameters&quot;</span>);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  add_parameter(<span class="stringliteral">&quot;Problem type&quot;</span>,</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                problem_type,</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                <span class="stringliteral">&quot;Source problem or Eigenvalues problem (source|pinvit).&quot;</span>,</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                this-&gt;prm,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classPatterns_1_1Selection.html">Patterns::Selection</a>(<span class="stringliteral">&quot;source|pinvit&quot;</span>));</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  add_parameter(<span class="stringliteral">&quot;Smoother type&quot;</span>,</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                smoother_type,</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                <span class="stringliteral">&quot;Smoother to use in intermediate cycles.&quot;</span>,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                this-&gt;prm,</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classPatterns_1_1Selection.html">Patterns::Selection</a>(<span class="stringliteral">&quot;gmg|chebyshev&quot;</span>));</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  add_parameter(<span class="stringliteral">&quot;Finite element degree&quot;</span>,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                degree,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                <span class="stringliteral">&quot;Degree of the finite element space.&quot;</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  add_parameter(<span class="stringliteral">&quot;Output directory&quot;</span>,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                output_directory,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <span class="stringliteral">&quot;Directory where we want to save output files. &quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="stringliteral">&quot;Leave empty for no output.&quot;</span>);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  add_parameter(<span class="stringliteral">&quot;Write high order output&quot;</span>,</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                write_high_order_output,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="stringliteral">&quot;Write output using high order vtu format.&quot;</span>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  add_parameter(<span class="stringliteral">&quot;Number of cycles&quot;</span>,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                n_cycles,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="stringliteral">&quot;Number of adaptive refinement steps.&quot;</span>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  leave_subsection();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  add_parameter(</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="stringliteral">&quot;Problem type&quot;</span>,</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    problem_type,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="stringliteral">&quot;Source problem or Eigenvalues problem (source|pinvit|pinvit-cg).&quot;</span>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    this-&gt;prm,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classPatterns_1_1Selection.html">Patterns::Selection</a>(<span class="stringliteral">&quot;source|pinvit|pinvit-cg&quot;</span>));</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  add_parameter(<span class="stringliteral">&quot;Smoother type&quot;</span>,</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                smoother_type,</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                <span class="stringliteral">&quot;Smoother to use in intermediate cycles.&quot;</span>,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                this-&gt;prm,</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classPatterns_1_1Selection.html">Patterns::Selection</a>(<span class="stringliteral">&quot;gmg|chebyshev&quot;</span>));</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  add_parameter(<span class="stringliteral">&quot;Finite element degree&quot;</span>,</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                degree,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="stringliteral">&quot;Degree of the finite element space.&quot;</span>);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  add_parameter(<span class="stringliteral">&quot;Output directory&quot;</span>,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                output_directory,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="stringliteral">&quot;Directory where we want to save output files. &quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="stringliteral">&quot;Leave empty for no output.&quot;</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  add_parameter(<span class="stringliteral">&quot;Write high order output&quot;</span>,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                write_high_order_output,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                <span class="stringliteral">&quot;Write output using high order vtu format.&quot;</span>);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  add_parameter(<span class="stringliteral">&quot;Number of cycles&quot;</span>,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                n_cycles,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="stringliteral">&quot;Number of adaptive refinement steps.&quot;</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  leave_subsection();</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  enter_subsection(<span class="stringliteral">&quot;Smoothers&quot;</span>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  enter_subsection(<span class="stringliteral">&quot;GMG&quot;</span>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  add_parameter(<span class="stringliteral">&quot;Smoother dampen&quot;</span>,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                gmg_smoother_dampen,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="stringliteral">&quot;Dampen factor for the smoother.&quot;</span>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  add_parameter(<span class="stringliteral">&quot;smoother steps&quot;</span>,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                gmg_smoother_steps,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="stringliteral">&quot;Number of smoother steps.&quot;</span>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  leave_subsection();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  enter_subsection(<span class="stringliteral">&quot;Chebyshev&quot;</span>);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  add_parameter(<span class="stringliteral">&quot;Degree&quot;</span>, cheb_degree);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  add_parameter(<span class="stringliteral">&quot;Smoothing range&quot;</span>, cheb_smoothing_range);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  add_parameter(<span class="stringliteral">&quot;Number of eig cg iterations&quot;</span>, cheb_eig_cg_n_iterations);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  add_parameter(<span class="stringliteral">&quot;Eig residual&quot;</span>, cheb_eig_cg_residual);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  add_parameter(<span class="stringliteral">&quot;Maximum eigenvalue&quot;</span>, cheb_max_eigenvalue);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  leave_subsection();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  leave_subsection();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  enter_subsection(<span class="stringliteral">&quot;PINVIT parameters&quot;</span>);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  add_parameter(<span class="stringliteral">&quot;Number of eigenvalues to compute&quot;</span>,</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                number_of_eigenvalues,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <span class="stringliteral">&quot;&quot;</span>,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                this-&gt;prm,</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classPatterns_1_1Integer.html">Patterns::Integer</a>(1));</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  add_parameter(<span class="stringliteral">&quot;Eigenvectors indices for estimator&quot;</span>,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                eigen_estimators,</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="stringliteral">&quot;All indices must be lower than the number of &quot;</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="stringliteral">&quot;computed eigenvalues.&quot;</span>);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  add_parameter(<span class="stringliteral">&quot;Exact eigenvector&quot;</span>,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                exact_eigenvector,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="stringliteral">&quot;Use the exact soluiton entry to define the &quot;</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="stringliteral">&quot;exact eigenvector for error computation.&quot;</span>);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  add_parameter(<span class="stringliteral">&quot;Exact eigenvalues&quot;</span>, exact_eigenvalues);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  leave_subsection();</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  enter_subsection(<span class="stringliteral">&quot;Grid parameters&quot;</span>);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  add_parameter(<span class="stringliteral">&quot;Grid generator&quot;</span>, name_of_grid);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  add_parameter(<span class="stringliteral">&quot;Grid generator arguments&quot;</span>, arguments_for_grid);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  add_parameter(<span class="stringliteral">&quot;Initial refinement&quot;</span>,</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                initial_refinement,</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <span class="stringliteral">&quot;Initial refinement of the triangulation.&quot;</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  add_parameter(<span class="stringliteral">&quot;Refinement strategy&quot;</span>,</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                refinement_strategy,</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                <span class="stringliteral">&quot;&quot;</span>,</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                this-&gt;prm,</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classPatterns_1_1Selection.html">Patterns::Selection</a>(<span class="stringliteral">&quot;fixed_fraction|fixed_number|global&quot;</span>));</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  add_parameter(<span class="stringliteral">&quot;Homogeneous Dirichlet boundary ids&quot;</span>,</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                homogeneous_dirichlet_ids,</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <span class="stringliteral">&quot;Boundary Ids over which homogeneous Dirichlet boundary &quot;</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="stringliteral">&quot;conditions are applied&quot;</span>);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  leave_subsection();</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  coefficient.declare_parameters_call_back.connect(</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    [&amp;]() { this-&gt;prm.set(<span class="stringliteral">&quot;Function expression&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>); });</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  rhs.declare_parameters_call_back.connect(</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    [&amp;]() { this-&gt;prm.set(<span class="stringliteral">&quot;Function expression&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>); });</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  first_and_last_solver_control.declare_parameters_call_back.connect(</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    [&amp;]() { this-&gt;prm.set(<span class="stringliteral">&quot;Reduction&quot;</span>, <span class="stringliteral">&quot;1e-6&quot;</span>); });</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  intermediate_solver_control.declare_parameters_call_back.connect([&amp;]() {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    this-&gt;prm.set(<span class="stringliteral">&quot;Reduction&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    this-&gt;prm.set(<span class="stringliteral">&quot;Max steps&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    this-&gt;prm.set(<span class="stringliteral">&quot;Tolerance&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  });</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  enter_subsection(<span class="stringliteral">&quot;Smoothers&quot;</span>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  enter_subsection(<span class="stringliteral">&quot;GMG&quot;</span>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  add_parameter(<span class="stringliteral">&quot;Smoother dampen&quot;</span>,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                gmg_smoother_dampen,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="stringliteral">&quot;Dampen factor for the smoother.&quot;</span>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  add_parameter(<span class="stringliteral">&quot;smoother steps&quot;</span>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                gmg_smoother_steps,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="stringliteral">&quot;Number of smoother steps.&quot;</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  leave_subsection();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  enter_subsection(<span class="stringliteral">&quot;Chebyshev&quot;</span>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  add_parameter(<span class="stringliteral">&quot;Degree&quot;</span>, cheb_degree);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  add_parameter(<span class="stringliteral">&quot;Smoothing range&quot;</span>, cheb_smoothing_range);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  add_parameter(<span class="stringliteral">&quot;Number of eig cg iterations&quot;</span>, cheb_eig_cg_n_iterations);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  add_parameter(<span class="stringliteral">&quot;Eig residual&quot;</span>, cheb_eig_cg_residual);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  add_parameter(<span class="stringliteral">&quot;Maximum eigenvalue&quot;</span>, cheb_max_eigenvalue);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  leave_subsection();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  leave_subsection();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  enter_subsection(<span class="stringliteral">&quot;PINVIT parameters&quot;</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  add_parameter(<span class="stringliteral">&quot;Number of eigenvalues to compute&quot;</span>,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                number_of_eigenvalues,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                this-&gt;prm,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classPatterns_1_1Integer.html">Patterns::Integer</a>(1));</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  add_parameter(<span class="stringliteral">&quot;Eigenvectors indices for estimator&quot;</span>,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                eigen_estimators,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="stringliteral">&quot;All indices must be lower than the number of &quot;</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="stringliteral">&quot;computed eigenvalues.&quot;</span>);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  add_parameter(<span class="stringliteral">&quot;Exact eigenvector&quot;</span>,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                exact_eigenvector,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="stringliteral">&quot;Use the exact soluiton entry to define the &quot;</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="stringliteral">&quot;exact eigenvector for error computation.&quot;</span>);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  add_parameter(<span class="stringliteral">&quot;Exact eigenvalues&quot;</span>, exact_eigenvalues);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  leave_subsection();</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  enter_subsection(<span class="stringliteral">&quot;Grid parameters&quot;</span>);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  add_parameter(<span class="stringliteral">&quot;Grid generator&quot;</span>, name_of_grid);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  add_parameter(<span class="stringliteral">&quot;Grid generator arguments&quot;</span>, arguments_for_grid);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  add_parameter(<span class="stringliteral">&quot;Initial refinement&quot;</span>,</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                initial_refinement,</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <span class="stringliteral">&quot;Initial refinement of the triangulation.&quot;</span>);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  add_parameter(<span class="stringliteral">&quot;Refinement strategy&quot;</span>,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                refinement_strategy,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="stringliteral">&quot;&quot;</span>,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                this-&gt;prm,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <a class="codeRef" href="http://www.dealii.org/developer/doxygen/deal.II/classPatterns_1_1Selection.html">Patterns::Selection</a>(<span class="stringliteral">&quot;fixed_fraction|fixed_number|global&quot;</span>));</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  add_parameter(<span class="stringliteral">&quot;Homogeneous Dirichlet boundary ids&quot;</span>,</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                homogeneous_dirichlet_ids,</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="stringliteral">&quot;Boundary Ids over which homogeneous Dirichlet boundary &quot;</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                <span class="stringliteral">&quot;conditions are applied&quot;</span>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  leave_subsection();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  coefficient.declare_parameters_call_back.connect(</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    [&amp;]() { this-&gt;prm.set(<span class="stringliteral">&quot;Function expression&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>); });</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  rhs.declare_parameters_call_back.connect(</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    [&amp;]() { this-&gt;prm.set(<span class="stringliteral">&quot;Function expression&quot;</span>, <span class="stringliteral">&quot;1&quot;</span>); });</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  first_and_last_solver_control.declare_parameters_call_back.connect(</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    [&amp;]() { this-&gt;prm.set(<span class="stringliteral">&quot;Reduction&quot;</span>, <span class="stringliteral">&quot;1e-6&quot;</span>); });</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  intermediate_solver_control.declare_parameters_call_back.connect([&amp;]() {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    this-&gt;prm.set(<span class="stringliteral">&quot;Reduction&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    this-&gt;prm.set(<span class="stringliteral">&quot;Max steps&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    this-&gt;prm.set(<span class="stringliteral">&quot;Tolerance&quot;</span>, <span class="stringliteral">&quot;0&quot;</span>);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  });</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  enter_subsection(<span class="stringliteral">&quot;Error parameters&quot;</span>);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  enter_my_subsection(this-&gt;prm);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  error_table.add_parameters(this-&gt;prm);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  leave_my_subsection(this-&gt;prm);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  leave_subsection();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem_settings.html">LaplaceProblemSettings&lt;2&gt;</a>;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem_settings.html">LaplaceProblemSettings&lt;3&gt;</a>;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  enter_subsection(<span class="stringliteral">&quot;Error parameters&quot;</span>);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  enter_my_subsection(this-&gt;prm);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  error_table.add_parameters(this-&gt;prm);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  leave_my_subsection(this-&gt;prm);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  leave_subsection();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem_settings.html">LaplaceProblemSettings&lt;2&gt;</a>;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="keyword">template</span> <span class="keyword">class </span><a class="code" href="class_laplace_problem_settings.html">LaplaceProblemSettings&lt;3&gt;</a>;</div>
 <div class="ttc" id="aclassParameterAcceptor_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/classParameterAcceptor.html">ParameterAcceptor</a></div></div>
 <div class="ttc" id="aclassPatterns_1_1Integer_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/classPatterns_1_1Integer.html">Patterns::Integer</a></div></div>
 <div class="ttc" id="aclassPatterns_1_1Selection_html"><div class="ttname"><a href="http://www.dealii.org/developer/doxygen/deal.II/classPatterns_1_1Selection.html">Patterns::Selection</a></div></div>
@@ -238,7 +239,7 @@ $(document).ready(function(){initNavTree('laplace__problem__settings_8cc_source.
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_aa394cd1d9abb8ffe941d9aaafca8d03.html">github</a></li><li class="navelem"><a class="el" href="dir_c52569aa89a7adbb6029022c2fa60a11.html">workspace</a></li><li class="navelem"><a class="el" href="dir_37bdb9d2191b5493db509660c6a8c15a.html">source</a></li><li class="navelem"><a class="el" href="laplace__problem__settings_8cc.html">laplace_problem_settings.cc</a></li>
-    <li class="footer">Generated on Wed Feb 10 2021 23:41:27 for S-AFEM and SA-PINVIT for Elliptic Boundary Value Problems by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+    <li class="footer">Generated on Sun Feb 28 2021 17:42:23 for S-AFEM and SA-PINVIT for Elliptic Boundary Value Problems by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
   </ul>
 </div>
 </body>

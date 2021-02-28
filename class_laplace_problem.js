@@ -14,6 +14,8 @@ var class_laplace_problem =
     [ "assemble_rhs", "class_laplace_problem.html#a670e053832d79fe34335dfa8d00c893c", null ],
     [ "compute_errors", "class_laplace_problem.html#a3bf195880a4605bf789c63923d975d59", null ],
     [ "estimate", "class_laplace_problem.html#a514c25f98f8d1168b4686c5c9db51ead", null ],
+    [ "is_pinvit", "class_laplace_problem.html#a4c61502c9dbe885d7a00b50b26a29a37", null ],
+    [ "is_source", "class_laplace_problem.html#a53f05f712a1de3d7ea4a06db6456fd1d", null ],
     [ "make_grid", "class_laplace_problem.html#a40512c826e6ae29fa2a79546771b4157", null ],
     [ "output_results", "class_laplace_problem.html#a5f861ad639abf228785d8efa9105c7ac", null ],
     [ "print_grid_info", "class_laplace_problem.html#a76d9e666a48f398465359d351bcc20ea", null ],
